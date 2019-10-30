@@ -4,6 +4,19 @@ import { Text, Input, Button } from 'react-native-elements';
 
 const validator = require('email-validator');
 
+const passwordErrorMessages = {
+  bad: 'Bad Password',
+  average: 'Average Password',
+  good: 'Good Password'
+};
+
+const passwordErrorStyles = {
+  bad: { color: 'red' },
+  average: { color: 'yellow' },
+  good: { color: 'green' }
+}
+
+
 class RegisterScreen extends React.Component {
 
   constructor() {
@@ -13,6 +26,8 @@ class RegisterScreen extends React.Component {
       password1: '',
       password2: ''
     };
+    this.errorStyle = passwordErrorStyles.bad;
+    this.errorMessage = passwordErrorMessages.bad;
   }
 
   _checkInput() {
@@ -32,6 +47,24 @@ class RegisterScreen extends React.Component {
     if (this.state.password1 !== this.state.password2) {
       Alert.alert('Passwords are different.');
     }
+  }
+
+  _checkPasswordStrength(text) {
+    if (text.length < 6) {
+      this.errorStyle = passwordErrorStyles.bad;
+      this.errorMessage = passwordErrorMessages.bad;
+    } else if (text.length < 10) {
+      this.errorStyle = passwordErrorStyles.average;
+      this.errorMessage = passwordErrorMessages.average;
+    } else {
+      this.errorStyle = passwordErrorStyles.good;
+      this.errorMessage = passwordErrorMessages.good;
+    }
+    this.setState({
+      email: this.state.email,
+      password1: text,
+      password2: this.state.password2
+    })
   }
 
   render() {
@@ -59,11 +92,9 @@ class RegisterScreen extends React.Component {
           label='Dein Passwort'
           placeholder='Passwort'
           leftIcon={{ type: 'font-awesome', name: 'lock' }}
-          onChangeText={(text) => this.setState({
-            email: this.state.email,
-            password1: text,
-            password2: this.state.password2
-          })}
+          onChangeText={this._checkPasswordStrength.bind(this)}
+          errorStyle={this.errorStyle}
+          errorMessage={this.errorMessage}
         />
         <Input
           inputStyle={styles.input}
@@ -73,11 +104,9 @@ class RegisterScreen extends React.Component {
           label='Passwort bestätigen'
           placeholder='Passwort'
           leftIcon={{ type: 'font-awesome', name: 'lock' }}
-          onChangeText={(text) => this.setState({
-            email: this.state.email,
-            password1: this.state.password1,
-            password2: text
-          })}
+          onChangeText={this._checkPasswordStrength.bind(this)}
+          errorStyle={this.errorStyle}
+          errorMessage={this.errorMessage}
         />
         <Button
           buttonStyle={styles.registerButton}

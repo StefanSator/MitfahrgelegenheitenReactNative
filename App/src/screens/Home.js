@@ -23,6 +23,7 @@ class HomeScreen extends React.Component {
           titleStyle={styles.registerTitle}
           type='clear'
           title="Register"
+          onPress={ () => this.props.navigation.navigate('Register')}
         />
       </View>
     );
@@ -38,8 +39,8 @@ const styles = StyleSheet.create({
   },
   loginButton: {
     backgroundColor: "white",
-    paddingLeft: 20,
-    paddingRight: 20
+    paddingLeft: 50,
+    paddingRight: 50
   },
   registerButton: {
     marginTop: 10

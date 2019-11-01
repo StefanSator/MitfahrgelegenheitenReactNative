@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet, Alert } from 'react-native';
-import { Text, Input, Button, Overlay, Icon } from 'react-native-elements';
+import { Text, Input, Button, Icon } from 'react-native-elements';
 
 const validator = require('email-validator');
 
@@ -38,8 +38,12 @@ class RegisterScreen extends React.Component {
     this._registerUser();
   }
 
-  _registerUser() {
-    fetch('' + BackendURL + '/customers', {
+  async _registerUser() {
+    if (! await this._checkIfUserAvailable()) {
+      Alert.alert('Nutzer bereits vorhanden!')
+      return;
+    }
+    fetch(BackendURL + '/customers', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -51,18 +55,21 @@ class RegisterScreen extends React.Component {
         email: this.state.email
       }),
     });
-    /* var user = fetch('' + BackendURL + '/customers', {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        email: this.state.email,
-        password: this.state.password1,
-      }),
-    });
-    Alert.alert(user); */
+    Alert.alert('Registrierung erfolgreich.');
+  }
+
+  async _checkIfUserAvailable() {
+    try {
+      const encodedEmail = encodeURIComponent(this.state.email);
+      let response = await fetch(BackendURL + '/customers?email=' + encodedEmail);
+      let responseJSON = await response.json();
+      if (Array.isArray(responseJSON) && responseJSON.length != 0) {
+        return false
+      }
+      return true;
+    } catch (error) {
+      Alert.alert(JSON.stringify(error));
+    }
   }
 
   _checkEmail() {

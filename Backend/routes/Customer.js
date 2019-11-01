@@ -4,9 +4,8 @@ const connection = require("../Connection");
 const Router = express.Router();
 
 Router.get("/", (req, res) => {
-    var email = req.body.email;
-    var password = req.body.password;
-    connection.query("Select * From Customer Where email=" + email + " And password=" + password + "", (err, rows, fields) => {
+    var email = req.query.email;
+    connection.query("Select * From Customer Where email='" + email + "'", (err, rows, fields) => {
         if (!err) {
             res.send(rows);
         } else {

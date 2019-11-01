@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet, Alert } from 'react-native';
-import { Text, Input, Button } from 'react-native-elements';
+import { Text, Input, Button, Overlay, Icon } from 'react-native-elements';
 
 const validator = require('email-validator');
 
@@ -24,16 +24,45 @@ class RegisterScreen extends React.Component {
     this.state = {
       email: '',
       password1: '',
-      password2: ''
+      password2: '',
+      username: ''
     };
     this.errorStyle = passwordErrorStyles.bad;
     this.errorMessage = passwordErrorMessages.bad;
   }
 
-  _checkInput() {
+  _checkRegistration() {
     this._checkEmail();
+    this._checkUsername();
     this._checkPasswords();
-    Alert.alert('Checked Input.');
+    this._registerUser();
+  }
+
+  _registerUser() {
+    fetch('' + BackendURL + '/customers', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        username: this.state.username,
+        password: this.state.password1,
+        email: this.state.email
+      }),
+    });
+    /* var user = fetch('' + BackendURL + '/customers', {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email: this.state.email,
+        password: this.state.password1,
+      }),
+    });
+    Alert.alert(user); */
   }
 
   _checkEmail() {
@@ -41,11 +70,27 @@ class RegisterScreen extends React.Component {
     if (!correct) {
       Alert.alert('Not a valid Email.');
     }
+    /* if (!this.state.email.endsWith('oth-regensburg.de')) {
+      Alert.alert('Only emails from OTH Regensburg allowed.');
+    } */
+  }
+
+  _checkUsername() {
+    var usernameRegex = /^[a-zA-Z0-9]+$/;
+    if (!this.state.username.match(usernameRegex)) {
+      Alert.alert('Not a valid Username.');
+    }
   }
 
   _checkPasswords() {
     if (this.state.password1 !== this.state.password2) {
       Alert.alert('Passwords are different.');
+    }
+    if (this.state.password1 === null || this.state.password2 === null) {
+      Alert.alert('Error: No Passwords found.');
+    }
+    if (this.state.password1 === '' || this.state.password2 === '') {
+      Alert.alert('No Password Input.')
     }
   }
 
@@ -60,11 +105,23 @@ class RegisterScreen extends React.Component {
       this.errorStyle = passwordErrorStyles.good;
       this.errorMessage = passwordErrorMessages.good;
     }
-    this.setState({
-      email: this.state.email,
-      password1: text,
-      password2: this.state.password2
-    })
+    this.setState(this._changeState(null, text, null, null));
+  }
+
+  _changeState(email = null, password1 = null, password2 = null, username = null) {
+    if (email !== null) {
+      this.state.email = email;
+    }
+    if (password1 !== null) {
+      this.state.password1 = password1;
+    }
+    if (password2 !== null) {
+      this.state.password2 = password2;
+    }
+    if (username !== null) {
+      this.state.username = username;
+    }
+    return this.state;
   }
 
   render() {
@@ -78,11 +135,16 @@ class RegisterScreen extends React.Component {
           label='Deine Email-Adresse'
           placeholder='email@st.oth-regensburg.de'
           leftIcon={{ type: 'feather', name: 'mail' }}
-          onChangeText={(text) => this.setState({
-            email: text,
-            password1: this.state.password1,
-            password2: this.state.password2
-          })}
+          onChangeText={(text) => this.setState(this._changeState(text, null, null, null))}
+        />
+        <Input
+          inputStyle={styles.input}
+          labelStyle={styles.label}
+          autoCapitalize='none'
+          label='Dein Nutzername'
+          placeholder='Nutzername'
+          leftIcon={{ type: 'feather', name: 'user' }}
+          onChangeText={(text) => this.setState(this._changeState(null, null, null, text))}
         />
         <Input
           inputStyle={styles.input}
@@ -104,15 +166,20 @@ class RegisterScreen extends React.Component {
           label='Passwort bestätigen'
           placeholder='Passwort'
           leftIcon={{ type: 'font-awesome', name: 'lock' }}
-          onChangeText={this._checkPasswordStrength.bind(this)}
-          errorStyle={this.errorStyle}
-          errorMessage={this.errorMessage}
+          onChangeText={(text) => this.setState(this._changeState(null, null, text, null))}
         />
         <Button
           buttonStyle={styles.registerButton}
           titleStyle={styles.registerTitle}
           title="Registrieren"
-          onPress={this._checkInput.bind(this)}
+          icon={
+            <Icon
+              name='user-check'
+              type='feather'
+              color='black'
+            />
+          }
+          onPress={this._checkRegistration.bind(this)}
         />
       </View>
     )
@@ -145,7 +212,8 @@ const styles = StyleSheet.create({
     paddingRight: 50
   },
   registerTitle: {
-    color: '#20639B'
+    color: '#20639B',
+    paddingLeft: 5
   }
 })
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet, Alert } from 'react-native';
-import { Input, Button } from 'react-native-elements';
+import { Input, Button, Icon } from 'react-native-elements';
 
 class LoginScreen extends React.Component {
 
@@ -27,23 +27,30 @@ class LoginScreen extends React.Component {
       <View style={styles.container}>
         <Input
           inputStyle={styles.input}
-          autoCapitalize = 'none'
+          autoCapitalize='none'
           placeholder='Email'
           leftIcon={{ type: 'feather', name: 'mail' }}
-          onChangeText={ (text) => this.setState({inputEmail: text, inputPassword: this.state.inputPassword})}
+          onChangeText={(text) => this.setState({ inputEmail: text, inputPassword: this.state.inputPassword })}
         />
         <Input
           inputStyle={styles.input}
-          secureTextEntry = {true}
+          secureTextEntry={true}
           placeholder='Password'
           leftIcon={{ type: 'font-awesome', name: 'lock' }}
-          onChangeText={ (text) => this.setState({inputEmail: this.state.inputEmail, inputPassword: text})}
+          onChangeText={(text) => this.setState({ inputEmail: this.state.inputEmail, inputPassword: text })}
         />
         <Button
           buttonStyle={styles.loginButton}
           titleStyle={styles.loginTitle}
           title="Login"
-          onPress={this._checkInput.bind(this)} 
+          icon={
+            <Icon
+              name='login'
+              type='entypo'
+              color='black'
+            />
+          }
+          onPress={this._checkInput.bind(this)}
         />
       </View>
     );
@@ -68,7 +75,8 @@ const styles = StyleSheet.create({
     paddingRight: 20
   },
   loginTitle: {
-    color: '#20639B'
+    color: '#20639B',
+    paddingLeft: 5
   }
 });
 

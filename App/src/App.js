@@ -4,6 +4,8 @@ import HomeScreen from './screens/Home';
 import LoginScreen from './screens/Login';
 import RegisterScreen from './screens/Register';
 
+global.BackendURL = 'http://localhost:3000';
+
 const AppNavigator = createStackNavigator(
   {
     Home: HomeScreen,

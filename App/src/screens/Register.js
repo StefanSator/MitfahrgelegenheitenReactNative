@@ -39,23 +39,27 @@ class RegisterScreen extends React.Component {
   }
 
   async _registerUser() {
-    if (! await this._checkIfUserAvailable()) {
-      Alert.alert('Nutzer bereits vorhanden!')
-      return;
+    try {
+      if (! await this._checkIfUserAvailable()) {
+        Alert.alert('Nutzer bereits vorhanden!')
+        return;
+      }
+      fetch(BackendURL + '/customers', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: this.state.username,
+          password: this.state.password1,
+          email: this.state.email
+        }),
+      });
+      Alert.alert('Registrierung erfolgreich.');
+    } catch (error) {
+      Alert.alert(JSON.stringify(error));
     }
-    fetch(BackendURL + '/customers', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        username: this.state.username,
-        password: this.state.password1,
-        email: this.state.email
-      }),
-    });
-    Alert.alert('Registrierung erfolgreich.');
   }
 
   async _checkIfUserAvailable() {

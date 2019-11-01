@@ -6,19 +6,36 @@ class LoginScreen extends React.Component {
 
   constructor() {
     super();
-    this.email = 'email';
-    this.password = 'password';
     this.state = {
       inputEmail: '',
       inputPassword: ''
     };
   }
 
-  _checkInput() {
-    if (this.state.inputEmail === this.email && this.state.inputPassword === this.password) {
-      Alert.alert('Login Correct.');
-    } else {
-      Alert.alert('Login Incorrect.');
+  async _checkLogin() {
+    try {
+      var user = await this._getUser();
+      if (user === null || user.password !== this.state.inputPassword) {
+        Alert.alert('Login Incorrect.');
+      } else {
+        Alert.alert('Login Correct.');
+      }
+    } catch (error) {
+      Alert.alert(JSON.stringify(error));
+    }
+  }
+
+  async _getUser() {
+    try {
+      const encodedEmail = encodeURIComponent(this.state.inputEmail);
+      let response = await fetch(BackendURL + '/customers?email=' + encodedEmail);
+      let responseJSON = await response.json();
+      if (Array.isArray(responseJSON) && responseJSON.length != 0) {
+        return responseJSON[0];
+      }
+      return null;
+    } catch (error) {
+      Alert.alert(JSON.stringify(error));
     }
   }
 
@@ -50,7 +67,7 @@ class LoginScreen extends React.Component {
               color='black'
             />
           }
-          onPress={this._checkInput.bind(this)}
+          onPress={this._checkLogin.bind(this)}
         />
       </View>
     );

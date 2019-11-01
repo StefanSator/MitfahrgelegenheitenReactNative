@@ -1,19 +1,21 @@
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
-import HomeScreen from './screens/Home';
+import StartScreen from './screens/Start';
 import LoginScreen from './screens/Login';
 import RegisterScreen from './screens/Register';
+import HomeScreen from './screens/Home';
 
 global.BackendURL = 'http://localhost:3000';
 
 const AppNavigator = createStackNavigator(
   {
-    Home: HomeScreen,
+    Start: StartScreen,
     Login: LoginScreen,
-    Register: RegisterScreen
+    Register: RegisterScreen,
+    Home: HomeScreen
   },
   {
-    initialRouteName: 'Home'
+    initialRouteName: 'Start'
   }
 );
 

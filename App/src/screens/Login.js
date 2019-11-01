@@ -17,8 +17,9 @@ class LoginScreen extends React.Component {
       var user = await this._getUser();
       if (user === null || user.password !== this.state.inputPassword) {
         Alert.alert('Login Incorrect.');
+        return;
       } else {
-        Alert.alert('Login Correct.');
+        this.props.navigation.navigate('Home');
       }
     } catch (error) {
       Alert.alert(JSON.stringify(error));

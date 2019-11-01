@@ -32,9 +32,9 @@ class RegisterScreen extends React.Component {
   }
 
   _checkRegistration() {
-    this._checkEmail();
-    this._checkUsername();
-    this._checkPasswords();
+    if (!this._checkEmail()) return;
+    if (!this._checkUsername()) return;
+    if (!this._checkPasswords()) return;
     this._registerUser();
   }
 
@@ -56,7 +56,8 @@ class RegisterScreen extends React.Component {
           email: this.state.email
         }),
       });
-      Alert.alert('Registrierung erfolgreich.');
+      Alert.alert('Registrierung erfolgreich!');
+      this.props.navigation.navigate('Home');
     } catch (error) {
       Alert.alert(JSON.stringify(error));
     }
@@ -80,7 +81,9 @@ class RegisterScreen extends React.Component {
     let correct = validator.validate(this.state.email);
     if (!correct) {
       Alert.alert('Not a valid Email.');
+      return false;
     }
+    return true;
     /* if (!this.state.email.endsWith('oth-regensburg.de')) {
       Alert.alert('Only emails from OTH Regensburg allowed.');
     } */
@@ -90,19 +93,25 @@ class RegisterScreen extends React.Component {
     var usernameRegex = /^[a-zA-Z0-9]+$/;
     if (!this.state.username.match(usernameRegex)) {
       Alert.alert('Not a valid Username.');
+      return false;
     }
+    return true;
   }
 
   _checkPasswords() {
     if (this.state.password1 !== this.state.password2) {
       Alert.alert('Passwords are different.');
+      return false;
     }
     if (this.state.password1 === null || this.state.password2 === null) {
       Alert.alert('Error: No Passwords found.');
+      return false;
     }
     if (this.state.password1 === '' || this.state.password2 === '') {
       Alert.alert('No Password Input.')
+      return false;
     }
+    return true;
   }
 
   _checkPasswordStrength(text) {

@@ -56,6 +56,7 @@ class HomeScreen extends React.Component {
                 color='black'
               />
             }
+            onPress={() => this.props.navigation.navigate('Advertise')}
           />
         </Card>
       </View>

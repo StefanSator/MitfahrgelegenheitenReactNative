@@ -1,19 +1,35 @@
 import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
-import { Card, Button, Icon, Avatar } from 'react-native-elements';
+import { Card, Button, Icon, Avatar, Badge, withBadge } from 'react-native-elements';
+
+//var BadgedAvatar = withBadge(20)(Avatar);
 
 class HomeScreen extends React.Component {
+
+  constructor() {
+    super();
+    this.state = {
+      messages: 0
+    };
+  }
+
   render() {
     return (
       <View style={styles.container}>
-        <Avatar
-          containerStyle={styles.accountContainer}
-          rounded
-          size='large'
-          icon={{ name: 'user', type: 'font-awesome' }}
-          onPress={() => console.log("Works!")}
-          activeOpacity={0.7}
-        />
+        <View style={styles.accountContainer}>
+          <Avatar
+            rounded
+            size='large'
+            icon={{ name: 'user', type: 'font-awesome' }}
+            onPress={() => this.setState({messages: this.state.messages + 1})}
+            activeOpacity={0.7}
+          />
+          <Badge
+            status="error"
+            containerStyle={styles.badgeStyle}
+            value={this.state.messages}
+          />
+        </View>
         <Card title="Suche">
           <Text style={styles.cardText}>eine Mitfahrgelegenheit</Text>
           <Button style={styles.button}
@@ -71,6 +87,11 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginLeft: 20,
     position: 'absolute'
+  },
+  badgeStyle: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
   }
 });
 

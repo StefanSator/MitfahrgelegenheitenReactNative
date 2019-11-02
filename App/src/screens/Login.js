@@ -47,14 +47,14 @@ class LoginScreen extends React.Component {
           inputStyle={styles.input}
           autoCapitalize='none'
           placeholder='Email'
-          leftIcon={{ type: 'feather', name: 'mail' }}
+          leftIcon={{ type: 'feather', name: 'mail', color: 'white' }}
           onChangeText={(text) => this.setState({ inputEmail: text, inputPassword: this.state.inputPassword })}
         />
         <Input
           inputStyle={styles.input}
           secureTextEntry={true}
           placeholder='Password'
-          leftIcon={{ type: 'font-awesome', name: 'lock' }}
+          leftIcon={{ type: 'font-awesome', name: 'lock', color: 'white' }}
           onChangeText={(text) => this.setState({ inputEmail: this.state.inputEmail, inputPassword: text })}
         />
         <Button

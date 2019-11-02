@@ -154,7 +154,7 @@ class RegisterScreen extends React.Component {
           autoCapitalize='none'
           label='Deine Email-Adresse'
           placeholder='email@st.oth-regensburg.de'
-          leftIcon={{ type: 'feather', name: 'mail' }}
+          leftIcon={{ type: 'feather', name: 'mail', color: 'white' }}
           onChangeText={(text) => this.setState(this._changeState(text, null, null, null))}
         />
         <Input
@@ -163,7 +163,7 @@ class RegisterScreen extends React.Component {
           autoCapitalize='none'
           label='Dein Nutzername'
           placeholder='Nutzername'
-          leftIcon={{ type: 'feather', name: 'user' }}
+          leftIcon={{ type: 'feather', name: 'user', color: 'white' }}
           onChangeText={(text) => this.setState(this._changeState(null, null, null, text))}
         />
         <Input
@@ -173,7 +173,7 @@ class RegisterScreen extends React.Component {
           secureTextEntry={true}
           label='Dein Passwort'
           placeholder='Passwort'
-          leftIcon={{ type: 'font-awesome', name: 'lock' }}
+          leftIcon={{ type: 'font-awesome', name: 'lock', color: 'white' }}
           onChangeText={this._checkPasswordStrength.bind(this)}
           errorStyle={this.errorStyle}
           errorMessage={this.errorMessage}
@@ -185,7 +185,7 @@ class RegisterScreen extends React.Component {
           secureTextEntry={true}
           label='Passwort bestätigen'
           placeholder='Passwort'
-          leftIcon={{ type: 'font-awesome', name: 'lock' }}
+          leftIcon={{ type: 'font-awesome', name: 'lock', color: 'white' }}
           onChangeText={(text) => this.setState(this._changeState(null, null, text, null))}
         />
         <Button

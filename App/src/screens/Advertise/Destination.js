@@ -7,12 +7,12 @@ class DestinationScreen extends React.Component {
   constructor() {
     super();
     this.state = {
-      search: ''
+      destination: ''
     };
   }
 
-  _updateSearch(search) {
-    this.setState({ search: search });
+  _updateDestination(destination) {
+    this.setState({ destination: destination });
   }
 
   render() {
@@ -23,12 +23,12 @@ class DestinationScreen extends React.Component {
           containerStyle={styles.searchContainer}
           inputContainerStyle={styles.searchInputContainer}
           placeholder="Type Here..."
-          onChangeText={this._updateSearch.bind(this)}
-          value={this.state.search}
+          onChangeText={this._updateDestination.bind(this)}
+          value={this.state.destination}
           lightTheme={true}
         />
         <Button
-          buttonStyle={styles.searchButton}
+          buttonStyle={styles.checkButton}
           icon={
             <Icon
               name='check-circle'
@@ -38,7 +38,7 @@ class DestinationScreen extends React.Component {
             />
           }
           onPress={() => this.props.navigation.navigate('Companion', {
-            search: this.state.search
+            destination: this.state.destination
           })}
         />
       </View>
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
   searchInputContainer: {
     backgroundColor: 'white'
   },
-  searchButton: {
+  checkButton: {
     marginTop: 20,
     marginLeft: 75,
     marginRight: 75,

@@ -6,6 +6,8 @@ import RegisterScreen from './screens/Register';
 import HomeScreen from './screens/Home';
 import DestinationScreen from './screens/Advertise/Destination';
 import CompanionScreen from './screens/Advertise/Companion';
+import DateScreen from './screens/Advertise/Date';
+import PriceScreen from './screens/Advertise/Price';
 
 global.BackendURL = 'http://localhost:3000';
 
@@ -16,7 +18,9 @@ const AppNavigator = createStackNavigator(
     Register: RegisterScreen,
     Home: HomeScreen,
     Advertise: DestinationScreen,
-    Companion: CompanionScreen
+    Companion: CompanionScreen,
+    Date: DateScreen,
+    Price: PriceScreen
   },
   {
     initialRouteName: 'Start'

@@ -5,11 +5,12 @@ import DateTimePicker from "react-native-modal-datetime-picker";
 
 class DateScreen extends React.Component {
 
+  static navigationOptions = {
+    title: 'Termin'
+  }
+
   constructor(props) {
     super(props);
-    const { navigation } = props;
-    this.destination = navigation.getParam('destination', '');
-    this.companions = navigation.getParam('companions', 0);
     this.state = {
       isDateTimePickerVisible: false
     };
@@ -33,11 +34,15 @@ class DateScreen extends React.Component {
   };
 
   render() {
+    const { navigation } = this.props;
+    this.destination = navigation.getParam('destination', '');
+    this.companions = navigation.getParam('companions', 0);
+
     return (
       <View style={styles.container}>
         <Text h4 style={styles.title}>Wann wollt ihr fahren?</Text>
         <Button buttonStyle={styles.checkButton}
-          title="Datum wählen"
+          title="Termin wählen"
           onPress={this._showDateTimePicker.bind(this)} />
         <DateTimePicker
           mode={'datetime'}

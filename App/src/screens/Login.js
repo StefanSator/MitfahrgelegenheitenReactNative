@@ -72,7 +72,6 @@ class LoginScreen extends React.Component {
         />
         <View style={styles.backButtonContainer}>
           <Button
-            //title="Outline button"
             type="clear"
             icon={
               <Icon

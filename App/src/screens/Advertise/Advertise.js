@@ -4,13 +4,15 @@ import DestinationScreen from './Destination';
 import CompanionScreen from './Companion';
 import DateScreen from './Date';
 import PriceScreen from './Price';
+import OverviewAdScreen from './OverviewAd';
 
 const AdvertiseStack = createStackNavigator(
   {
     Advertise: DestinationScreen,
     Companion: CompanionScreen,
     Date: DateScreen,
-    Price: PriceScreen
+    Price: PriceScreen,
+    OverviewAd: OverviewAdScreen
   },
   {
     initialRouteName: 'Advertise'

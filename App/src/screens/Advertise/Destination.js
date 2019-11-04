@@ -5,11 +5,7 @@ import { Text, SearchBar, Button, Icon } from 'react-native-elements';
 class DestinationScreen extends React.Component {
 
   static navigationOptions = {
-    tabBarIcon: ({ focused, tintColor }) => {
-      //const iconName = `search${focused ? '' : '-outline'}`;
-      //return <Ionicons name={iconName} size={25} color={tintColor} />;
-      return <Icon name={'search'} type='feather' color={tintColor} />;
-    },
+    title: 'Ziel',
   };
 
   constructor() {
@@ -23,6 +19,16 @@ class DestinationScreen extends React.Component {
     this.setState({ destination: destination });
   }
 
+  _checkButtonPressed() {
+    if (this.state.destination === '') {
+      Alert.alert('Kein Zielort eingegeben.');
+      return;
+    }
+    this.props.navigation.navigate('Companion', {
+      destination: this.state.destination
+    });
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -30,7 +36,7 @@ class DestinationScreen extends React.Component {
         <SearchBar
           containerStyle={styles.searchContainer}
           inputContainerStyle={styles.searchInputContainer}
-          placeholder="Type Here..."
+          placeholder="z.B. München"
           onChangeText={this._updateDestination.bind(this)}
           value={this.state.destination}
           lightTheme={true}
@@ -45,9 +51,7 @@ class DestinationScreen extends React.Component {
               size={50}
             />
           }
-          onPress={() => this.props.navigation.navigate('Companion', {
-            destination: this.state.destination
-          })}
+          onPress={this._checkButtonPressed.bind(this)}
         />
       </View>
     )

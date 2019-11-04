@@ -19,10 +19,6 @@ const AppNavigator = createStackNavigator(
     Register: RegisterScreen,
     Home: HomeScreen,
     Advertise: AdvertiseStack
-    //Advertise: DestinationScreen,
-    //Companion: CompanionScreen,
-    //Date: DateScreen,
-    //Price: PriceScreen
   },
   {
     initialRouteName: 'Start',

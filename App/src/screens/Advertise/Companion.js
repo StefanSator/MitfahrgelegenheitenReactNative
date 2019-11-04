@@ -4,6 +4,10 @@ import { Text, Slider, Icon, Button } from 'react-native-elements';
 
 class CompanionScreen extends React.Component {
 
+  static navigationOptions = {
+    title: 'Mitfahrer'
+  }
+
   constructor() {
     super();
     this.destination = '';

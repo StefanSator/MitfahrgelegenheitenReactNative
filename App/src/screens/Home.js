@@ -59,7 +59,7 @@ class HomeScreen extends React.Component {
             titleStyle={styles.buttonTitle}
             icon={
               <Icon
-                name='car'
+                name='pluscircleo'
                 type='antdesign'
                 color='black'
               />

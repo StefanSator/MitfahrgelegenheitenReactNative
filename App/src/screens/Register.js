@@ -147,7 +147,7 @@ class RegisterScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text h3 style={styles.text}>Registrierung</Text>
+        <Text h3 style={styles.title}>Registrierung</Text>
         <Input
           inputStyle={styles.input}
           labelStyle={styles.label}
@@ -201,6 +201,21 @@ class RegisterScreen extends React.Component {
           }
           onPress={this._checkRegistration.bind(this)}
         />
+        <View style={styles.backButtonContainer}>
+          <Button
+            //title="Outline button"
+            type="clear"
+            icon={
+              <Icon
+                name='arrow-back'
+                type='material-icons'
+                color='black'
+                size={35}
+              />
+            }
+            onPress={() => this.props.navigation.navigate('Start')}
+          />
+        </View>
       </View>
     )
   }
@@ -212,6 +227,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-around",
     backgroundColor: "#20639B"
+  },
+  title: {
+    color: 'white',
+    marginTop: 20
   },
   text: {
     color: 'white'
@@ -234,6 +253,13 @@ const styles = StyleSheet.create({
   registerTitle: {
     color: '#20639B',
     paddingLeft: 5
+  },
+  backButtonContainer: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    marginTop: 50,
+    marginLeft: 10
   }
 })
 

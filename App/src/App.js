@@ -4,10 +4,11 @@ import StartScreen from './screens/Start';
 import LoginScreen from './screens/Login';
 import RegisterScreen from './screens/Register';
 import HomeScreen from './screens/Home';
-import DestinationScreen from './screens/Advertise/Destination';
+import AdvertiseStack from './screens/Advertise/Advertise'
+/* import DestinationScreen from './screens/Advertise/Destination';
 import CompanionScreen from './screens/Advertise/Companion';
 import DateScreen from './screens/Advertise/Date';
-import PriceScreen from './screens/Advertise/Price';
+import PriceScreen from './screens/Advertise/Price'; */
 
 global.BackendURL = 'http://localhost:3000';
 
@@ -17,13 +18,15 @@ const AppNavigator = createStackNavigator(
     Login: LoginScreen,
     Register: RegisterScreen,
     Home: HomeScreen,
-    Advertise: DestinationScreen,
-    Companion: CompanionScreen,
-    Date: DateScreen,
-    Price: PriceScreen
+    Advertise: AdvertiseStack
+    //Advertise: DestinationScreen,
+    //Companion: CompanionScreen,
+    //Date: DateScreen,
+    //Price: PriceScreen
   },
   {
-    initialRouteName: 'Start'
+    initialRouteName: 'Start',
+    headerMode: 'none'
   }
 );
 

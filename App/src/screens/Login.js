@@ -70,6 +70,21 @@ class LoginScreen extends React.Component {
           }
           onPress={this._checkLogin.bind(this)}
         />
+        <View style={styles.backButtonContainer}>
+          <Button
+            //title="Outline button"
+            type="clear"
+            icon={
+              <Icon
+                name='arrow-back'
+                type='material-icons'
+                color='black'
+                size={35}
+              />
+            }
+            onPress={() => this.props.navigation.navigate('Start')}
+          />
+        </View>
       </View>
     );
   }
@@ -95,6 +110,13 @@ const styles = StyleSheet.create({
   loginTitle: {
     color: '#20639B',
     paddingLeft: 5
+  },
+  backButtonContainer: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    marginTop: 50,
+    marginLeft: 10
   }
 });
 

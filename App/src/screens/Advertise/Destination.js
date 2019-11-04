@@ -4,6 +4,14 @@ import { Text, SearchBar, Button, Icon } from 'react-native-elements';
 
 class DestinationScreen extends React.Component {
 
+  static navigationOptions = {
+    tabBarIcon: ({ focused, tintColor }) => {
+      //const iconName = `search${focused ? '' : '-outline'}`;
+      //return <Ionicons name={iconName} size={25} color={tintColor} />;
+      return <Icon name={'search'} type='feather' color={tintColor} />;
+    },
+  };
+
   constructor() {
     super();
     this.state = {

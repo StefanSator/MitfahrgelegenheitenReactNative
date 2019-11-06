@@ -10,7 +10,7 @@ import CompanionScreen from './screens/Advertise/Companion';
 import DateScreen from './screens/Advertise/Date';
 import PriceScreen from './screens/Advertise/Price'; */
 
-global.BackendURL = 'http://localhost:3000';
+global.BackendURL = 'https://young-beyond-20476.herokuapp.com';
 
 const AppNavigator = createStackNavigator(
   {

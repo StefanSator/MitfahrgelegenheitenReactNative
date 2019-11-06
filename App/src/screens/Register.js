@@ -68,7 +68,7 @@ class RegisterScreen extends React.Component {
       const encodedEmail = encodeURIComponent(this.state.email);
       let response = await fetch(BackendURL + '/customers?email=' + encodedEmail);
       let responseJSON = await response.json();
-      if (Array.isArray(responseJSON) && responseJSON.length != 0) {
+      if (Array.isArray(responseJSON.results) && responseJSON.results.length != 0) {
         return false
       }
       return true;

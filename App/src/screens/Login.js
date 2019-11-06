@@ -31,8 +31,9 @@ class LoginScreen extends React.Component {
       const encodedEmail = encodeURIComponent(this.state.inputEmail);
       let response = await fetch(BackendURL + '/customers?email=' + encodedEmail);
       let responseJSON = await response.json();
-      if (Array.isArray(responseJSON) && responseJSON.length != 0) {
-        return responseJSON[0];
+      console.log('Response: ' + JSON.stringify(responseJSON));
+      if (Array.isArray(responseJSON.results) && responseJSON.results.length != 0) {
+        return responseJSON.results[0];
       }
       return null;
     } catch (error) {

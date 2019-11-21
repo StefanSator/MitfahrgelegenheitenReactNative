@@ -15,7 +15,7 @@ class LoginScreen extends React.Component {
   }
 
   async _checkLogin() {
-    if (!this._checkEmail) return;
+    if (!this._checkEmail()) return;
     try {
       var validate = await this._validate();
       if (validate === false) {
@@ -51,6 +51,7 @@ class LoginScreen extends React.Component {
   }
 
   _checkEmail() {
+    console.log("Email: " + this.state.inputEmail);
     let correct = validator.validate(this.state.inputEmail);
     if (!correct) {
       Alert.alert('Not a valid Email.');

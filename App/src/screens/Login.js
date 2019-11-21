@@ -41,11 +41,7 @@ class LoginScreen extends React.Component {
       });
       let responseJSON = await response.json();
       console.log('Response: ' + JSON.stringify(responseJSON));
-      if (responseJSON.successful === 0) {
-        return false;
-      } else {
-        return true;
-      }
+      return responseJSON.successful;
     } catch (error) {
       Alert.alert(JSON.stringify(error));
     }

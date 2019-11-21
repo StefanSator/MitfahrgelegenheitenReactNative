@@ -14,8 +14,8 @@ class LoginScreen extends React.Component {
 
   async _checkLogin() {
     try {
-      var user = await this._getUser();
-      if (user === null || user.password !== this.state.inputPassword) {
+      var validate = await this._validate();
+      if (validate === false) {
         Alert.alert('Login Incorrect.');
         return;
       } else {
@@ -26,16 +26,26 @@ class LoginScreen extends React.Component {
     }
   }
 
-  async _getUser() {
+  async _validate() {
     try {
-      const encodedEmail = encodeURIComponent(this.state.inputEmail);
-      let response = await fetch(BackendURL + '/customers?email=' + encodedEmail);
+      let response = await fetch(BackendURL + '/customers/validate', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: this.state.inputEmail,
+          password: this.state.inputPassword
+        }),
+      });
       let responseJSON = await response.json();
       console.log('Response: ' + JSON.stringify(responseJSON));
-      if (Array.isArray(responseJSON) && responseJSON.length != 0) {
-        return responseJSON[0];
+      if (responseJSON.successful === 0) {
+        return false;
+      } else {
+        return true;
       }
-      return null;
     } catch (error) {
       Alert.alert(JSON.stringify(error));
     }

@@ -2,6 +2,8 @@ import React from 'react';
 import { View, StyleSheet, Alert } from 'react-native';
 import { Input, Button, Icon } from 'react-native-elements';
 
+const validator = require('email-validator');
+
 class LoginScreen extends React.Component {
 
   constructor() {
@@ -13,6 +15,7 @@ class LoginScreen extends React.Component {
   }
 
   async _checkLogin() {
+    if (!this._checkEmail) return;
     try {
       var validate = await this._validate();
       if (validate === false) {
@@ -45,6 +48,18 @@ class LoginScreen extends React.Component {
     } catch (error) {
       Alert.alert(JSON.stringify(error));
     }
+  }
+
+  _checkEmail() {
+    let correct = validator.validate(this.state.inputEmail);
+    if (!correct) {
+      Alert.alert('Not a valid Email.');
+      return false;
+    }
+    return true;
+    /* if (!this.state.email.endsWith('oth-regensburg.de')) {
+      Alert.alert('Only emails from OTH Regensburg allowed.');
+    } */
   }
 
   render() {

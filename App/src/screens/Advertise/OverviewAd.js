@@ -36,13 +36,17 @@ class OverviewAdScreen extends React.Component {
           overlayStyle={styles.overlay}
           isVisible={this.state.isVisible}
           borderRadius={10}
+          windowBackgroundColor="rgba(255, 255, 255, .5)" //
           width='auto'
           height='auto'>
-          <Text h2 style={styles.title}>Überblick</Text>
-          <Text h4 style={styles.text}>Ziel: {this.destination}</Text>
-          <Text h4 style={styles.text}>Mitfahrer: {this.companions}</Text>
-          <Text h4 style={styles.text}>Datum: {'' + this.datetime}</Text>
-          <Text h4 style={styles.text}>Preis: {'' + this.price + '€'}</Text>
+          <View style={styles.textContainer}>
+            <Text h2 style={styles.title}>Überblick</Text>
+            <Text h4 style={styles.text}>Ziel: {this.destination.city}</Text>
+            <Text h4 style={styles.text}>Mitfahrer: {this.companions}</Text>
+            <Text h4 style={styles.text}>Datum: {`${this.datetime.getDate()}.${this.datetime.getMonth() + 1}.${this.datetime.getFullYear()}`}</Text>
+            <Text h4 style={styles.text}>Uhrzeit: {`${this.datetime.getHours()}:${this.datetime.getUTCMinutes()} Uhr`}</Text>
+            <Text h4 style={styles.text}>Preis: {'' + this.price + '€'}</Text>
+          </View>
           <View style={styles.buttonContainer}>
             <Button
               buttonStyle={styles.acceptButton}
@@ -86,7 +90,7 @@ const styles = StyleSheet.create({
   },
   overlay: {
     alignItems: "flex-start",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
   },
   title: {
     color: '#20639B',
@@ -114,6 +118,9 @@ const styles = StyleSheet.create({
   buttonTitle: {
     color: 'white',
     paddingLeft: 17
+  },
+  textContainer: {
+    margin: 50
   },
   buttonContainer: {
     alignSelf: 'center'

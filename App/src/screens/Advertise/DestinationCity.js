@@ -1,0 +1,98 @@
+import React from 'react';
+import { View, StyleSheet, Alert, FlatList } from 'react-native';
+import { Text, ListItem } from 'react-native-elements';
+import TouchableScale from 'react-native-touchable-scale';
+import LinearGradient from 'react-native-linear-gradient';
+
+class DestinationCityScreen extends React.Component {
+
+  static navigationOptions = {
+    title: 'Zielstadt',
+  };
+
+  constructor(props) {
+    super(props);
+    // Set State Object
+    this.state = {
+      listdata: []
+    };
+    const { navigation } = props;
+    this.destinationState = navigation.getParam('destinationState', '');
+    // Load List Data
+    this._loadCityData(this.destinationState);
+  }
+
+  /* Starts GET-Request to Backend to retrieve city data for the specified destination state */
+  async _loadCityData(destinationState) {
+    try {
+      const encodedDestinationState = encodeURIComponent(destinationState);
+      let response = await fetch(BackendURL + '/lifts/destination/cities?state=' + encodedDestinationState);
+      const result = await response.json();
+      this.setState({ listdata: result });
+    } catch (error) {
+      Alert.alert(JSON.stringify(error));
+    }
+  }
+
+  /* Item from User selected Action Method */
+  _itemSelected(item) {
+    this.props.navigation.navigate('Companion', {
+      destination: item
+    });
+  }
+
+  keyExtractor = (item, index) => index.toString()
+
+  renderItem = ({ item }) => (
+    <ListItem
+      Component={TouchableScale}
+      friction={90}
+      tension={100}
+      activeScale={0.95}
+      linearGradientProps={{
+        colors: ['#64c4ed', '#4f81c7'],
+        start: [1, 0],
+        end: [0.2, 0],
+      }}
+      ViewComponent={LinearGradient}
+      title={item.city}
+      titleStyle={{ color: 'white', fontWeight: 'bold' }}
+      chevron={{ color: 'white' }}
+      onPress={() => {this._itemSelected(item)}}
+    />
+  )
+
+  render() {
+    return (
+      <View style={styles.container}>
+        <Text h4 style={styles.title}>Wohin fährst du?</Text>
+        <FlatList style={styles.list}
+          keyExtractor={this.keyExtractor}
+          data={this.state.listdata}
+          renderItem={this.renderItem}
+        />
+      </View>
+    )
+  }
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#20639B"
+  },
+  title: {
+    color: 'white',
+    marginTop: 20,
+    marginLeft: 20,
+    marginBottom: 10
+  },
+  list: {
+    marginBottom: 35,
+    marginRight: 20,
+    marginLeft: 20,
+    borderRadius: 10
+  }
+});
+
+export default DestinationCityScreen;

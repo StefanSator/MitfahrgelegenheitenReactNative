@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import { Text, Input, Icon, Button } from 'react-native-elements';
+import { Text, Icon, Button} from 'react-native-elements';
 import NumericInput from 'react-native-numeric-input';
 
 class PriceScreen extends React.Component {
@@ -12,7 +12,8 @@ class PriceScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: 0
+      value: 0,
+      isVisible: true
     };
   }
 
@@ -36,7 +37,7 @@ class PriceScreen extends React.Component {
         <Text h4 style={styles.title}>Wie viel wollt ihr dafür?</Text>
         <NumericInput
           value={this.state.value}
-          onChange={value => this.setState({ value: value })}
+          onChange={value => this.setState({ value: value, isVisible: this.state.isVisible })}
           minValue={0}
           totalWidth={300}
           totalHeight={100}

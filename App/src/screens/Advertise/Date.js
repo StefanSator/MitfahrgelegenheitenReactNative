@@ -26,7 +26,7 @@ class DateScreen extends React.Component {
 
   _handleDatePicked(datetime) {
     this._hideDateTimePicker();
-    this.props.navigation.navigate('Price', {
+    this.props.navigation.navigate('PriceRecommendation', {
       destination: this.destination,
       companions: this.companions,
       datetime: datetime

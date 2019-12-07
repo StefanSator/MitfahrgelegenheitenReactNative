@@ -47,6 +47,7 @@ class LoginScreen extends React.Component {
       return responseJSON.successful;
     } catch (error) {
       Alert.alert(JSON.stringify(error));
+      return false;
     }
   }
 

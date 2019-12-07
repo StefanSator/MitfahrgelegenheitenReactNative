@@ -40,8 +40,6 @@ class DistanceCalculator {
     // Inverse Vincenty Formula
     let U1 = Math.atan((1 - f) * Math.tan(phi1));
     let U2 = Math.atan((1 - f) * Math.tan(phi2));
-    //let sinU1 = Math.sin(U1), cosU1 = Math.cos(U1);
-    //let sinU2 = Math.sin(U2), cosU2 = Math.cos(U2);
     let L = L2 - L1;
     let lambda = L; // Initial Value of lambda
     let prevLambda;

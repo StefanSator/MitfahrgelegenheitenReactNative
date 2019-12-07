@@ -3,6 +3,8 @@ import { View, StyleSheet, Alert, FlatList } from 'react-native';
 import { Text, ListItem } from 'react-native-elements';
 import TouchableScale from 'react-native-touchable-scale';
 import LinearGradient from 'react-native-linear-gradient';
+import Lift from '../../entities/Lift';
+import City from '../../entities/City';
 
 class DestinationCityScreen extends React.Component {
 
@@ -36,8 +38,11 @@ class DestinationCityScreen extends React.Component {
 
   /* Item from User selected Action Method */
   _itemSelected(item) {
+    let lift = new Lift();
+    let targetCity = new City(item.cityid, item.city, item.state, item.latitude, item.longitude);
+    lift.target = targetCity;
     this.props.navigation.navigate('Companion', {
-      destination: item
+      lift: lift
     });
   }
 

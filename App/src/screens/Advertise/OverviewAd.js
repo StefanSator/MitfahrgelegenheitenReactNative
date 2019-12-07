@@ -25,10 +25,7 @@ class OverviewAdScreen extends React.Component {
 
   render() {
     const { navigation } = this.props;
-    this.destination = navigation.getParam('destination', '');
-    this.companions = navigation.getParam('companions', 0);
-    this.datetime = navigation.getParam('datetime', new Date());
-    this.price = navigation.getParam('price', 0);
+    this.lift = navigation.getParam('lift', null);
 
     return (
       <View style={styles.container}>
@@ -41,11 +38,11 @@ class OverviewAdScreen extends React.Component {
           height='auto'>
           <View style={styles.textContainer}>
             <Text h2 style={styles.title}>Überblick</Text>
-            <Text h4 style={styles.text}>Ziel: {this.destination.city}</Text>
-            <Text h4 style={styles.text}>Mitfahrer: {this.companions}</Text>
-            <Text h4 style={styles.text}>Datum: {`${this.datetime.getDate()}.${this.datetime.getMonth() + 1}.${this.datetime.getFullYear()}`}</Text>
-            <Text h4 style={styles.text}>Uhrzeit: {`${this.datetime.getHours()}:${this.datetime.getUTCMinutes()} Uhr`}</Text>
-            <Text h4 style={styles.text}>Preis: {'' + this.price + '€'}</Text>
+            <Text h4 style={styles.text}>Ziel: {this.lift.target.cityName}</Text>
+            <Text h4 style={styles.text}>Mitfahrer: {this.lift.passengers}</Text>
+            <Text h4 style={styles.text}>Datum: {`${this.lift.datetime.getDate()}.${this.lift.datetime.getMonth() + 1}.${this.lift.datetime.getFullYear()}`}</Text>
+            <Text h4 style={styles.text}>Uhrzeit: {`${this.lift.datetime.getHours()}:${this.lift.datetime.getUTCMinutes()} Uhr`}</Text>
+            <Text h4 style={styles.text}>Preis: {'' + this.lift.price + '€'}</Text>
           </View>
           <View style={styles.buttonContainer}>
             <Button

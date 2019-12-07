@@ -10,15 +10,22 @@ class CompanionScreen extends React.Component {
 
   constructor() {
     super();
-    this.destination = '';
+    this.lift = null;
     this.state = {
       value: 1
     };
   }
 
+  _buttonPressed() {
+    this.lift.passengers = this.state.value;
+    this.props.navigation.navigate('Date', {
+      lift: this.lift
+    });
+  }
+
   render() {
     const { navigation } = this.props;
-    this.destination = navigation.getParam('destination', this.destination);
+    this.lift = navigation.getParam('lift', this.lift);
 
     return (
       <View style={styles.container}>
@@ -43,10 +50,7 @@ class CompanionScreen extends React.Component {
               size={50}
             />
           }
-          onPress={() => this.props.navigation.navigate('Date', {
-            destination: this.destination,
-            companions: this.state.value
-          })}
+          onPress={this._buttonPressed.bind(this)}
         />
       </View>
     );

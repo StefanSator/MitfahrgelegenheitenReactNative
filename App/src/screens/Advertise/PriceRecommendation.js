@@ -13,22 +13,62 @@ class PriceRecommendationScreen extends React.Component {
 
   constructor(props) {
     super(props);
-    // Load List Data
-    /* const { navigation } = props;
-    this.destinationState = navigation.getParam('destinationState', '');
-    this._loadCityData(this.destinationState); */
+    // Set State Object
+    this.state = {
+      recommendedString: "Wird berechnet",
+      recommendedPrice: 0
+    }
+    const { navigation } = this.props;
+    this.lift = navigation.getParam('lift', null);
+    // Get Recommended Price from Backend
+    this._getRecommendedPrice();
   }
 
-  _chooseOwnPriceButtonPressed() {
+  /* Get the recommended price for the specified lift from Backend */
+  async _getRecommendedPrice() {
     try {
-      let distanceCalculator = new DistanceCalculator(49.034512, 12.119234);
-      let haversineDistance = distanceCalculator.calculateHaversineDistance(48.881259, 12.573853);
-      console.log("Haversine: " + haversineDistance);
-      let vincentyDistance = distanceCalculator.calculateVincentyDistance(48.881259, 12.573853);
-      console.log("Vincenty: " + vincentyDistance);
+      let response = await fetch(BackendURL + '/lifts/recommendedprice', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          point1: { lat: this.lift.start.lat, lng: this.lift.start.lng },
+          point2: { lat: this.lift.target.lat, lng: this.lift.target.lng },
+          passengers: this.lift.passengers
+        }),
+      });
+      let responseJSON = await response.json();
+      let recommendedPrice = Math.floor(responseJSON.price);
+      // Update State Object
+      this.setState({ recommendedString: `${recommendedPrice} €` , recommendedPrice: recommendedPrice});
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
+  }
+
+  /* Switch to PriceScreen. User can now choose own price for lift. */
+  _chooseOwnPriceButtonPressed() {
+    this.props.navigation.navigate('Price', {
+      lift: this.lift
+    });
+  }
+
+  /* Switch to OverviewAdScreen. User doesn't want money for lift. */
+  _freeButtonPressed() {
+    this.lift.price = 0;
+    this.props.navigation.navigate('OverviewAd', {
+      lift: this.lift
+    });
+  }
+
+  /* Switch to OverviewAdScreen. User wants recommended Price for lift. */
+  _recommendedPriceButtonPressed() {
+    this.lift.price = this.state.recommendedPrice;
+    this.props.navigation.navigate('OverviewAd', {
+      lift: this.lift
+    });
   }
 
   render() {
@@ -38,22 +78,24 @@ class PriceRecommendationScreen extends React.Component {
           <PricingCard
             color="#4f9deb"
             title="Empfohlen"
-            price="12 €"
+            price={this.state.recommendedString}
             info={['Von uns empfohlener Preis.', 'Berechnet durch unseren Algorithmus.']}
             button={{ title: ' Empfohlenen Preis wählen', icon: 'check' }}
             pricingStyle={styles.cardPricing}
             titleStyle={styles.cardTitle}
             infoStyle={styles.cardInfo}
+            onButtonPress={this._recommendedPriceButtonPressed.bind(this)}
           />
           <PricingCard
             color="#A640FF"
             title="Kostenlos"
             price="0 €"
             info={['Sei so nett, dass du Mitfahrer kostenlos bei dir mitfahren lässt.', 'Sie werden dir danken.']}
-            button={{ title: ' Kostenlosen Preis wählen', icon: 'check' }}
+            button={{ title: ' Kostenlos mitfahren lassen', icon: 'check' }}
             pricingStyle={styles.cardPricing}
             titleStyle={styles.cardTitle}
             infoStyle={styles.cardInfo}
+            onButtonPress={this._freeButtonPressed.bind(this)}
           />
         </View>
         <Button

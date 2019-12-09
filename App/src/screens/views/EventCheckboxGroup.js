@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Stylesheet } from 'react-native';
+import { ScrollView, StyleSheet } from 'react-native';
 import { CheckBox } from 'react-native-elements';
 
 class EventCheckboxGroup extends React.Component {
@@ -17,7 +17,7 @@ class EventCheckboxGroup extends React.Component {
   render() {
     this.selectedEvents = this.props.selectedEvents;
     return (
-      <View>
+      <ScrollView style={styles.container}>
         {this.selectedEvents.map((value, index) => {
           return (
             <CheckBox
@@ -34,9 +34,16 @@ class EventCheckboxGroup extends React.Component {
             />
           );
         })}
-      </View>
+      </ScrollView>
     )
   }
 };
+
+const styles = StyleSheet.create({
+  container: {
+    marginRight: 10,
+    marginLeft: 10
+  }
+});
 
 export default EventCheckboxGroup;

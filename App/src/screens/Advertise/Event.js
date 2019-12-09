@@ -1,9 +1,14 @@
 import React from 'react';
-import { View, Stylesheet } from 'react-native';
+import { View, StyleSheet, ScrollView } from 'react-native';
+import { Text, Button } from 'react-native-elements';
 import MultiSelect from 'react-native-multiple-select';
 import EventCheckboxGroup from '../views/EventCheckboxGroup';
 
 class EventScreen extends React.Component {
+
+  static navigationOptions = {
+    title: 'Event'
+  };
 
   constructor() {
     super();
@@ -54,7 +59,8 @@ class EventScreen extends React.Component {
 
   render() {
     return (
-      <View style={{ flex: 1 }}>
+      <View style={styles.container}>
+        <Text h4 style={styles.title}>Für welche Fakultäten ist dein Event interessant?</Text>
         <MultiSelect
           hideTags
           items={this.events}
@@ -63,7 +69,6 @@ class EventScreen extends React.Component {
           selectedItems={this.state.selectedEvents}
           selectText="Fakultäten auswählen"
           searchInputPlaceholderText="Suche eine Fakultät..."
-          onChangeInput={(text) => console.log(text)}
           tagRemoveIconColor="#CCC"
           tagBorderColor="#CCC"
           tagTextColor="#CCC"
@@ -72,17 +77,47 @@ class EventScreen extends React.Component {
           itemTextColor="#000"
           displayKey="name"
           searchInputStyle={{ color: '#CCC' }}
-          submitButtonColor="#20639B"
-          submitButtonText="Submit"
+          submitButtonColor="#0080ff"
+          submitButtonText="Auswählen"
+          styleInputGroup={styles.searchInput}
+          styleMainWrapper={styles.dropDownMenu}
         />
-        <View>
-          <EventCheckboxGroup
-            selectedEvents={this.state.selectedEvents}
-            callback={this._removeSelectedEvent.bind(this)} />
-        </View>
+        <EventCheckboxGroup
+          selectedEvents={this.state.selectedEvents}
+          callback={this._removeSelectedEvent.bind(this)} />
+        <Button
+          icon={{
+            name: "arrowright",
+            type: 'antdesign',
+            size: 15,
+            color: "white"
+          }}
+          title="Weiter"
+        />
       </View>
     );
   }
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#20639B"
+  },
+  searchInput: {
+    height: 40
+  },
+  title: {
+    color: 'white',
+    marginTop: 20,
+    marginLeft: 20,
+    marginBottom: 10,
+    marginRight: 20
+  },
+  dropDownMenu: {
+    marginRight: 20,
+    marginLeft: 20
+  }
+});
 
 export default EventScreen;

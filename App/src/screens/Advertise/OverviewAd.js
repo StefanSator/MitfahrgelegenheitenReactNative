@@ -36,41 +36,43 @@ class OverviewAdScreen extends React.Component {
           windowBackgroundColor="rgba(255, 255, 255, .5)" //
           width='auto'
           height='auto'>
-          <View style={styles.textContainer}>
-            <Text h2 style={styles.title}>Überblick</Text>
-            <Text h4 style={styles.text}>Ziel: {this.lift.target.cityName}</Text>
-            <Text h4 style={styles.text}>Mitfahrer: {this.lift.passengers}</Text>
-            <Text h4 style={styles.text}>Datum: {`${this.lift.datetime.getDate()}.${this.lift.datetime.getMonth() + 1}.${this.lift.datetime.getFullYear()}`}</Text>
-            <Text h4 style={styles.text}>Uhrzeit: {`${this.lift.datetime.getHours()}:${this.lift.datetime.getUTCMinutes()} Uhr`}</Text>
-            <Text h4 style={styles.text}>Preis: {'' + this.lift.price + '€'}</Text>
-          </View>
-          <View style={styles.buttonContainer}>
-            <Button
-              buttonStyle={styles.acceptButton}
-              titleStyle={styles.buttonTitle}
-              title="Einverstanden"
-              icon={
-                <Icon
-                  name='check'
-                  type='feather'
-                  color='white'
-                />
-              }
-              onPress={this._acceptButtonPressed.bind(this)}
-            />
-            <Button
-              buttonStyle={styles.refuseButton}
-              titleStyle={styles.buttonTitle}
-              title="Abbrechen"
-              icon={
-                <Icon
-                  name='cross'
-                  type='entypo'
-                  color='white'
-                />
-              }
-              onPress={this._refuseButtonPressed.bind(this)}
-            />
+          <View>
+            <View style={styles.textContainer}>
+              <Text h2 style={styles.title}>Überblick</Text>
+              <Text h4 style={styles.text}>Ziel: {this.lift.target.cityName}</Text>
+              <Text h4 style={styles.text}>Mitfahrer: {this.lift.passengers}</Text>
+              <Text h4 style={styles.text}>Datum: {`${this.lift.datetime.getDate()}.${this.lift.datetime.getMonth() + 1}.${this.lift.datetime.getFullYear()}`}</Text>
+              <Text h4 style={styles.text}>Uhrzeit: {`${this.lift.datetime.getHours()}:${this.lift.datetime.getUTCMinutes()} Uhr`}</Text>
+              <Text h4 style={styles.text}>Preis: {'' + this.lift.price + '€'}</Text>
+            </View>
+            <View style={styles.buttonContainer}>
+              <Button
+                buttonStyle={styles.acceptButton}
+                titleStyle={styles.buttonTitle}
+                title="Einverstanden"
+                icon={
+                  <Icon
+                    name='check'
+                    type='feather'
+                    color='white'
+                  />
+                }
+                onPress={this._acceptButtonPressed.bind(this)}
+              />
+              <Button
+                buttonStyle={styles.refuseButton}
+                titleStyle={styles.buttonTitle}
+                title="Abbrechen"
+                icon={
+                  <Icon
+                    name='cross'
+                    type='entypo'
+                    color='white'
+                  />
+                }
+                onPress={this._refuseButtonPressed.bind(this)}
+              />
+            </View>
           </View>
         </Overlay>
       </View>

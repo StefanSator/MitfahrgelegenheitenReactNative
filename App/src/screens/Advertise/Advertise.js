@@ -7,6 +7,7 @@ import DateScreen from './Date';
 import PriceScreen from './Price';
 import OverviewAdScreen from './OverviewAd';
 import PriceRecommendationScreen from './PriceRecommendation';
+import EventScreen from './Event';
 
 const AdvertiseStack = createStackNavigator(
   {
@@ -16,7 +17,8 @@ const AdvertiseStack = createStackNavigator(
     Date: DateScreen,
     PriceRecommendation: PriceRecommendationScreen,
     Price: PriceScreen,
-    OverviewAd: OverviewAdScreen
+    OverviewAd: OverviewAdScreen,
+    Event: EventScreen
   },
   {
     initialRouteName: 'Advertise'

@@ -3,8 +3,6 @@ import { View, StyleSheet } from 'react-native';
 import { PricingCard, Button } from 'react-native-elements';
 import DistanceCalculator from '../../helpers/DistanceCalculator';
 
-// TODO: Give Price Recommendation for distance from target with PriceCard
-
 class PriceRecommendationScreen extends React.Component {
 
   static navigationOptions = {
@@ -58,7 +56,7 @@ class PriceRecommendationScreen extends React.Component {
   /* Switch to OverviewAdScreen. User doesn't want money for lift. */
   _freeButtonPressed() {
     this.lift.price = 0;
-    this.props.navigation.navigate('OverviewAd', {
+    this.props.navigation.navigate('Event', {
       lift: this.lift
     });
   }
@@ -66,7 +64,7 @@ class PriceRecommendationScreen extends React.Component {
   /* Switch to OverviewAdScreen. User wants recommended Price for lift. */
   _recommendedPriceButtonPressed() {
     this.lift.price = this.state.recommendedPrice;
-    this.props.navigation.navigate('OverviewAd', {
+    this.props.navigation.navigate('Event', {
       lift: this.lift
     });
   }
@@ -103,7 +101,7 @@ class PriceRecommendationScreen extends React.Component {
           type="outline"
           raised={true}
           titleStyle={styles.buttonTitle}
-          onPress={this._chooseOwnPriceButtonPressed}
+          onPress={this._chooseOwnPriceButtonPressed.bind(this)}
         />
       </View>
     )

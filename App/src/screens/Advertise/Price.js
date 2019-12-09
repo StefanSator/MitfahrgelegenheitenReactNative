@@ -18,19 +18,15 @@ class PriceScreen extends React.Component {
   }
 
   _checkButtonPressed() {
-    this.props.navigation.navigate('OverviewAd', {
-      destination: this.destination,
-      companions: this.companions,
-      datetime: this.datetime,
-      price: this.state.value
+    this.lift.price = this.state.value;
+    this.props.navigation.navigate('Event', {
+      lift: this.lift
     });
   }
 
   render() {
     const { navigation } = this.props;
-    this.destination = navigation.getParam('destination', '');
-    this.companions = navigation.getParam('companions', 0);
-    this.datetime = navigation.getParam('datetime', new Date());
+    this.lift = navigation.getParam('lift', null);
 
     return (
       <View style={styles.container}>

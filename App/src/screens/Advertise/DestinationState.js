@@ -48,8 +48,8 @@ class DestinationStateScreen extends React.Component {
       activeScale={0.95}
       linearGradientProps={{
         colors: ['#64c4ed', '#4f81c7'],
-        start: [1, 0],
-        end: [0.2, 0],
+        start: {x: 1, y: 0},
+        end: {x: 0.2, y: 0},
       }}
       ViewComponent={LinearGradient}
       title={item.state}

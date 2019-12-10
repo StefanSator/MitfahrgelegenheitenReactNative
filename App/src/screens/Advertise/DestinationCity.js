@@ -62,6 +62,7 @@ class DestinationCityScreen extends React.Component {
       ViewComponent={LinearGradient}
       title={item.city}
       titleStyle={{ color: 'white', fontWeight: 'bold' }}
+      containerStyle={styles.listitem}
       chevron={{ color: 'white' }}
       onPress={() => {this._itemSelected(item)}}
     />
@@ -95,7 +96,10 @@ const styles = StyleSheet.create({
   list: {
     marginBottom: 35,
     marginRight: 20,
-    marginLeft: 20,
+    marginLeft: 20
+  },
+  listitem: {
+    marginBottom: 10,
     borderRadius: 10
   }
 });

@@ -1,7 +1,8 @@
 import React from 'react';
 import { View, StyleSheet, Alert } from 'react-native';
 import { Text, Button } from 'react-native-elements';
-import DateTimePicker from "react-native-modal-datetime-picker";
+import DateTimePicker from 'react-native-modal-datetime-picker';
+import StepProgressBar from '../views/StepProgressBar';
 
 class DateScreen extends React.Component {
 
@@ -48,6 +49,37 @@ class DateScreen extends React.Component {
           isVisible={this.state.isDateTimePickerVisible}
           onConfirm={this._handleDatePicked.bind(this)}
           onCancel={this._hideDateTimePicker.bind(this)}
+        />
+        <StepProgressBar
+          steps={
+            [
+              {
+                label: 'Ziel',
+                notcompleted: false,
+                currentStep: false
+              },
+              {
+                label: 'Mitfahrer',
+                notcompleted: false,
+                currentStep: false
+              },
+              {
+                label: 'Termin',
+                notcompleted: false,
+                currentStep: true
+              },
+              {
+                label: 'Preis',
+                notcompleted: true,
+                currentStep: false
+              },
+              {
+                label: 'Event',
+                notcompleted: true,
+                currentStep: false
+              }
+            ]
+          }
         />
       </View>
     );

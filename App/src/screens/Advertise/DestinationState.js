@@ -46,16 +46,17 @@ class DestinationStateScreen extends React.Component {
       friction={90}
       tension={100}
       activeScale={0.95}
+      containerStyle={styles.listitem}
       linearGradientProps={{
         colors: ['#64c4ed', '#4f81c7'],
-        start: {x: 1, y: 0},
-        end: {x: 0.2, y: 0},
+        start: { x: 1, y: 0 },
+        end: { x: 0.2, y: 0 },
       }}
       ViewComponent={LinearGradient}
       title={item.state}
       titleStyle={{ color: 'white', fontWeight: 'bold' }}
       chevron={{ color: 'white' }}
-      onPress={() => {this._itemSelected(item)}}
+      onPress={() => { this._itemSelected(item) }}
     />
   )
 
@@ -87,7 +88,10 @@ const styles = StyleSheet.create({
   list: {
     marginBottom: 35,
     marginRight: 20,
-    marginLeft: 20,
+    marginLeft: 20
+  },
+  listitem: {
+    marginBottom: 10,
     borderRadius: 10
   }
 });

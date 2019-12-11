@@ -3,6 +3,7 @@ import { View, StyleSheet } from 'react-native';
 import { PricingCard, Button } from 'react-native-elements';
 import DistanceCalculator from '../../helpers/DistanceCalculator';
 import StepProgressBar from '../views/StepProgressBar';
+import InfoButton from '../views/InfoButton';
 import { ScrollView } from 'react-native-gesture-handler';
 
 class PriceRecommendationScreen extends React.Component {

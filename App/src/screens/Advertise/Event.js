@@ -3,6 +3,8 @@ import { View, StyleSheet, ScrollView } from 'react-native';
 import { Text, Button } from 'react-native-elements';
 import MultiSelect from 'react-native-multiple-select';
 import EventCheckboxGroup from '../views/EventCheckboxGroup';
+import InfoButton from '../views/InfoButton';
+import StepProgressBar from '../views/StepProgressBar';
 
 class EventScreen extends React.Component {
 
@@ -13,7 +15,8 @@ class EventScreen extends React.Component {
   constructor() {
     super();
     this.state = {
-      selectedEvents: []
+      selectedEvents: [],
+      progressIsVisible: false
     };
     this.events = [{
       name: 'Architektur'
@@ -45,7 +48,7 @@ class EventScreen extends React.Component {
   }
 
   onSelectedItemsChange = selectedEvents => {
-    this.setState({ selectedEvents });
+    this.setState({ selectedEvents: selectedEvents, progressIsVisible: this.state.progressIsVisible });
   };
 
   _removeSelectedEvent(name) {
@@ -53,13 +56,27 @@ class EventScreen extends React.Component {
     if (index !== -1) {
       let duplicate = this.state.selectedEvents.slice();
       duplicate.splice(index, 1);
-      this.setState({ selectedEvents: duplicate });
+      this.setState({ selectedEvents: duplicate, progressIsVisible: this.state.progressIsVisible });
     }
+  }
+
+  /* Opens Overlay with Progress Information */
+  _showProgressOverlay() {
+    this.setState({ selectedEvents: this.state.selectedEvents, progressIsVisible: true });
+  }
+
+  /* Closes Overlay with Progress Information */
+  _closeProgressOverlay() {
+    this.setState({ selectedEvents: this.state.selectedEvents, progressIsVisible: false });
   }
 
   render() {
     return (
       <View style={styles.container}>
+        <InfoButton
+          containerStyle={styles.infobutton}
+          buttonAction={this._showProgressOverlay.bind(this)}
+        />
         <Text h4 style={styles.title}>Für welche Fakultäten ist dein Event interessant?</Text>
         <MultiSelect
           hideTags
@@ -94,6 +111,39 @@ class EventScreen extends React.Component {
           }}
           title="Weiter"
         />
+        <StepProgressBar
+          steps={
+            [
+              {
+                label: 'Ziel',
+                notcompleted: false,
+                currentStep: false
+              },
+              {
+                label: 'Mitfahrer',
+                notcompleted: false,
+                currentStep: false
+              },
+              {
+                label: 'Termin',
+                notcompleted: false,
+                currentStep: false
+              },
+              {
+                label: 'Preis',
+                notcompleted: false,
+                currentStep: false
+              },
+              {
+                label: 'Event',
+                notcompleted: false,
+                currentStep: true
+              }
+            ]
+          }
+          isVisible={this.state.progressIsVisible}
+          closeCallback={this._closeProgressOverlay.bind(this)}
+        />
       </View>
     );
   }
@@ -109,14 +159,20 @@ const styles = StyleSheet.create({
   },
   title: {
     color: 'white',
-    marginTop: 20,
     marginLeft: 20,
+    marginTop: 20,
     marginBottom: 10,
-    marginRight: 20
+    marginRight: 50
   },
   dropDownMenu: {
     marginRight: 20,
     marginLeft: 20
+  },
+  infobutton: {
+    alignSelf: 'flex-end',
+    top: 0,
+    marginLeft: 20,
+    position: 'absolute'
   }
 });
 

@@ -25,59 +25,60 @@ class StepProgressBar extends React.Component {
         width='auto'
         height='auto'
       >
-        <View style={styles.container}>
-          {this.steps.map((value, index) => {
-            let bgColor;
-            if (value.currentStep === true) {
-              //bgColor = '#fa697c';
-              bgColor = '#76dbd1'
-            } else {
-              bgColor = '#4d80e4';
+        <View>
+          <View style={styles.container}>
+            {this.steps.map((value, index) => {
+              let bgColor;
+              if (value.currentStep === true) {
+                bgColor = '#76dbd1'
+              } else {
+                bgColor = '#4d80e4';
+              }
+              let accomplishedIcon = {
+                name: "check",
+                type: "antdesign",
+                size: 30,
+                color: "white"
+              };
+              let inaccomplishedIcon = {
+                name: "cross",
+                type: "entypo",
+                size: 30,
+                color: "white"
+              }
+              let currentIcon = {
+                name: "exclamation",
+                type: "antdesign",
+                size: 30,
+                color: "white"
+              }
+              return (
+                <View style={styles.step} key={index}>
+                  <Button
+                    disabled={value.notcompleted}
+                    buttonStyle={{ ...styles.button, backgroundColor: bgColor }}
+                    iconContainerStyle={styles.iconContainer}
+                    icon={(value.notcompleted) ? inaccomplishedIcon : (value.currentStep ? currentIcon : accomplishedIcon)}
+                  />
+                  <Text style={{ color: 'black', marginTop: 5, alignSelf: 'center' }}>{value.label}</Text>
+                </View>
+              );
+            })}
+          </View>
+          <Button
+            buttonStyle={styles.closeButton}
+            titleStyle={styles.buttonTitle}
+            title="Schließen"
+            icon={
+              <Icon
+                name='cross'
+                type='entypo'
+                color='white'
+              />
             }
-            let accomplishedIcon = {
-              name: "check",
-              type: "antdesign",
-              size: 30,
-              color: "white"
-            };
-            let inaccomplishedIcon = {
-              name: "cross",
-              type: "entypo",
-              size: 30,
-              color: "white"
-            }
-            let currentIcon = {
-              name: "exclamation",
-              type: "antdesign",
-              size: 30,
-              color: "white"
-            }
-            return (
-              <View style={styles.step} key={index}>
-                <Button
-                  disabled={value.notcompleted}
-                  buttonStyle={{ ...styles.button, backgroundColor: bgColor }}
-                  iconContainerStyle={styles.iconContainer}
-                  icon={(value.notcompleted) ? inaccomplishedIcon : (value.currentStep ? currentIcon : accomplishedIcon)}
-                />
-                <Text style={{ color: 'black', marginTop: 5, alignSelf: 'center' }}>{value.label}</Text>
-              </View>
-            );
-          })}
+            onPress={() => this._closeOverlay()}
+          />
         </View>
-        <Button
-          buttonStyle={styles.closeButton}
-          titleStyle={styles.buttonTitle}
-          title="Schließen"
-          icon={
-            <Icon
-              name='cross'
-              type='entypo'
-              color='white'
-            />
-          }
-          onPress={() => this._closeOverlay()}
-        />
       </Overlay>
     )
   }

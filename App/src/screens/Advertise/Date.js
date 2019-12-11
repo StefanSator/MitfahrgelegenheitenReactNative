@@ -3,6 +3,7 @@ import { View, StyleSheet, Alert } from 'react-native';
 import { Text, Button } from 'react-native-elements';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import StepProgressBar from '../views/StepProgressBar';
+import InfoButton from '../views/InfoButton';
 
 class DateScreen extends React.Component {
 
@@ -13,16 +14,17 @@ class DateScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isDateTimePickerVisible: false
+      isDateTimePickerVisible: false,
+      progressIsVisible: false
     };
   }
 
   _showDateTimePicker() {
-    this.setState({ isDateTimePickerVisible: true });
+    this.setState({ isDateTimePickerVisible: true, progressIsVisible: this.state.progressIsVisible });
   };
 
   _hideDateTimePicker() {
-    this.setState({ isDateTimePickerVisible: false });
+    this.setState({ isDateTimePickerVisible: false, progressIsVisible: this.state.progressIsVisible });
   };
 
   _handleDatePicked(datetime) {
@@ -33,6 +35,16 @@ class DateScreen extends React.Component {
     });
   };
 
+  /* Opens Overlay with Progress Information */
+  _showProgressOverlay() {
+    this.setState({ isDateTimePickerVisible: this.state.isDateTimePickerVisible, progressIsVisible: true });
+  }
+
+  /* Closes Overlay with Progress Information */
+  _closeProgressOverlay() {
+    this.setState({ isDateTimePickerVisible: this.state.isDateTimePickerVisible, progressIsVisible: false });
+  }
+
   render() {
     const { navigation } = this.props;
     this.lift = navigation.getParam('lift', null);
@@ -40,6 +52,20 @@ class DateScreen extends React.Component {
 
     return (
       <View style={styles.container}>
+        <InfoButton
+          containerStyle={styles.infobutton}
+          buttonAction={this._showProgressOverlay.bind(this)}
+        />
+        <Text h4 style={styles.title}>Wann wollt ihr fahren?</Text>
+        <Button buttonStyle={styles.checkButton}
+          title="Termin wählen"
+          onPress={this._showDateTimePicker.bind(this)} />
+        <DateTimePicker
+          mode={'datetime'}
+          isVisible={this.state.isDateTimePickerVisible}
+          onConfirm={this._handleDatePicked.bind(this)}
+          onCancel={this._hideDateTimePicker.bind(this)}
+        />
         <StepProgressBar
           steps={
             [
@@ -70,16 +96,8 @@ class DateScreen extends React.Component {
               }
             ]
           }
-        />
-        <Text h4 style={styles.title}>Wann wollt ihr fahren?</Text>
-        <Button buttonStyle={styles.checkButton}
-          title="Termin wählen"
-          onPress={this._showDateTimePicker.bind(this)} />
-        <DateTimePicker
-          mode={'datetime'}
-          isVisible={this.state.isDateTimePickerVisible}
-          onConfirm={this._handleDatePicked.bind(this)}
-          onCancel={this._hideDateTimePicker.bind(this)}
+          isVisible={this.state.progressIsVisible}
+          closeCallback={this._closeProgressOverlay.bind(this)}
         />
       </View>
     );
@@ -94,13 +112,20 @@ const styles = StyleSheet.create({
   title: {
     color: 'white',
     marginTop: 20,
-    marginLeft: 20
+    marginLeft: 20,
+    marginRight: 50
   },
   checkButton: {
     marginTop: 20,
     marginLeft: 75,
     marginRight: 75,
     borderRadius: 50,
+  },
+  infobutton: {
+    alignSelf: 'flex-end',
+    top: 0,
+    marginLeft: 20,
+    position: 'absolute'
   }
 });
 

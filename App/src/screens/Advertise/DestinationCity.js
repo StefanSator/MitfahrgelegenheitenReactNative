@@ -6,6 +6,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import Lift from '../../entities/Lift';
 import City from '../../entities/City';
 import StepProgressBar from '../views/StepProgressBar';
+import InfoButton from '../views/InfoButton';
 
 class DestinationCityScreen extends React.Component {
 
@@ -17,7 +18,8 @@ class DestinationCityScreen extends React.Component {
     super(props);
     // Set State Object
     this.state = {
-      listdata: []
+      listdata: [],
+      progressIsVisible: false
     };
     const { navigation } = props;
     this.destinationState = navigation.getParam('destinationState', '');
@@ -31,7 +33,7 @@ class DestinationCityScreen extends React.Component {
       const encodedDestinationState = encodeURIComponent(destinationState);
       let response = await fetch(BackendURL + '/lifts/destination/cities?state=' + encodedDestinationState);
       const result = await response.json();
-      this.setState({ listdata: result });
+      this.setState({ listdata: result, progressIsVisible: this.state.progressIsVisible });
     } catch (error) {
       Alert.alert(JSON.stringify(error));
     }
@@ -45,6 +47,16 @@ class DestinationCityScreen extends React.Component {
     this.props.navigation.navigate('Companion', {
       lift: lift
     });
+  }
+
+  /* Opens Overlay with Progress Information */
+  _showProgressOverlay() {
+    this.setState({ listdata: this.state.listdata, progressIsVisible: true });
+  }
+
+  /* Closes Overlay with Progress Information */
+  _closeProgressOverlay() {
+    this.setState({ listdata: this.state.listdata, progressIsVisible: false });
   }
 
   keyExtractor = (item, index) => index.toString()
@@ -72,6 +84,16 @@ class DestinationCityScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
+        <InfoButton
+          containerStyle={styles.infobutton}
+          buttonAction={this._showProgressOverlay.bind(this)}
+        />
+        <Text h4 style={styles.title}>Wohin fährst du?</Text>
+        <FlatList style={styles.list}
+          keyExtractor={this.keyExtractor}
+          data={this.state.listdata}
+          renderItem={this.renderItem}
+        />
         <StepProgressBar
           steps={
             [
@@ -102,12 +124,8 @@ class DestinationCityScreen extends React.Component {
               }
             ]
           }
-        />
-        <Text h4 style={styles.title}>Wohin fährst du?</Text>
-        <FlatList style={styles.list}
-          keyExtractor={this.keyExtractor}
-          data={this.state.listdata}
-          renderItem={this.renderItem}
+          isVisible={this.state.progressIsVisible}
+          closeCallback={this._closeProgressOverlay.bind(this)}
         />
       </View>
     )
@@ -123,6 +141,7 @@ const styles = StyleSheet.create({
     color: 'white',
     marginTop: 20,
     marginLeft: 20,
+    marginRight: 50,
     marginBottom: 10
   },
   list: {
@@ -133,6 +152,12 @@ const styles = StyleSheet.create({
   listitem: {
     marginBottom: 10,
     borderRadius: 10
+  },
+  infobutton: {
+    alignSelf: 'flex-end',
+    top: 0,
+    marginLeft: 20,
+    position: 'absolute'
   }
 });
 

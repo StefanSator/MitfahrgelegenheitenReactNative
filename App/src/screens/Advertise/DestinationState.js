@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet, Alert, FlatList } from 'react-native';
-import { Text, ListItem, Overlay } from 'react-native-elements';
+import { Text, ListItem } from 'react-native-elements';
 import TouchableScale from 'react-native-touchable-scale';
 import LinearGradient from 'react-native-linear-gradient';
 import StepProgressBar from '../views/StepProgressBar';
@@ -12,8 +12,8 @@ class DestinationStateScreen extends React.Component {
     title: 'Zielbundesland',
   };
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     // Set State Object
     this.state = {
       listdata: [],
@@ -28,7 +28,7 @@ class DestinationStateScreen extends React.Component {
     try {
       let response = await fetch(BackendURL + '/lifts/destination/states');
       const result = await response.json();
-      this.setState({ listdata: result });
+      this.setState({ listdata: result, progressIsVisible: this.state.progressIsVisible });
     } catch (error) {
       Alert.alert(JSON.stringify(error));
     }

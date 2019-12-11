@@ -2,6 +2,8 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { PricingCard, Button } from 'react-native-elements';
 import DistanceCalculator from '../../helpers/DistanceCalculator';
+import StepProgressBar from '../views/StepProgressBar';
+import { ScrollView } from 'react-native-gesture-handler';
 
 class PriceRecommendationScreen extends React.Component {
 
@@ -40,7 +42,7 @@ class PriceRecommendationScreen extends React.Component {
       let responseJSON = await response.json();
       let recommendedPrice = Math.floor(responseJSON.price);
       // Update State Object
-      this.setState({ recommendedString: `${recommendedPrice} €` , recommendedPrice: recommendedPrice});
+      this.setState({ recommendedString: `${recommendedPrice} €`, recommendedPrice: recommendedPrice });
     } catch (error) {
       console.error(error);
     }
@@ -71,7 +73,7 @@ class PriceRecommendationScreen extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <ScrollView contentContainerStyle={styles.container}>
         <View>
           <PricingCard
             color="#4f9deb"
@@ -103,7 +105,7 @@ class PriceRecommendationScreen extends React.Component {
           titleStyle={styles.buttonTitle}
           onPress={this._chooseOwnPriceButtonPressed.bind(this)}
         />
-      </View>
+      </ScrollView>
     )
   }
 
@@ -112,9 +114,9 @@ class PriceRecommendationScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "space-evenly",
     alignItems: "center",
-    backgroundColor: "#20639B"
+    backgroundColor: "#20639B",
   },
   cardTitle: {
     fontSize: 30

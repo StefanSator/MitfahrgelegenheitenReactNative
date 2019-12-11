@@ -40,16 +40,6 @@ class DateScreen extends React.Component {
 
     return (
       <View style={styles.container}>
-        <Text h4 style={styles.title}>Wann wollt ihr fahren?</Text>
-        <Button buttonStyle={styles.checkButton}
-          title="Termin wählen"
-          onPress={this._showDateTimePicker.bind(this)} />
-        <DateTimePicker
-          mode={'datetime'}
-          isVisible={this.state.isDateTimePickerVisible}
-          onConfirm={this._handleDatePicked.bind(this)}
-          onCancel={this._hideDateTimePicker.bind(this)}
-        />
         <StepProgressBar
           steps={
             [
@@ -80,6 +70,16 @@ class DateScreen extends React.Component {
               }
             ]
           }
+        />
+        <Text h4 style={styles.title}>Wann wollt ihr fahren?</Text>
+        <Button buttonStyle={styles.checkButton}
+          title="Termin wählen"
+          onPress={this._showDateTimePicker.bind(this)} />
+        <DateTimePicker
+          mode={'datetime'}
+          isVisible={this.state.isDateTimePickerVisible}
+          onConfirm={this._handleDatePicked.bind(this)}
+          onCancel={this._hideDateTimePicker.bind(this)}
         />
       </View>
     );

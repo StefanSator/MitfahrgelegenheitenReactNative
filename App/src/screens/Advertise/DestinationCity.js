@@ -5,6 +5,7 @@ import TouchableScale from 'react-native-touchable-scale';
 import LinearGradient from 'react-native-linear-gradient';
 import Lift from '../../entities/Lift';
 import City from '../../entities/City';
+import StepProgressBar from '../views/StepProgressBar';
 
 class DestinationCityScreen extends React.Component {
 
@@ -56,21 +57,52 @@ class DestinationCityScreen extends React.Component {
       activeScale={0.95}
       linearGradientProps={{
         colors: ['#64c4ed', '#4f81c7'],
-        start: {x: 1, y: 0},
-        end: {x: 0.2, y: 0},
+        start: { x: 1, y: 0 },
+        end: { x: 0.2, y: 0 },
       }}
       ViewComponent={LinearGradient}
       title={item.city}
       titleStyle={{ color: 'white', fontWeight: 'bold' }}
       containerStyle={styles.listitem}
       chevron={{ color: 'white' }}
-      onPress={() => {this._itemSelected(item)}}
+      onPress={() => { this._itemSelected(item) }}
     />
   )
 
   render() {
     return (
       <View style={styles.container}>
+        <StepProgressBar
+          steps={
+            [
+              {
+                label: 'Ziel',
+                notcompleted: false,
+                currentStep: true
+              },
+              {
+                label: 'Mitfahrer',
+                notcompleted: true,
+                currentStep: false
+              },
+              {
+                label: 'Termin',
+                notcompleted: true,
+                currentStep: false
+              },
+              {
+                label: 'Preis',
+                notcompleted: true,
+                currentStep: false
+              },
+              {
+                label: 'Event',
+                notcompleted: true,
+                currentStep: false
+              }
+            ]
+          }
+        />
         <Text h4 style={styles.title}>Wohin fährst du?</Text>
         <FlatList style={styles.list}
           keyExtractor={this.keyExtractor}

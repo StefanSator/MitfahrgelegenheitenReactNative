@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, Alert } from 'react-native';
 import { Text, Slider, Icon, Button } from 'react-native-elements';
+import StepProgressBar from '../views/StepProgressBar';
 
 class CompanionScreen extends React.Component {
 
@@ -29,6 +30,37 @@ class CompanionScreen extends React.Component {
 
     return (
       <View style={styles.container}>
+        <StepProgressBar
+          steps={
+            [
+              {
+                label: 'Ziel',
+                notcompleted: false,
+                currentStep: true
+              },
+              {
+                label: 'Mitfahrer',
+                notcompleted: false,
+                currentStep: true
+              },
+              {
+                label: 'Termin',
+                notcompleted: true,
+                currentStep: false
+              },
+              {
+                label: 'Preis',
+                notcompleted: true,
+                currentStep: false
+              },
+              {
+                label: 'Event',
+                notcompleted: true,
+                currentStep: false
+              }
+            ]
+          }
+        />
         <Text h4 style={styles.title}>Wie viele möchtest du mitnehmen?</Text>
         <View style={styles.slider}>
           <Slider

@@ -16,14 +16,14 @@ class StartScreen extends React.Component {
           buttonStyle={styles.loginButton}
           titleStyle={styles.loginTitle}
           title="Login"
-          onPress={ () => this.props.navigation.navigate('Login')} 
+          onPress={() => this.props.navigation.navigate('Login')}
         />
         <Button
           buttonStyle={styles.registerButton}
           titleStyle={styles.registerTitle}
           type='clear'
           title="Register"
-          onPress={ () => this.props.navigation.navigate('Register')}
+          onPress={() => this.props.navigation.navigate('Register')}
         />
       </View>
     );

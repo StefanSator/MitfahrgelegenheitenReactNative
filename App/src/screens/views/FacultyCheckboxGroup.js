@@ -2,23 +2,23 @@ import React from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
 import { CheckBox } from 'react-native-elements';
 
-class EventCheckboxGroup extends React.Component {
+class FacultyCheckboxGroup extends React.Component {
 
   constructor(props) {
     super(props);
-    this.selectedEvents = this.props.selectedEvents;
+    this.selectedFaculties = this.props.selectedFaculties;
     this.callback = this.props.callback;
   }
 
-  _removeEvent(name) {
+  _removeFaculty(name) {
     this.callback(name);
   }
 
   render() {
-    this.selectedEvents = this.props.selectedEvents;
+    this.selectedFaculties = this.props.selectedFaculties;
     return (
       <ScrollView style={styles.container}>
-        {this.selectedEvents.map((value, index) => {
+        {this.selectedFaculties.map((value, index) => {
           return (
             <CheckBox
               key={index}
@@ -30,7 +30,7 @@ class EventCheckboxGroup extends React.Component {
               uncheckedIcon='add'
               checkedColor='red'
               checked={true}
-              onPress={() => this._removeEvent(value)}
+              onPress={() => this._removeFaculty(value)}
             />
           );
         })}
@@ -46,4 +46,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default EventCheckboxGroup;
+export default FacultyCheckboxGroup;

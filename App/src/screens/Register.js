@@ -1,6 +1,8 @@
 import React from 'react';
 import { View, StyleSheet, Alert } from 'react-native';
 import { Text, Input, Button, Icon } from 'react-native-elements';
+import { observer } from 'mobx-react';
+import SessionStore from '../stores/SessionStore';
 
 const validator = require('email-validator');
 
@@ -44,7 +46,7 @@ class RegisterScreen extends React.Component {
         Alert.alert('Nutzer bereits vorhanden!')
         return;
       }
-      fetch(BackendURL + '/customers', {
+      let response = await fetch(BackendURL + '/customers', {
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -56,6 +58,9 @@ class RegisterScreen extends React.Component {
           email: this.state.email
         }),
       });
+      let sessionToken = await response.json();
+      // Set Session Token
+      SessionStore.setSessionToken(sessionToken.customerid);
       Alert.alert('Registrierung erfolgreich!');
       this.props.navigation.navigate('Home');
     } catch (error) {
@@ -263,4 +268,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default RegisterScreen;
+export default observer(RegisterScreen);

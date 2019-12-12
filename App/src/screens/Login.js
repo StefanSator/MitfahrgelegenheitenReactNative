@@ -1,6 +1,8 @@
 import React from 'react';
 import { View, StyleSheet, Alert } from 'react-native';
 import { Input, Button, Icon } from 'react-native-elements';
+import SessionStore from '../stores/SessionStore';
+import { observer } from "mobx-react";
 
 const validator = require('email-validator');
 
@@ -17,11 +19,14 @@ class LoginScreen extends React.Component {
   async _checkLogin() {
     if (!this._checkEmail()) return;
     try {
-      var validate = await this._validate();
-      if (validate === false) {
+      let authResponse = await this._validate();
+      if (authResponse.successful === false) {
         Alert.alert('Login Incorrect.');
         return;
       } else {
+        // Set Session Token
+        SessionStore.setSessionToken(authResponse.sessiontoken);
+        // Navigate to Home Screen
         this.props.navigation.navigate('Home');
       }
     } catch (error) {
@@ -44,7 +49,7 @@ class LoginScreen extends React.Component {
       });
       let responseJSON = await response.json();
       console.log('Response: ' + JSON.stringify(responseJSON));
-      return responseJSON.successful;
+      return responseJSON;
     } catch (error) {
       Alert.alert(JSON.stringify(error));
       return false;
@@ -143,4 +148,7 @@ const styles = StyleSheet.create({
   }
 });
 
-export default LoginScreen;
+//export default LoginScreen;
+export default observer(LoginScreen);
+
+//export default inject("store")(observer(ImageList));

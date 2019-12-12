@@ -3,6 +3,8 @@ import { View, StyleSheet, Text } from 'react-native';
 import { Card, Button, Icon, Avatar, Badge } from 'react-native-elements';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { createAppContainer } from 'react-navigation';
+import SessionStore from '../stores/SessionStore';
+import { observer } from 'mobx-react';
 
 import AdvertiseStack from './Advertise/Advertise';
 
@@ -19,6 +21,13 @@ class HomeScreen extends React.Component {
     this.state = {
       messages: 0
     };
+  }
+
+  _logoutUser() {
+    /* End Session of User */
+    SessionStore.endSession();
+    /* Return to Start Screen of App */
+    this.props.navigation.navigate('Start');
   }
 
   render() {
@@ -79,7 +88,7 @@ class HomeScreen extends React.Component {
                 color='black'
               />
             }
-            onPress={() => this.props.navigation.navigate('Start')}
+            onPress={this._logoutUser.bind(this)}
           />
         </View>
       </View>
@@ -137,7 +146,7 @@ const styles = StyleSheet.create({
 
 const TabNavigator = createBottomTabNavigator(
   {
-    Home: HomeScreen,
+    Home: observer(HomeScreen),
     Advertise: AdvertiseStack
   },
   {

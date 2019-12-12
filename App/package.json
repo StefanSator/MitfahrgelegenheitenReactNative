@@ -12,6 +12,8 @@
   "dependencies": {
     "@react-native-community/datetimepicker": "^2.1.0",
     "email-validator": "^2.0.4",
+    "mobx": "^5.15.0",
+    "mobx-react": "^6.1.4",
     "react": "16.9.0",
     "react-native": "0.61.3",
     "react-native-elements": "^1.2.7",

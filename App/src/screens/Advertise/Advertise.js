@@ -8,11 +8,13 @@ import PriceScreen from './Price';
 import OverviewAdScreen from './OverviewAd';
 import PriceRecommendationScreen from './PriceRecommendation';
 import EventScreen from './Event';
+import AdvertiseStartScreen from './AdvertiseStart';
 
 const AdvertiseStack = createStackNavigator(
   {
-    Advertise: DestinationStateScreen,
-    Destination: DestinationCityScreen,
+    Advertise: AdvertiseStartScreen,
+    DestinationState: DestinationStateScreen,
+    DestinationCity: DestinationCityScreen,
     Companion: CompanionScreen,
     Date: DateScreen,
     PriceRecommendation: PriceRecommendationScreen,

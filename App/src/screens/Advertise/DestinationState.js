@@ -46,7 +46,7 @@ class DestinationStateScreen extends React.Component {
 
   /* Item from User selected Action Method */
   _itemSelected(item) {
-    this.props.navigation.navigate('Destination', {
+    this.props.navigation.navigate('DestinationCity', {
       destinationState: item.state
     });
   }

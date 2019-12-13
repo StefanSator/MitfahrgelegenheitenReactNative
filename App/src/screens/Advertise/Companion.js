@@ -3,6 +3,7 @@ import { View, StyleSheet, Alert } from 'react-native';
 import { Text, Slider, Icon, Button } from 'react-native-elements';
 import StepProgressBar from '../views/StepProgressBar';
 import InfoButton from '../views/InfoButton';
+import LiftStore from '../../stores/LiftStore';
 
 class CompanionScreen extends React.Component {
 
@@ -12,7 +13,6 @@ class CompanionScreen extends React.Component {
 
   constructor() {
     super();
-    this.lift = null;
     this.state = {
       value: 1,
       progressIsVisible: false
@@ -20,10 +20,8 @@ class CompanionScreen extends React.Component {
   }
 
   _buttonPressed() {
-    this.lift.passengers = this.state.value;
-    this.props.navigation.navigate('Date', {
-      lift: this.lift
-    });
+    LiftStore.setPassengers(this.state.value);
+    this.props.navigation.navigate('Date');
   }
 
   /* Opens Overlay with Progress Information */
@@ -37,9 +35,6 @@ class CompanionScreen extends React.Component {
   }
 
   render() {
-    const { navigation } = this.props;
-    this.lift = navigation.getParam('lift', this.lift);
-
     return (
       <View style={styles.container}>
         <InfoButton

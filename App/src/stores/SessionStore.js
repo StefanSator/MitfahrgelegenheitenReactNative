@@ -21,4 +21,4 @@ decorate(SessionStore, {
     endSession: action
 });
 
-export default new SessionStore;
+export default new SessionStore();

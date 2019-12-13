@@ -7,6 +7,7 @@ import Lift from '../../entities/Lift';
 import City from '../../entities/City';
 import StepProgressBar from '../views/StepProgressBar';
 import InfoButton from '../views/InfoButton';
+import LiftStore from '../../stores/LiftStore';
 
 class DestinationCityScreen extends React.Component {
 
@@ -41,12 +42,9 @@ class DestinationCityScreen extends React.Component {
 
   /* Item from User selected Action Method */
   _itemSelected(item) {
-    let lift = new Lift();
     let targetCity = new City(item.cityid, item.city, item.state, item.latitude, item.longitude);
-    lift.target = targetCity;
-    this.props.navigation.navigate('Companion', {
-      lift: lift
-    });
+    LiftStore.setDestination(targetCity);
+    this.props.navigation.navigate('Companion');
   }
 
   /* Opens Overlay with Progress Information */

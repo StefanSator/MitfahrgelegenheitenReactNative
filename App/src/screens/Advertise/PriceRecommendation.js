@@ -2,6 +2,7 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { PricingCard, Button } from 'react-native-elements';
 import { ScrollView } from 'react-native-gesture-handler';
+import LiftStore from '../../stores/LiftStore';
 
 class PriceRecommendationScreen extends React.Component {
 
@@ -16,8 +17,6 @@ class PriceRecommendationScreen extends React.Component {
       recommendedString: "Wird berechnet",
       recommendedPrice: 0
     }
-    const { navigation } = this.props;
-    this.lift = navigation.getParam('lift', null);
     // Get Recommended Price from Backend
     this._getRecommendedPrice();
   }
@@ -32,9 +31,9 @@ class PriceRecommendationScreen extends React.Component {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          point1: { lat: this.lift.start.lat, lng: this.lift.start.lng },
-          point2: { lat: this.lift.target.lat, lng: this.lift.target.lng },
-          passengers: this.lift.passengers
+          point1: { lat: LiftStore.lift.start.lat, lng: LiftStore.lift.start.lng },
+          point2: { lat: LiftStore.lift.target.lat, lng: LiftStore.lift.target.lng },
+          passengers: LiftStore.lift.passengers
         }),
       });
       let responseJSON = await response.json();
@@ -48,25 +47,19 @@ class PriceRecommendationScreen extends React.Component {
 
   /* Switch to PriceScreen. User can now choose own price for lift. */
   _chooseOwnPriceButtonPressed() {
-    this.props.navigation.navigate('Price', {
-      lift: this.lift
-    });
+    this.props.navigation.navigate('Price');
   }
 
   /* Switch to OverviewAdScreen. User doesn't want money for lift. */
   _freeButtonPressed() {
-    this.lift.price = 0;
-    this.props.navigation.navigate('Event', {
-      lift: this.lift
-    });
+    LiftStore.setPrice(0);
+    this.props.navigation.navigate('Event');
   }
 
   /* Switch to OverviewAdScreen. User wants recommended Price for lift. */
   _recommendedPriceButtonPressed() {
-    this.lift.price = this.state.recommendedPrice;
-    this.props.navigation.navigate('Event', {
-      lift: this.lift
-    });
+    LiftStore.setPrice(this.state.recommendedPrice);
+    this.props.navigation.navigate('Event');
   }
 
   render() {

@@ -4,6 +4,7 @@ import { Text, Button } from 'react-native-elements';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import StepProgressBar from '../views/StepProgressBar';
 import InfoButton from '../views/InfoButton';
+import LiftStore from '../../stores/LiftStore';
 
 class DateScreen extends React.Component {
 
@@ -29,10 +30,8 @@ class DateScreen extends React.Component {
 
   _handleDatePicked(datetime) {
     this._hideDateTimePicker();
-    this.lift.datetime = datetime;
-    this.props.navigation.navigate('PriceRecommendation', {
-      lift: this.lift
-    });
+    LiftStore.setDatetime(datetime);
+    this.props.navigation.navigate('PriceRecommendation');
   };
 
   /* Opens Overlay with Progress Information */
@@ -46,9 +45,7 @@ class DateScreen extends React.Component {
   }
 
   render() {
-    const { navigation } = this.props;
-    this.lift = navigation.getParam('lift', null);
-    console.log(this.lift);
+    console.log(LiftStore.lift);
 
     return (
       <View style={styles.container}>

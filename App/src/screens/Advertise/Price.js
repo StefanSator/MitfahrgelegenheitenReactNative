@@ -4,6 +4,7 @@ import { Text, Icon, Button } from 'react-native-elements';
 import NumericInput from 'react-native-numeric-input';
 import InfoButton from '../views/InfoButton';
 import StepProgressBar from '../views/StepProgressBar';
+import LiftStore from '../../stores/LiftStore';
 
 class PriceScreen extends React.Component {
 
@@ -20,10 +21,8 @@ class PriceScreen extends React.Component {
   }
 
   _checkButtonPressed() {
-    this.lift.price = this.state.value;
-    this.props.navigation.navigate('Event', {
-      lift: this.lift
-    });
+    LiftStore.setPrice(this.state.value);
+    this.props.navigation.navigate('Event');
   }
 
   /* Updates the Value, to display on GUI */
@@ -42,9 +41,6 @@ class PriceScreen extends React.Component {
   }
 
   render() {
-    const { navigation } = this.props;
-    this.lift = navigation.getParam('lift', null);
-
     return (
       <View style={styles.container}>
         <InfoButton

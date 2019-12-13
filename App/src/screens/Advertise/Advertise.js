@@ -21,7 +21,8 @@ const AdvertiseStack = createStackNavigator(
     Event: EventScreen
   },
   {
-    initialRouteName: 'Advertise'
+    initialRouteName: 'Advertise',
+    mode: 'modal'
   }
 )
 

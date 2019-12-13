@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, Image, StyleSheet } from 'react-native';
 import Logo from 'react-native-vector-icons/AntDesign';
 import { Button } from 'react-native-elements';
 
@@ -25,6 +25,12 @@ class StartScreen extends React.Component {
           title="Register"
           onPress={() => this.props.navigation.navigate('Register')}
         />
+        <View style={styles.logo}>
+          <Image
+            source={require('../assets/images/oth-logo.png')}
+            resizeMode='contain'
+          />
+        </View>
       </View>
     );
   }
@@ -50,6 +56,13 @@ const styles = StyleSheet.create({
   },
   registerTitle: {
     color: 'white'
+  },
+  logo: {
+    top: 0,
+    left: 0,
+    position: 'absolute',
+    marginTop: 50,
+    marginLeft: 20,
   }
 });
 

@@ -1,12 +1,8 @@
 import React from 'react';
 import { View, StyleSheet, Alert } from 'react-native';
-import { Input, Text, Button } from 'react-native-elements';
-import MultiSelect from 'react-native-multiple-select';
-import FacultyCheckboxGroup from '../views/FacultyCheckboxGroup';
+import { Text, Input, Button } from 'react-native-elements';
 import InfoButton from '../views/InfoButton';
 import StepProgressBar from '../views/StepProgressBar';
-import Faculty from '../../entities/Faculty';
-import LiftStore from '../../stores/LiftStore';
 
 class EventScreen extends React.Component {
 
@@ -14,140 +10,105 @@ class EventScreen extends React.Component {
     title: 'Event'
   };
 
-  constructor() {
-    super();
-    console.log(LiftStore.lift);
+  constructor(props) {
+    super(props);
     this.state = {
-      selectedFaculties: [],
-      loading: true,
+      titleChars: 0,
+      title: '',
+      descriptionChars: 0,
+      description: '',
       progressIsVisible: false
-    };
-    this.faculties = [];
-    this._loadFacultyData();
-  }
-
-  onSelectedItemsChange = selectedFaculties => {
-    this.setState({
-      selectedFaculties: selectedFaculties,
-      loading: this.state.loading,
-      progressIsVisible: this.state.progressIsVisible
-    });
-  };
-
-  _removeSelectedFaculty(name) {
-    let index = this.state.selectedFaculties.indexOf(name);
-    if (index !== -1) {
-      let duplicate = this.state.selectedFaculties.slice();
-      duplicate.splice(index, 1);
-      this.setState({
-        selectedFaculties: duplicate,
-        loading: this.state.loading,
-        progressIsVisible: this.state.progressIsVisible
-      });
     }
   }
 
-  async _loadFacultyData() {
-    try {
-      let response = await fetch(BackendURL + '/lifts/event/faculties');
-      const jsonResponse = await response.json();
-      for (var i = 0; i < jsonResponse.length; i++) {
-        let id = jsonResponse[i].facultyid;
-        let name = jsonResponse[i].name;
-        this.faculties.push(new Faculty(id, name));
-      }
-      this.setState({
-        selectedFaculties: this.state.selectedFaculties,
-        loading: false,
-        progressIsVisible: this.state.progressIsVisible
+  /* Increments the State Variable titleChars, when text input changes */
+  _incrementTitleCharCount(title) {
+    this.setState({
+      titleChars: title.length,
+      title: title,
+      descriptionChars: this.state.descriptionChars,
+      description: this.state.description,
+      progressIsVisible: this.state.progressIsVisible
+    });
+  }
+
+  /* Increments the State Variable descriptionChars, when text input changes */
+  _incrementDescriptionCharCount(description) {
+    this.setState({
+      titleChars: this.state.titleChars,
+      title: this.state.title,
+      descriptionChars: description.length,
+      description: description,
+      progressIsVisible: this.state.progressIsVisible
+    });
+  }
+
+  /* Navigate to next screen of App */
+  _nextButtonPressed() {
+    if (this.state.title.length === 0) {
+      Alert.alert('Bitte geben Sie den Namen des Events ein.');
+      return;
+    } else if (this.state.description.length === 0) {
+      Alert.alert('Bitte geben Sie eine kurze Beschreibung für das Event ein.');
+      return;
+    } else {
+      this.props.navigation.navigate('Faculty', {
+        eventTitle: this.state.title,
+        eventDescription: this.state.description
       });
-    } catch (error) {
-      Alert.alert(JSON.stringify(error));
     }
   }
 
   /* Opens Overlay with Progress Information */
   _showProgressOverlay() {
-    this.setState({
-      selectedFaculties: this.state.selectedFaculties,
-      loading: this.state.loading,
-      progressIsVisible: true
-    });
+    let copy = JSON.parse(JSON.stringify(this.state));
+    copy.progressIsVisible = true;
+    console.log(copy);
+    this.setState(copy);
   }
 
   /* Closes Overlay with Progress Information */
   _closeProgressOverlay() {
-    this.setState({
-      selectedFaculties: this.state.selectedFaculties,
-      loading: this.state.loading,
-      progressIsVisible: false
-    });
-  }
-
-  _displayMultiselect(loading) {
-    if (loading === false) {
-      return (
-        <View>
-          <MultiSelect
-            hideTags
-            items={this.faculties}
-            uniqueKey="name"
-            onSelectedItemsChange={this.onSelectedItemsChange}
-            selectedItems={this.state.selectedFaculties}
-            selectText="Fakultäten auswählen"
-            searchInputPlaceholderText="Suche eine Fakultät..."
-            tagRemoveIconColor="#CCC"
-            tagBorderColor="#CCC"
-            tagTextColor="#CCC"
-            selectedItemTextColor="#CCC"
-            selectedItemIconColor="#CCC"
-            itemTextColor="#000000"
-            displayKey="name"
-            searchInputStyle={{ color: '#CCC' }}
-            submitButtonColor="#0080ff"
-            submitButtonText="Auswählen"
-            styleInputGroup={styles.searchInput}
-            styleMainWrapper={styles.dropDownMenu}
-          />
-          <FacultyCheckboxGroup
-            selectedFaculties={this.state.selectedFaculties}
-            callback={this._removeSelectedFaculty.bind(this)} />
-        </View>
-      );
-    } else {
-      return (
-        <Text style={{ alignSelf: 'center', marginBottom: 20, color: 'white', fontSize: 20 }}>Daten werden geladen...</Text>
-      );
-    }
+    let copy = JSON.parse(JSON.stringify(this.state));
+    copy.progressIsVisible = false;
+    this.setState(copy);
   }
 
   render() {
     return (
-      <View style={styles.container}>
+      <View>
         <InfoButton
           containerStyle={styles.infobutton}
           buttonAction={this._showProgressOverlay.bind(this)}
         />
-        <View>
-          <Text h4 style={styles.title}>Auf welches Event fahren Sie?</Text>
-          <Input
-            multiline={true}
-            numberOfLines={10}
-            inputStyle={{ height: 50, textAlignVertical: 'top', }} />
-        </View>
-        <View>
-          <Text h4 style={styles.title}>Für welche Fakultäten ist dein Event interessant?</Text>
-          {this._displayMultiselect(this.state.loading)}
-          <Button
-            icon={{
-              name: "arrowright",
-              type: 'antdesign',
-              size: 15,
-              color: "white"
-            }}
-            title="Weiter"
-          />
-        </View>
+        <Text h4 style={styles.title}>Wie heißt das Event?</Text>
+        <Input
+          onChangeText={this._incrementTitleCharCount.bind(this)}
+          placeholder='Karrieremesse München, Hackathon Berlin etc.'
+          multiline={true}
+          maxLength={50}
+          inputStyle={{ height: 50, textAlignVertical: 'top', borderWidth: 1, fontSize: 14, padding: 10 }} />
+        <Text style={styles.maxCharText}>{this.state.titleChars} / 50</Text>
+        <Text h4 style={styles.title}>Um was handelt es sich?</Text>
+        <Input
+          onChangeText={this._incrementDescriptionCharCount.bind(this)}
+          placeholder='Suche Leute die bei mir mitfahren wollen, um zusammen die Karrieremesse in München zu besuchen.'
+          multiline={true}
+          maxLength={200}
+          inputStyle={{ height: 150, textAlignVertical: 'top', borderWidth: 1, fontSize: 14, padding: 10 }} />
+        <Text style={styles.maxCharText}>{this.state.descriptionChars} / 200</Text>
+        <Button
+          buttonStyle={styles.nextButton}
+          containerStyle={styles.nextButton}
+          icon={{
+            name: "arrowright",
+            type: 'antdesign',
+            size: 15,
+            color: "white"
+          }}
+          title="Weiter"
+          onPress={this._nextButtonPressed.bind(this)}
+        />
         <StepProgressBar
           steps={
             [
@@ -182,7 +143,7 @@ class EventScreen extends React.Component {
           closeCallback={this._closeProgressOverlay.bind(this)}
         />
       </View>
-    );
+    )
   }
 };
 
@@ -191,21 +152,22 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "white"
   },
-  searchInput: {
-    borderWidth: 1,
-    height: 40
-  },
   title: {
     color: 'black',
     marginLeft: 20,
     marginTop: 20,
-    marginBottom: 10,
+    marginBottom: 20,
     marginRight: 50
   },
-  dropDownMenu: {
-    //borderWidth: 1,
-    marginRight: 20,
-    marginLeft: 20
+  maxCharText: {
+    alignSelf: 'flex-end',
+    marginRight: 8
+  },
+  nextButton: {
+    alignSelf: 'flex-end',
+    marginRight: 8,
+    marginTop: 10,
+    width: 100
   },
   infobutton: {
     alignSelf: 'flex-end',

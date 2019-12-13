@@ -1,9 +1,10 @@
 
 class Event {
 
-    constructor(eventType, eventText, faculties) {
+    constructor(eventType, eventTitle, eventDescription, faculties) {
         this.eventType = eventType;
-        this.eventText = eventText;
+        this.eventTitle = eventTitle
+        this.eventDescription = eventDescription;
         this.faculties = faculties;
     }
 

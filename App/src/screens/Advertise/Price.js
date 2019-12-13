@@ -22,7 +22,7 @@ class PriceScreen extends React.Component {
 
   _checkButtonPressed() {
     LiftStore.setPrice(this.state.value);
-    this.props.navigation.navigate('Event');
+    this.props.navigation.navigate('EventType');
   }
 
   /* Updates the Value, to display on GUI */

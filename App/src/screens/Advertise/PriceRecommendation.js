@@ -53,13 +53,13 @@ class PriceRecommendationScreen extends React.Component {
   /* Switch to OverviewAdScreen. User doesn't want money for lift. */
   _freeButtonPressed() {
     LiftStore.setPrice(0);
-    this.props.navigation.navigate('Event');
+    this.props.navigation.navigate('EventType');
   }
 
   /* Switch to OverviewAdScreen. User wants recommended Price for lift. */
   _recommendedPriceButtonPressed() {
     LiftStore.setPrice(this.state.recommendedPrice);
-    this.props.navigation.navigate('Event');
+    this.props.navigation.navigate('EventType');
   }
 
   render() {

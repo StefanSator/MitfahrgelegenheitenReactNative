@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#20639B"
+    backgroundColor: "#1089ff"
   },
   loginButton: {
     backgroundColor: "white",
@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     marginTop: 10
   },
   loginTitle: {
-    color: '#20639B'
+    color: '#1089ff'
   },
   registerTitle: {
     color: 'white'

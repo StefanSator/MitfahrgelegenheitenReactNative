@@ -1,6 +1,6 @@
 import React from 'react';
-import { Platform, View, StyleSheet, Alert } from 'react-native';
-import { Text, Button } from 'react-native-elements';
+import { View, StyleSheet, Alert } from 'react-native';
+import { Input, Text, Button } from 'react-native-elements';
 import MultiSelect from 'react-native-multiple-select';
 import FacultyCheckboxGroup from '../views/FacultyCheckboxGroup';
 import InfoButton from '../views/InfoButton';
@@ -49,7 +49,7 @@ class EventScreen extends React.Component {
     try {
       let response = await fetch(BackendURL + '/lifts/event/faculties');
       const jsonResponse = await response.json();
-      for (var i = 0 ; i < jsonResponse.length ; i++) {
+      for (var i = 0; i < jsonResponse.length; i++) {
         let id = jsonResponse[i].facultyid;
         let name = jsonResponse[i].name;
         this.faculties.push(new Faculty(id, name));
@@ -84,7 +84,6 @@ class EventScreen extends React.Component {
 
   _displayMultiselect(loading) {
     if (loading === false) {
-      //console.log(this.state.faculties);
       return (
         <View>
           <MultiSelect
@@ -121,24 +120,32 @@ class EventScreen extends React.Component {
   }
 
   render() {
-    console.log(this.faculties);
     return (
       <View style={styles.container}>
         <InfoButton
           containerStyle={styles.infobutton}
           buttonAction={this._showProgressOverlay.bind(this)}
         />
-        <Text h4 style={styles.title}>Für welche Fakultäten ist dein Event interessant?</Text>
-        {this._displayMultiselect(this.state.loading)}
-        <Button
-          icon={{
-            name: "arrowright",
-            type: 'antdesign',
-            size: 15,
-            color: "white"
-          }}
-          title="Weiter"
-        />
+        <View>
+          <Text h4 style={styles.title}>Auf welches Event fahren Sie?</Text>
+          <Input
+            multiline={true}
+            numberOfLines={10}
+            inputStyle={{ height: 50, textAlignVertical: 'top', }} />
+        </View>
+        <View>
+          <Text h4 style={styles.title}>Für welche Fakultäten ist dein Event interessant?</Text>
+          {this._displayMultiselect(this.state.loading)}
+          <Button
+            icon={{
+              name: "arrowright",
+              type: 'antdesign',
+              size: 15,
+              color: "white"
+            }}
+            title="Weiter"
+          />
+        </View>
         <StepProgressBar
           steps={
             [
@@ -180,19 +187,21 @@ class EventScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#20639B"
+    backgroundColor: "white"
   },
   searchInput: {
+    borderWidth: 1,
     height: 40
   },
   title: {
-    color: 'white',
+    color: 'black',
     marginLeft: 20,
     marginTop: 20,
     marginBottom: 10,
     marginRight: 50
   },
   dropDownMenu: {
+    //borderWidth: 1,
     marginRight: 20,
     marginLeft: 20
   },

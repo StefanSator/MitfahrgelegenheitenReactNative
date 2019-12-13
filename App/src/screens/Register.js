@@ -231,7 +231,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "space-around",
-    backgroundColor: "#20639B"
+    backgroundColor: "#1089ff"
   },
   title: {
     color: 'white',
@@ -256,7 +256,7 @@ const styles = StyleSheet.create({
     paddingRight: 50
   },
   registerTitle: {
-    color: '#20639B',
+    color: '#1089ff',
     paddingLeft: 5
   },
   backButtonContainer: {

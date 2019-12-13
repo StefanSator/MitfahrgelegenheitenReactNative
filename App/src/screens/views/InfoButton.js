@@ -16,7 +16,7 @@ class InfoButton extends React.Component {
             name: "info",
             type: "feather",
             size: 30,
-            color: "white"
+            color: "black"
           }}
           onPress={() => this.buttonAction()}
         />

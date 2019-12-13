@@ -30,7 +30,7 @@ class StepProgressBar extends React.Component {
             {this.steps.map((value, index) => {
               let bgColor;
               if (value.currentStep === true) {
-                bgColor = '#76dbd1'
+                bgColor = '#fe346e'
               } else {
                 bgColor = '#4d80e4';
               }

@@ -47,30 +47,30 @@ class HomeScreen extends React.Component {
             value={this.state.messages}
           />
         </View>
-        <Card title="Suche">
+        <Card title="Suche" containerStyle={styles.cardContainer} titleStyle={styles.cardTitle}>
           <Text style={styles.cardText}>eine Mitfahrgelegenheit</Text>
-          <Button style={styles.button}
+          <Button buttonStyle={styles.button}
             title="Leg los!"
             titleStyle={styles.buttonTitle}
             icon={
               <Icon
                 name='search'
                 type='feather'
-                color='black'
+                color='#1089ff'
               />
             }
           />
         </Card>
-        <Card title="Inseriere">
+        <Card title="Inseriere" containerStyle={styles.cardContainer} titleStyle={styles.cardTitle}>
           <Text style={styles.cardText}>eine Mitfahrgelegenheit</Text>
-          <Button style={styles.button}
+          <Button buttonStyle={styles.button}
             title="Leg los!"
             titleStyle={styles.buttonTitle}
             icon={
               <Icon
                 name='pluscircleo'
                 type='antdesign'
-                color='black'
+                color='#1089ff'
               />
             }
             onPress={() => this.props.navigation.navigate('Advertise')}
@@ -101,17 +101,27 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#20639B"
+    backgroundColor: 'white'
+    //backgroundColor: "#20639B"
+  },
+  cardContainer: {
+    backgroundColor: '#1089ff'
+  },
+  cardTitle: {
+    color: 'white'
   },
   cardText: {
     alignSelf: "center",
+    color: 'white',
     paddingBottom: 20
   },
   button: {
-    paddingLeft: 75,
-    paddingRight: 75
+    backgroundColor: 'white',
+    marginLeft: 75,
+    marginRight: 75
   },
   buttonTitle: {
+    color: '#1089ff',
     paddingLeft: 10
   },
   accountContainer: {
@@ -165,6 +175,13 @@ const TabNavigator = createBottomTabNavigator(
         return <Icon name={iconName} type={iconType} color={tintColor} />;
       },
     }),
+    tabBarOptions: { // TODO: change this if ripple effect is lost in android
+      activeTintColor: 'white',
+      inactiveTintColor: 'black',
+      style: {
+        backgroundColor: '#1089ff'
+      }
+    }
   }
 );
 

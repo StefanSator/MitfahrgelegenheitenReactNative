@@ -67,12 +67,6 @@ class DestinationCityScreen extends React.Component {
       friction={90}
       tension={100}
       activeScale={0.95}
-      linearGradientProps={{
-        colors: ['#64c4ed', '#4f81c7'],
-        start: { x: 1, y: 0 },
-        end: { x: 0.2, y: 0 },
-      }}
-      ViewComponent={LinearGradient}
       title={item.city}
       titleStyle={{ color: 'white', fontWeight: 'bold' }}
       containerStyle={styles.listitem}
@@ -135,10 +129,10 @@ class DestinationCityScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#20639B"
+    backgroundColor: "white"
   },
   title: {
-    color: 'white',
+    color: 'black',
     marginTop: 20,
     marginLeft: 20,
     marginRight: 50,
@@ -150,6 +144,7 @@ const styles = StyleSheet.create({
     marginLeft: 20
   },
   listitem: {
+    backgroundColor: '#1089ff',
     marginBottom: 10,
     borderRadius: 10
   },

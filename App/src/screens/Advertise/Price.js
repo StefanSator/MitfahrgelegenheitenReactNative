@@ -62,11 +62,11 @@ class PriceScreen extends React.Component {
           step={5}
           valueType='real'
           rounded
-          textColor='white'
-          iconStyle={{ color: '#20639B' }}
+          textColor='#1089ff'
+          iconStyle={{ color: 'white' }}
           containerStyle={styles.numericInputContainer}
-          rightButtonBackgroundColor='white'
-          leftButtonBackgroundColor='white' />
+          rightButtonBackgroundColor='#1089ff'
+          leftButtonBackgroundColor='#1089ff' />
         <Button
           buttonStyle={styles.checkButton}
           icon={
@@ -120,10 +120,10 @@ class PriceScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#20639B"
+    backgroundColor: "white"
   },
   title: {
-    color: 'white',
+    color: 'black',
     marginTop: 20,
     marginLeft: 20,
     marginRight: 50,
@@ -137,6 +137,7 @@ const styles = StyleSheet.create({
     paddingRight: 50
   },
   checkButton: {
+    backgroundColor: '#1089ff',
     marginTop: 20,
     marginLeft: 75,
     marginRight: 75,

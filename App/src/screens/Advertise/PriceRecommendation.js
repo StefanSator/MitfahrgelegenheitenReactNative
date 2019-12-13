@@ -1,9 +1,6 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { PricingCard, Button } from 'react-native-elements';
-import DistanceCalculator from '../../helpers/DistanceCalculator';
-import StepProgressBar from '../views/StepProgressBar';
-import InfoButton from '../views/InfoButton';
 import { ScrollView } from 'react-native-gesture-handler';
 
 class PriceRecommendationScreen extends React.Component {
@@ -77,11 +74,12 @@ class PriceRecommendationScreen extends React.Component {
       <ScrollView contentContainerStyle={styles.container}>
         <View>
           <PricingCard
-            color="#4f9deb"
+            color="#fe346e"
             title="Empfohlen"
             price={this.state.recommendedString}
             info={['Von uns empfohlener Preis.', 'Berechnet durch unseren Algorithmus.']}
             button={{ title: ' Empfohlenen Preis wählen', icon: 'check' }}
+            containerStyle={styles.cardContainer}
             pricingStyle={styles.cardPricing}
             titleStyle={styles.cardTitle}
             infoStyle={styles.cardInfo}
@@ -93,6 +91,7 @@ class PriceRecommendationScreen extends React.Component {
             price="0 €"
             info={['Sei so nett, dass du Mitfahrer kostenlos bei dir mitfahren lässt.', 'Sie werden dir danken.']}
             button={{ title: ' Kostenlos mitfahren lassen', icon: 'check' }}
+            containerStyle={styles.cardContainer}
             pricingStyle={styles.cardPricing}
             titleStyle={styles.cardTitle}
             infoStyle={styles.cardInfo}
@@ -117,7 +116,10 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "space-evenly",
     alignItems: "center",
-    backgroundColor: "#20639B",
+    backgroundColor: "white",
+  },
+  cardContainer: {
+    backgroundColor: '#1089ff'
   },
   cardTitle: {
     fontSize: 30
@@ -126,10 +128,11 @@ const styles = StyleSheet.create({
     fontSize: 35
   },
   cardInfo: {
+    color: 'white',
     fontSize: 12
   },
   buttonTitle: {
-    color: '#FF6666',
+    color: '#1089ff',
     paddingLeft: 20,
     paddingRight: 20
   }

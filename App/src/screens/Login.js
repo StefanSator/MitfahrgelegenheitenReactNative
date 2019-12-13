@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#20639B"
+    backgroundColor: "#1089ff"
   },
   input: {
     paddingLeft: 20,
@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
     paddingRight: 20
   },
   loginTitle: {
-    color: '#20639B',
+    color: '#1089ff',
     paddingLeft: 5
   },
   backButtonContainer: {

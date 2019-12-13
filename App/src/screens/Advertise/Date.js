@@ -107,10 +107,10 @@ class DateScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#20639B"
+    backgroundColor: "white"
   },
   title: {
-    color: 'white',
+    color: 'black',
     marginTop: 20,
     marginLeft: 20,
     marginRight: 50

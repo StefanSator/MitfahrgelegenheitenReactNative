@@ -60,12 +60,13 @@ class DestinationStateScreen extends React.Component {
       tension={100}
       activeScale={0.95}
       containerStyle={styles.listitem}
-      linearGradientProps={{
-        colors: ['#64c4ed', '#4f81c7'],
+      /* linearGradientProps={{
+        //colors: ['#64c4ed', '#4f81c7'],
+        colors: ['#ffe8d6', '#ff971d'],
         start: { x: 1, y: 0 },
-        end: { x: 0.2, y: 0 },
+        end: { x: 0.5, y: 0 },
       }}
-      ViewComponent={LinearGradient}
+      ViewComponent={LinearGradient} */
       title={item.state}
       titleStyle={{ color: 'white', fontWeight: 'bold' }}
       chevron={{ color: 'white' }}
@@ -127,10 +128,11 @@ class DestinationStateScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#20639B"
+    backgroundColor: "white"
+    //backgroundColor: "#20639B"
   },
   title: {
-    color: 'white',
+    color: 'black',
     marginTop: 20,
     marginLeft: 20,
     marginRight: 50,
@@ -142,6 +144,7 @@ const styles = StyleSheet.create({
     marginLeft: 20
   },
   listitem: {
+    backgroundColor: '#1089ff',
     marginBottom: 10,
     borderRadius: 10
   },

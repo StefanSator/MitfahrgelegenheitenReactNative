@@ -3,7 +3,7 @@ import Lift from '../entities/Lift';
 
 class LiftStore {
     /* Observables */
-    lift = new Lift();
+    lift = null;
 
     /* Actions */
     setDestination = (destination) => {
@@ -24,6 +24,10 @@ class LiftStore {
 
     setEvent = (event) => {
         this.lift.event = event;
+    }
+
+    newLift = () => {
+        this.lift = new Lift();
     }
 
 };

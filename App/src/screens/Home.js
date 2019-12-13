@@ -1,10 +1,12 @@
 import React from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import { View, ImageBackground, StyleSheet, Text } from 'react-native';
 import { Card, Button, Icon, Avatar, Badge } from 'react-native-elements';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { createAppContainer } from 'react-navigation';
 import SessionStore from '../stores/SessionStore';
 import { observer } from 'mobx-react';
+/* Photo by adrian on Unsplash */
+const image = require('../assets/images/street.jpeg');
 
 import AdvertiseStack from './Advertise/Advertise';
 
@@ -32,7 +34,7 @@ class HomeScreen extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <ImageBackground style={styles.container} source={image} blurRadius={10}>
         <View style={styles.accountContainer}>
           <Avatar
             rounded
@@ -47,35 +49,37 @@ class HomeScreen extends React.Component {
             value={this.state.messages}
           />
         </View>
-        <Card title="Suche" containerStyle={styles.cardContainer} titleStyle={styles.cardTitle}>
-          <Text style={styles.cardText}>eine Mitfahrgelegenheit</Text>
-          <Button buttonStyle={styles.button}
-            title="Leg los!"
-            titleStyle={styles.buttonTitle}
-            icon={
-              <Icon
-                name='search'
-                type='feather'
-                color='#1089ff'
-              />
-            }
-          />
-        </Card>
-        <Card title="Inseriere" containerStyle={styles.cardContainer} titleStyle={styles.cardTitle}>
-          <Text style={styles.cardText}>eine Mitfahrgelegenheit</Text>
-          <Button buttonStyle={styles.button}
-            title="Leg los!"
-            titleStyle={styles.buttonTitle}
-            icon={
-              <Icon
-                name='pluscircleo'
-                type='antdesign'
-                color='#1089ff'
-              />
-            }
-            onPress={() => this.props.navigation.navigate('Advertise')}
-          />
-        </Card>
+        <View style={styles.cardGroup}>
+          <Card title="Suche" containerStyle={styles.cardContainer} titleStyle={styles.cardTitle}>
+            <Text style={styles.cardText}>eine Mitfahrgelegenheit</Text>
+            <Button buttonStyle={styles.button}
+              title="Leg los!"
+              titleStyle={styles.buttonTitle}
+              icon={
+                <Icon
+                  name='search'
+                  type='feather'
+                  color='#1089ff'
+                />
+              }
+            />
+          </Card>
+          <Card title="Inseriere" containerStyle={styles.cardContainer} titleStyle={styles.cardTitle}>
+            <Text style={styles.cardText}>eine Mitfahrgelegenheit</Text>
+            <Button buttonStyle={styles.button}
+              title="Leg los!"
+              titleStyle={styles.buttonTitle}
+              icon={
+                <Icon
+                  name='pluscircleo'
+                  type='antdesign'
+                  color='#1089ff'
+                />
+              }
+              onPress={() => this.props.navigation.navigate('Advertise')}
+            />
+          </Card>
+        </View>
         <View style={styles.logoutContainer}>
           <Button
             buttonStyle={styles.logoutButton}
@@ -91,7 +95,7 @@ class HomeScreen extends React.Component {
             onPress={this._logoutUser.bind(this)}
           />
         </View>
-      </View>
+      </ImageBackground>
     );
   }
 }
@@ -101,11 +105,12 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: 'white'
     //backgroundColor: "#20639B"
   },
   cardContainer: {
-    backgroundColor: '#1089ff'
+    backgroundColor: '#1089ff',
+    borderWidth: 0,
+    marginBottom: 20
   },
   cardTitle: {
     color: 'white'
@@ -151,6 +156,9 @@ const styles = StyleSheet.create({
     right: 0,
     marginTop: 70,
     marginRight: 20
+  },
+  cardGroup: {
+    marginTop: 50
   }
 });
 

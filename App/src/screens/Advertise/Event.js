@@ -6,6 +6,7 @@ import FacultyCheckboxGroup from '../views/FacultyCheckboxGroup';
 import InfoButton from '../views/InfoButton';
 import StepProgressBar from '../views/StepProgressBar';
 import Faculty from '../../entities/Faculty';
+import LiftStore from '../../stores/LiftStore';
 
 class EventScreen extends React.Component {
 
@@ -15,6 +16,7 @@ class EventScreen extends React.Component {
 
   constructor() {
     super();
+    console.log(LiftStore.lift);
     this.state = {
       selectedFaculties: [],
       loading: true,

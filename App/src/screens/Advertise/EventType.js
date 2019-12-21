@@ -1,6 +1,8 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Text, Button, Tooltip, Icon } from 'react-native-elements';
+import LiftStore from '../../stores/LiftStore';
+import Event from '../../entities/Event';
 
 class EventTypeScreen extends React.Component {
 
@@ -13,8 +15,8 @@ class EventTypeScreen extends React.Component {
   }
 
   _privateButtonPressed() {
-    // TODO
-    console.log('I am pressed.');
+    LiftStore.setEvent(null);
+    this.props.navigation.navigate('OverviewAd');
   }
 
   render() {

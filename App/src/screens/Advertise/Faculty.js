@@ -72,7 +72,7 @@ class FacultyScreen extends React.Component {
       Alert.alert('Bitte wählen Sie mindestens eine Fakultät aus.');
       return;
     }
-    let event = new Event('Event', this.eventTitle, this.eventDescription, this.state.selectedFaculties);
+    let event = new Event(this.eventTitle, this.eventDescription, this.state.selectedFaculties);
     // Set Event in MobX Store
     LiftStore.setEvent(event);
     // Change to Overview Screen

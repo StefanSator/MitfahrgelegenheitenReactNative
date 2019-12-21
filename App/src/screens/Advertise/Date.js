@@ -5,6 +5,8 @@ import DateTimePicker from 'react-native-modal-datetime-picker';
 import StepProgressBar from '../views/StepProgressBar';
 import InfoButton from '../views/InfoButton';
 import LiftStore from '../../stores/LiftStore';
+import Datetime from '../../entities/Datetime';
+import { observer } from 'mobx-react';
 
 class DateScreen extends React.Component {
 
@@ -30,7 +32,7 @@ class DateScreen extends React.Component {
 
   _handleDatePicked(datetime) {
     this._hideDateTimePicker();
-    LiftStore.setDatetime(datetime);
+    LiftStore.setDatetime(new Datetime(datetime.getDate(), datetime.getMonth() + 1, datetime.getFullYear(), datetime.getHours(), datetime.getUTCMinutes()));
     this.props.navigation.navigate('PriceRecommendation');
   };
 
@@ -68,27 +70,27 @@ class DateScreen extends React.Component {
             [
               {
                 label: 'Ziel',
-                notcompleted: false,
+                notcompleted: (LiftStore.lift.target) ? false : true,
                 currentStep: false
               },
               {
                 label: 'Mitfahrer',
-                notcompleted: false,
+                notcompleted: (LiftStore.lift.passengers) ? false : true,
                 currentStep: false
               },
               {
                 label: 'Termin',
-                notcompleted: false,
+                notcompleted: (LiftStore.lift.datetime) ? false : true,
                 currentStep: true
               },
               {
                 label: 'Preis',
-                notcompleted: true,
+                notcompleted: (LiftStore.lift.price) ? false : true,
                 currentStep: false
               },
               {
                 label: 'Event',
-                notcompleted: true,
+                notcompleted: (LiftStore.lift.event) ? false : true,
                 currentStep: false
               }
             ]
@@ -126,4 +128,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default DateScreen;
+export default observer(DateScreen);

@@ -8,6 +8,7 @@ import StepProgressBar from '../views/StepProgressBar';
 import Faculty from '../../entities/Faculty';
 import LiftStore from '../../stores/LiftStore';
 import Event from '../../entities/Event';
+import { observer } from 'mobx-react';
 
 class FacultyScreen extends React.Component {
 
@@ -72,7 +73,8 @@ class FacultyScreen extends React.Component {
       Alert.alert('Bitte wählen Sie mindestens eine Fakultät aus.');
       return;
     }
-    let event = new Event(this.eventTitle, this.eventDescription, this.state.selectedFaculties);
+    let eventFaculties = this.faculties.filter(faculty => this.state.selectedFaculties.includes(faculty.name));
+    let event = new Event(this.eventTitle, this.eventDescription, eventFaculties);
     // Set Event in MobX Store
     LiftStore.setEvent(event);
     // Change to Overview Screen
@@ -166,27 +168,27 @@ class FacultyScreen extends React.Component {
             [
               {
                 label: 'Ziel',
-                notcompleted: false,
+                notcompleted: (LiftStore.lift.target) ? false : true,
                 currentStep: false
               },
               {
                 label: 'Mitfahrer',
-                notcompleted: false,
+                notcompleted: (LiftStore.lift.passengers) ? false : true,
                 currentStep: false
               },
               {
                 label: 'Termin',
-                notcompleted: false,
+                notcompleted: (LiftStore.lift.datetime) ? false : true,
                 currentStep: false
               },
               {
                 label: 'Preis',
-                notcompleted: false,
+                notcompleted: (LiftStore.lift.price) ? false : true,
                 currentStep: false
               },
               {
                 label: 'Event',
-                notcompleted: false,
+                notcompleted: (LiftStore.lift.event) ? false : true,
                 currentStep: true
               }
             ]
@@ -231,4 +233,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default FacultyScreen;
+export default observer(FacultyScreen);

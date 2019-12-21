@@ -5,6 +5,7 @@ import NumericInput from 'react-native-numeric-input';
 import InfoButton from '../views/InfoButton';
 import StepProgressBar from '../views/StepProgressBar';
 import LiftStore from '../../stores/LiftStore';
+import { observer } from 'mobx-react';
 
 class PriceScreen extends React.Component {
 
@@ -80,27 +81,27 @@ class PriceScreen extends React.Component {
             [
               {
                 label: 'Ziel',
-                notcompleted: false,
+                notcompleted: (LiftStore.lift.target) ? false : true,
                 currentStep: false
               },
               {
                 label: 'Mitfahrer',
-                notcompleted: false,
+                notcompleted: (LiftStore.lift.passengers) ? false : true,
                 currentStep: false
               },
               {
                 label: 'Termin',
-                notcompleted: false,
+                notcompleted: (LiftStore.lift.datetime) ? false : true,
                 currentStep: false
               },
               {
                 label: 'Preis',
-                notcompleted: false,
+                notcompleted: (LiftStore.lift.price) ? false : true,
                 currentStep: true
               },
               {
                 label: 'Event',
-                notcompleted: true,
+                notcompleted: (LiftStore.lift.event) ? false : true,
                 currentStep: false
               }
             ]
@@ -152,4 +153,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default PriceScreen;
+export default observer(PriceScreen);

@@ -3,6 +3,8 @@ import { View, StyleSheet, Alert } from 'react-native';
 import { Text, Input, Button } from 'react-native-elements';
 import InfoButton from '../views/InfoButton';
 import StepProgressBar from '../views/StepProgressBar';
+import LiftStore from '../../stores/LiftStore';
+import { observer } from 'mobx-react';
 
 class EventScreen extends React.Component {
 
@@ -114,27 +116,27 @@ class EventScreen extends React.Component {
             [
               {
                 label: 'Ziel',
-                notcompleted: false,
+                notcompleted: (LiftStore.lift.target) ? false : true,
                 currentStep: false
               },
               {
                 label: 'Mitfahrer',
-                notcompleted: false,
+                notcompleted: (LiftStore.lift.passengers) ? false : true,
                 currentStep: false
               },
               {
                 label: 'Termin',
-                notcompleted: false,
+                notcompleted: (LiftStore.lift.datetime) ? false : true,
                 currentStep: false
               },
               {
                 label: 'Preis',
-                notcompleted: false,
+                notcompleted: (LiftStore.lift.price) ? false : true,
                 currentStep: false
               },
               {
                 label: 'Event',
-                notcompleted: false,
+                notcompleted: (LiftStore.lift.event) ? false : true,
                 currentStep: true
               }
             ]
@@ -177,4 +179,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default EventScreen;
+export default observer(EventScreen);

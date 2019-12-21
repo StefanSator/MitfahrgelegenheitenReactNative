@@ -5,6 +5,8 @@ import TouchableScale from 'react-native-touchable-scale';
 import LinearGradient from 'react-native-linear-gradient';
 import StepProgressBar from '../views/StepProgressBar';
 import InfoButton from '../views/InfoButton';
+import LiftStore from '../../stores/LiftStore';
+import { observer } from 'mobx-react';
 
 class DestinationStateScreen extends React.Component {
 
@@ -60,13 +62,6 @@ class DestinationStateScreen extends React.Component {
       tension={100}
       activeScale={0.95}
       containerStyle={styles.listitem}
-      /* linearGradientProps={{
-        //colors: ['#64c4ed', '#4f81c7'],
-        colors: ['#ffe8d6', '#ff971d'],
-        start: { x: 1, y: 0 },
-        end: { x: 0.5, y: 0 },
-      }}
-      ViewComponent={LinearGradient} */
       title={item.state}
       titleStyle={{ color: 'white', fontWeight: 'bold' }}
       chevron={{ color: 'white' }}
@@ -92,27 +87,27 @@ class DestinationStateScreen extends React.Component {
             [
               {
                 label: 'Ziel',
-                notcompleted: false,
+                notcompleted: (LiftStore.lift.target) ? false : true,
                 currentStep: true
               },
               {
                 label: 'Mitfahrer',
-                notcompleted: true,
+                notcompleted: (LiftStore.lift.passengers) ? false : true,
                 currentStep: false
               },
               {
                 label: 'Termin',
-                notcompleted: true,
+                notcompleted: (LiftStore.lift.datetime) ? false : true,
                 currentStep: false
               },
               {
                 label: 'Preis',
-                notcompleted: true,
+                notcompleted: (LiftStore.lift.price) ? false : true,
                 currentStep: false
               },
               {
                 label: 'Event',
-                notcompleted: true,
+                notcompleted: (LiftStore.lift.event) ? false : true,
                 currentStep: false
               }
             ]
@@ -156,4 +151,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default DestinationStateScreen;
+export default observer(DestinationStateScreen);

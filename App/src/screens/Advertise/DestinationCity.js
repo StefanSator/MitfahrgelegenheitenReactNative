@@ -8,6 +8,7 @@ import City from '../../entities/City';
 import StepProgressBar from '../views/StepProgressBar';
 import InfoButton from '../views/InfoButton';
 import LiftStore from '../../stores/LiftStore';
+import { observer } from 'mobx-react';
 
 class DestinationCityScreen extends React.Component {
 
@@ -91,27 +92,27 @@ class DestinationCityScreen extends React.Component {
             [
               {
                 label: 'Ziel',
-                notcompleted: false,
+                notcompleted: (LiftStore.lift.target) ? false : true,
                 currentStep: true
               },
               {
                 label: 'Mitfahrer',
-                notcompleted: true,
+                notcompleted: (LiftStore.lift.passengers) ? false : true,
                 currentStep: false
               },
               {
                 label: 'Termin',
-                notcompleted: true,
+                notcompleted: (LiftStore.lift.datetime) ? false : true,
                 currentStep: false
               },
               {
                 label: 'Preis',
-                notcompleted: true,
+                notcompleted: (LiftStore.lift.price) ? false : true,
                 currentStep: false
               },
               {
                 label: 'Event',
-                notcompleted: true,
+                notcompleted: (LiftStore.lift.event) ? false : true,
                 currentStep: false
               }
             ]
@@ -154,4 +155,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default DestinationCityScreen;
+export default observer(DestinationCityScreen);

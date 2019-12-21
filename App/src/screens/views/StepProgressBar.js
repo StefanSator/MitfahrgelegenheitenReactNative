@@ -1,6 +1,8 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, Alert, StyleSheet } from 'react-native';
 import { Button, Overlay, Icon } from 'react-native-elements';
+import LiftStore from '../../stores/LiftStore';
+import { observer } from 'mobx-react';
 
 class StepProgressBar extends React.Component {
 
@@ -13,6 +15,17 @@ class StepProgressBar extends React.Component {
 
   _closeOverlay() {
     this.callback();
+  }
+
+  _informationHandler(index) {
+    switch (index) {
+      case 0: Alert.alert(LiftStore.lift.target ? 'Ziel: ' + LiftStore.lift.target.cityName : 'Nichts angegeben!');
+      case 1: Alert.alert(LiftStore.lift.passengers ? 'Mitfahrer: ' + LiftStore.lift.passengers : 'Nichts angegeben!');
+      case 2: Alert.alert(LiftStore.lift.datetime ? `Datum: ${LiftStore.lift.datetime.day}.${LiftStore.lift.datetime.month}.${LiftStore.lift.datetime.year}\n`
+        + `Uhrzeit: ${LiftStore.lift.datetime.hour}:${LiftStore.lift.datetime.minutes} Uhr` : 'Nichts angegeben!');
+      case 3: Alert.alert(LiftStore.lift.price ? 'Preis: ' + LiftStore.lift.price + '€' : 'Nichts angegeben!');
+      case 4: Alert.alert(LiftStore.lift.event ? LiftStore.lift.event.eventTitle : 'Nichts angegeben!');
+    }
   }
 
   render() {
@@ -55,10 +68,11 @@ class StepProgressBar extends React.Component {
               return (
                 <View style={styles.step} key={index}>
                   <Button
-                    disabled={value.notcompleted}
+                    disabled={value.currentStep ? !value.notcompleted : value.notcompleted}
                     buttonStyle={{ ...styles.button, backgroundColor: bgColor }}
                     iconContainerStyle={styles.iconContainer}
-                    icon={(value.notcompleted) ? inaccomplishedIcon : (value.currentStep ? currentIcon : accomplishedIcon)}
+                    icon={(value.currentStep) ? currentIcon : (value.notcompleted ? inaccomplishedIcon : accomplishedIcon)}
+                    onPress={() => this._informationHandler(index)}
                   />
                   <Text style={{ color: 'black', marginTop: 5, alignSelf: 'center' }}>{value.label}</Text>
                 </View>
@@ -115,4 +129,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default StepProgressBar;
+export default observer(StepProgressBar);

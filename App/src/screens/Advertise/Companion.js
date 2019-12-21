@@ -4,6 +4,7 @@ import { Text, Slider, Icon, Button } from 'react-native-elements';
 import StepProgressBar from '../views/StepProgressBar';
 import InfoButton from '../views/InfoButton';
 import LiftStore from '../../stores/LiftStore';
+import { observer } from 'mobx-react';
 
 class CompanionScreen extends React.Component {
 
@@ -69,27 +70,27 @@ class CompanionScreen extends React.Component {
             [
               {
                 label: 'Ziel',
-                notcompleted: false,
+                notcompleted: (LiftStore.lift.target) ? false : true,
                 currentStep: false
               },
               {
                 label: 'Mitfahrer',
-                notcompleted: false,
+                notcompleted: (LiftStore.lift.passengers) ? false : true,
                 currentStep: true
               },
               {
                 label: 'Termin',
-                notcompleted: true,
+                notcompleted: (LiftStore.lift.datetime) ? false : true,
                 currentStep: false
               },
               {
                 label: 'Preis',
-                notcompleted: true,
+                notcompleted: (LiftStore.lift.price) ? false : true,
                 currentStep: false
               },
               {
                 label: 'Event',
-                notcompleted: true,
+                notcompleted: (LiftStore.lift.event) ? false : true,
                 currentStep: false
               }
             ]
@@ -137,4 +138,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default CompanionScreen;
+export default observer(CompanionScreen);

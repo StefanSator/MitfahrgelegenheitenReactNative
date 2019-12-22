@@ -9,6 +9,7 @@ import { observer } from 'mobx-react';
 const image = require('../assets/images/street.jpeg');
 
 import AdvertiseStack from './Advertise/Advertise';
+import SearchStack from './Search/Search';
 
 class HomeScreen extends React.Component {
 
@@ -62,6 +63,7 @@ class HomeScreen extends React.Component {
                   color='#1089ff'
                 />
               }
+              onPress={() => this.props.navigation.navigate('Search')}
             />
           </Card>
           <Card title="Inseriere" containerStyle={styles.cardContainer} titleStyle={styles.cardTitle}>
@@ -165,7 +167,8 @@ const styles = StyleSheet.create({
 const TabNavigator = createBottomTabNavigator(
   {
     Home: observer(HomeScreen),
-    Advertise: AdvertiseStack
+    Advertise: AdvertiseStack,
+    Search: SearchStack
   },
   {
     defaultNavigationOptions: ({ navigation }) => ({
@@ -179,6 +182,9 @@ const TabNavigator = createBottomTabNavigator(
         } else if (routeName === 'Advertise') {
           iconName = 'pluscircleo';
           iconType = 'antdesign'
+        } else if (routeName === 'Search') {
+          iconName = 'search';
+          feather = 'feather';
         }
         return <Icon name={iconName} type={iconType} color={tintColor} />;
       },

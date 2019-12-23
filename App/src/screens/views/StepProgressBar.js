@@ -19,12 +19,12 @@ class StepProgressBar extends React.Component {
 
   _informationHandler(index) {
     switch (index) {
-      case 0: Alert.alert(LiftStore.lift.target ? 'Ziel: ' + LiftStore.lift.target.cityName : 'Nichts angegeben!');
-      case 1: Alert.alert(LiftStore.lift.passengers ? 'Mitfahrer: ' + LiftStore.lift.passengers : 'Nichts angegeben!');
+      case 0: Alert.alert(LiftStore.lift.target ? 'Ziel: ' + LiftStore.lift.target.cityName : 'Nichts angegeben!'); break;
+      case 1: Alert.alert(LiftStore.lift.passengers ? 'Mitfahrer: ' + LiftStore.lift.passengers : 'Nichts angegeben!'); break;
       case 2: Alert.alert(LiftStore.lift.datetime ? `Datum: ${LiftStore.lift.datetime.day}.${LiftStore.lift.datetime.month}.${LiftStore.lift.datetime.year}\n`
-        + `Uhrzeit: ${LiftStore.lift.datetime.hour}:${LiftStore.lift.datetime.minutes} Uhr` : 'Nichts angegeben!');
-      case 3: Alert.alert(LiftStore.lift.price ? 'Preis: ' + LiftStore.lift.price + '€' : 'Nichts angegeben!');
-      case 4: Alert.alert(LiftStore.lift.event ? LiftStore.lift.event.eventTitle : 'Nichts angegeben!');
+        + `Uhrzeit: ${LiftStore.lift.datetime.hour}:${LiftStore.lift.datetime.minutes} Uhr` : 'Nichts angegeben!'); break;
+      case 3: Alert.alert(LiftStore.lift.price ? 'Preis: ' + LiftStore.lift.price + '€' : 'Nichts angegeben!'); break;
+      case 4: Alert.alert(LiftStore.lift.event ? LiftStore.lift.event.eventTitle : 'Nichts angegeben!'); break;
     }
   }
 

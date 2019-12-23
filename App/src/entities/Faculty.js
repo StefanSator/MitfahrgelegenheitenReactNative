@@ -1,5 +1,8 @@
+import { decorate, observable } from 'mobx';
 
 class Faculty {
+    facultyId;
+    name;
 
     constructor(facultyId, facultyName) {
         this.facultyId = facultyId;
@@ -7,5 +10,10 @@ class Faculty {
     }
 
 }
+
+decorate(Faculty, {
+    facultyId: observable,
+    name: observable
+});
 
 export default Faculty;

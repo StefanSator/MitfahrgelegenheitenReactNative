@@ -1,5 +1,9 @@
+import { decorate, observable } from 'mobx';
 
 class Event {
+    eventTitle;
+    eventDescription;
+    faculties;
 
     constructor(eventTitle, eventDescription, faculties) {
         this.eventTitle = eventTitle
@@ -8,5 +12,11 @@ class Event {
     }
 
 }
+
+decorate(Event, {
+    eventTitle: observable,
+    eventDescription: observable,
+    faculties: observable
+});
 
 export default Event;

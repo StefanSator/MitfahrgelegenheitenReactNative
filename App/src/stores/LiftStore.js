@@ -3,7 +3,7 @@ import Lift from '../entities/Lift';
 
 class LiftStore {
     /* Observables */
-    lift = null;
+    lift = new Lift();
 
     /* Actions */
     setDestination = (destination) => {
@@ -33,7 +33,6 @@ class LiftStore {
 };
 
 decorate(LiftStore, {
-    lift: observable,
     setDestination: action,
     setPassengers: action,
     setDatetime: action,

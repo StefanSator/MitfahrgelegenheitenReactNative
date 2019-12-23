@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, ImageBackground, StyleSheet } from 'react-native';
 import { Card, Button, Icon } from 'react-native-elements';
+import SearchRequestStore from '../../stores/SearchRequestStore';
 /* Photo by Atlas Green on Unsplash */
 const image = require('../../assets/images/hitchhiker.jpeg');
 
@@ -11,6 +12,7 @@ class SearchStartScreen extends React.Component {
   };
 
   _navigateToSearchForm() {
+    SearchRequestStore.newSearch();
     this.props.navigation.navigate('SearchForm');
   }
 

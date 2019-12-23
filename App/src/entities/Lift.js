@@ -1,7 +1,15 @@
 import City from './City';
 import SessionStore from '../stores/SessionStore';
+import { decorate, observable } from 'mobx';
 
 class Lift {
+    user;
+    start;
+    target;
+    passengers;
+    price;
+    event;
+    datetime;
 
     constructor() {
         this.user = SessionStore.sessionToken;
@@ -14,5 +22,11 @@ class Lift {
     }
     
 }
+
+decorate(Lift, {
+    user: observable,
+    passengers: observable,
+    price: observable
+});
 
 export default Lift;

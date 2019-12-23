@@ -1,28 +1,22 @@
 import React from 'react';
 import { View, StyleSheet, Alert } from 'react-native';
 import { Text, Button } from 'react-native-elements';
+import Faculty from '../../entities/Faculty';
 import MultiSelect from 'react-native-multiple-select';
 import FacultyCheckboxGroup from '../views/FacultyCheckboxGroup';
-import InfoButton from '../views/InfoButton';
-import StepProgressBar from '../views/StepProgressBar';
-import Faculty from '../../entities/Faculty';
-import LiftStore from '../../stores/LiftStore';
-import Event from '../../entities/Event';
-import { observer } from 'mobx-react';
+import SearchRequestStore from '../../stores/SearchRequestStore';
 
-class FacultyScreen extends React.Component {
+class FacultyFilterScreen extends React.Component {
 
   static navigationOptions = {
-    title: 'Event'
+    title: 'Filter'
   };
 
   constructor() {
     super();
-    console.log(LiftStore.lift);
     this.state = {
       selectedFaculties: [],
-      loading: true,
-      progressIsVisible: false
+      loading: true
     };
     this.faculties = [];
     this._loadFacultyData();
@@ -31,8 +25,7 @@ class FacultyScreen extends React.Component {
   onSelectedItemsChange = selectedFaculties => {
     this.setState({
       selectedFaculties: selectedFaculties,
-      loading: this.state.loading,
-      progressIsVisible: this.state.progressIsVisible
+      loading: this.state.loading
     });
   };
 
@@ -43,8 +36,7 @@ class FacultyScreen extends React.Component {
       duplicate.splice(index, 1);
       this.setState({
         selectedFaculties: duplicate,
-        loading: this.state.loading,
-        progressIsVisible: this.state.progressIsVisible
+        loading: this.state.loading
       });
     }
   }
@@ -60,8 +52,7 @@ class FacultyScreen extends React.Component {
       }
       this.setState({
         selectedFaculties: this.state.selectedFaculties,
-        loading: false,
-        progressIsVisible: this.state.progressIsVisible
+        loading: false
       });
     } catch (error) {
       Alert.alert(JSON.stringify(error));
@@ -73,30 +64,11 @@ class FacultyScreen extends React.Component {
       Alert.alert('Bitte wählen Sie mindestens eine Fakultät aus.');
       return;
     }
-    let eventFaculties = this.faculties.filter(faculty => this.state.selectedFaculties.includes(faculty.name));
-    let event = new Event(this.eventTitle, this.eventDescription, eventFaculties);
-    // Set Event in MobX Store
-    LiftStore.setEvent(event);
+    let filterFaculties = this.faculties.filter(faculty => this.state.selectedFaculties.includes(faculty.name));
+    // Set Faculties in MobX Store
+    SearchRequestStore.setFaculties(filterFaculties);
     // Change to Overview Screen
-    this.props.navigation.navigate('OverviewAd');
-  }
-
-  /* Opens Overlay with Progress Information */
-  _showProgressOverlay() {
-    this.setState({
-      selectedFaculties: this.state.selectedFaculties,
-      loading: this.state.loading,
-      progressIsVisible: true
-    });
-  }
-
-  /* Closes Overlay with Progress Information */
-  _closeProgressOverlay() {
-    this.setState({
-      selectedFaculties: this.state.selectedFaculties,
-      loading: this.state.loading,
-      progressIsVisible: false
-    });
+    this.props.navigation.goBack();
   }
 
   _displayMultiselect(loading) {
@@ -127,12 +99,12 @@ class FacultyScreen extends React.Component {
           <Button
             containerStyle={styles.nextButton}
             icon={{
-              name: "arrowright",
+              name: "check",
               type: 'antdesign',
               size: 15,
               color: "white"
             }}
-            title="Weiter"
+            title="Bestätigen"
             onPress={this._nextButtonPressed.bind(this)}
           />
           <FacultyCheckboxGroup
@@ -148,88 +120,44 @@ class FacultyScreen extends React.Component {
   }
 
   render() {
-    const { navigation } = this.props;
-    this.eventTitle = navigation.getParam('eventTitle', undefined);
-    this.eventDescription = navigation.getParam('eventDescription', undefined);
-
     return (
       <View style={styles.container}>
-        <InfoButton
-          containerStyle={styles.infobutton}
-          buttonAction={this._showProgressOverlay.bind(this)}
-        />
         <View>
-          <Text h4 style={styles.title}>Für welche Fakultäten ist dein Event interessant?</Text>
+          <Text h4 style={styles.title}>Welche Events welcher Fakultäten interessieren dich?</Text>
           {this._displayMultiselect(this.state.loading)}
         </View>
-        <StepProgressBar
-          steps={
-            [
-              {
-                label: 'Ziel',
-                notcompleted: (LiftStore.lift.target) ? false : true,
-                currentStep: false
-              },
-              {
-                label: 'Mitfahrer',
-                notcompleted: (LiftStore.lift.passengers) ? false : true,
-                currentStep: false
-              },
-              {
-                label: 'Termin',
-                notcompleted: (LiftStore.lift.datetime) ? false : true,
-                currentStep: false
-              },
-              {
-                label: 'Preis',
-                notcompleted: (LiftStore.lift.price) ? false : true,
-                currentStep: false
-              },
-              {
-                label: 'Event',
-                notcompleted: (LiftStore.lift.event) ? false : true,
-                currentStep: true
-              }
-            ]
-          }
-          isVisible={this.state.progressIsVisible}
-          closeCallback={this._closeProgressOverlay.bind(this)}
-        />
       </View>
-    );
+    )
   }
-};
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "white"
   },
+  title: {
+    color: 'black',
+    marginLeft: 20,
+    marginTop: 10,
+    marginBottom: 10,
+    marginRight: 50
+  },
   searchInput: {
     borderWidth: 1,
     height: 40
   },
-  title: {
-    color: 'black',
-    marginLeft: 20,
-    marginTop: -45,
-    marginBottom: 10,
-    marginRight: 50
-  },
   dropDownMenu: {
     marginRight: 20,
     marginLeft: 20
-  },
-  infobutton: {
-    alignSelf: 'flex-end',
   },
   nextButton: {
     alignSelf: 'flex-end',
     marginRight: 8,
     marginTop: 5,
     marginBottom: 5,
-    width: 100
+    width: 150
   }
 });
 
-export default observer(FacultyScreen);
+export default FacultyFilterScreen;

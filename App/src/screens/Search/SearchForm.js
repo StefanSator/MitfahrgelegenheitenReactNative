@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet, View, Alert } from 'react-native';
 import { Text, Button, ButtonGroup, Slider, Tooltip, Icon } from 'react-native-elements';
 import { Dropdown } from 'react-native-material-dropdown';
 import DateTimePicker from 'react-native-modal-datetime-picker';
@@ -41,14 +41,18 @@ class SearchFormScreen extends React.Component {
     this._selectFacultiesButtonPressed = this._selectFacultiesButtonPressed.bind(this);
     this._searchButtonPressed = this._searchButtonPressed.bind(this);
     this._sendSearchRequest = this._sendSearchRequest.bind(this);
+    this._checkFormInput = this._checkFormInput.bind(this);
 
     this._loadStates();
   }
 
   _searchButtonPressed() {
     //console.log(SearchRequestStore.search);
-    // TODO: Check before sending if values are all non null
-    this._sendSearchRequest();
+    // Check before sending if required values are non null
+    let check = this._checkFormInput();
+    if (check !== false) {
+      this._sendSearchRequest();
+    }
   }
 
   /* Send SearchRequest to Backend and get SearchResponse */
@@ -73,9 +77,20 @@ class SearchFormScreen extends React.Component {
     }
   }
 
+  /* Checks the Search Formular Input if all required fields are not null */
+  _checkFormInput() {
+    if (SearchRequestStore.search.place === null) {
+      Alert.alert('Bitte gebe deinen gewünschten Ort ein.');
+      return false;
+    } else if (SearchRequestStore.search.datetime === null) {
+      Alert.alert('Bitte gebe deinen gewünschten Abfahrtszeitpunkt ein.');
+      return false;
+    }
+    return true;
+  }
+
   /* Open Modal Screen for Faculty Filter of Events in Search Request */
   _selectFacultiesButtonPressed() {
-    console.log('I am here.');
     this.props.navigation.navigate('FacultyFilter');
   }
 

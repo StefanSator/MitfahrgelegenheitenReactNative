@@ -10,6 +10,7 @@ const image = require('../assets/images/street.jpeg');
 
 import AdvertiseStack from './Advertise/Advertise';
 import SearchStack from './Search/Search';
+import AccountStack from './Account/Account';
 
 class HomeScreen extends React.Component {
 
@@ -41,7 +42,7 @@ class HomeScreen extends React.Component {
             rounded
             size='large'
             icon={{ name: 'user', type: 'font-awesome' }}
-            onPress={() => this.setState({ messages: this.state.messages + 1 })}
+            onPress={() => this.props.navigation.navigate('Account')}
             activeOpacity={0.7}
           />
           <Badge
@@ -168,7 +169,8 @@ const TabNavigator = createBottomTabNavigator(
   {
     Home: observer(HomeScreen),
     Advertise: AdvertiseStack,
-    Search: SearchStack
+    Search: SearchStack,
+    Account: AccountStack
   },
   {
     defaultNavigationOptions: ({ navigation }) => ({
@@ -184,7 +186,10 @@ const TabNavigator = createBottomTabNavigator(
           iconType = 'antdesign'
         } else if (routeName === 'Search') {
           iconName = 'search';
-          feather = 'feather';
+          iconType = 'feather';
+        } else if (routeName === 'Account') {
+          iconName = 'user';
+          iconType ='feather';
         }
         return <Icon name={iconName} type={iconType} color={tintColor} />;
       },

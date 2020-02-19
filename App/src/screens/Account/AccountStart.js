@@ -1,5 +1,5 @@
 import React from 'react';
-import { SafeAreaView, View, StyleSheet, FlatList, Alert } from 'react-native';
+import { View, StyleSheet, FlatList, Alert } from 'react-native';
 import { ButtonGroup, Card, Text, Avatar, Button } from 'react-native-elements';
 import SessionStore from '../../stores/SessionStore';
 

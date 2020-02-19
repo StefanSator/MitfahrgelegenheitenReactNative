@@ -6,6 +6,7 @@ class Datetime {
     year;
     hour;
     minutes;
+    dateString;
 
     constructor(day, month, year, hour, minutes) {
         this.day = day;
@@ -13,6 +14,7 @@ class Datetime {
         this.year = year;
         this.hour = hour;
         this.minutes = minutes;
+        this.dateString = day.toString().padStart(2, '0') + month.toString().padStart(2, '0') + year.toString().padStart(4, '0');
     }
 }
 
@@ -21,7 +23,8 @@ decorate(Datetime, {
     month: observable,
     year: observable,
     hour: observable,
-    minutes: observable
+    minutes: observable,
+    dateString: observable
 });
 
 export default Datetime;

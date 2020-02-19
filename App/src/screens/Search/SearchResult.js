@@ -1,6 +1,8 @@
 import React from 'react';
 import { View, StyleSheet, Text, FlatList, Alert } from 'react-native';
 import { Card, Avatar, Button, Icon, Divider } from 'react-native-elements';
+import SessionStore from '../../stores/SessionStore';
+import { observer } from 'mobx-react';
 
 class SearchResultScreen extends React.Component {
 
@@ -27,7 +29,7 @@ class SearchResultScreen extends React.Component {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          userId: lift.userid,
+          userId: SessionStore.sessionToken,
           liftId: lift.liftid
         }),
       });
@@ -130,4 +132,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default SearchResultScreen;
+export default observer(SearchResultScreen);

@@ -12,21 +12,22 @@ import AdvertiseStack from './Advertise/Advertise';
 import SearchStack from './Search/Search';
 import AccountStack from './Account/Account';
 
+/**
+ * Class representing the Home Screen.
+ * @extends React.Component
+ */
 class HomeScreen extends React.Component {
 
-  /* static navigationOptions = {
-    tabBarIcon: ({ focused, tintColor }) => {
-      return <Icon name={'search'} type='feather' color={tintColor} />;
-    },
-  }; */
-
+  /**
+   * Create the Home Screen Component.
+   * @param {Object} props properties which are passed to the component.
+   * Can be used for customizing the component.
+   */
   constructor(props) {
     super(props);
-    this.state = {
-      messages: 0
-    };
   }
 
+  /** Ends the current user session and switches to the StartScreen of the app. */
   _logoutUser() {
     /* End Session of User */
     SessionStore.endSession();
@@ -34,6 +35,11 @@ class HomeScreen extends React.Component {
     this.props.navigation.navigate('Start');
   }
 
+  /** 
+   * Renders the Component every time the state of the component has changed.
+   * Inherited by React.Component. Every React Component must implement this function.
+   * @returns JSX
+   */
   render() {
     return (
       <ImageBackground style={styles.container} source={image} blurRadius={10}>
@@ -44,11 +50,6 @@ class HomeScreen extends React.Component {
             icon={{ name: 'user', type: 'font-awesome' }}
             onPress={() => this.props.navigation.navigate('Account')}
             activeOpacity={0.7}
-          />
-          <Badge
-            status="error"
-            containerStyle={styles.badgeStyle}
-            value={this.state.messages}
           />
         </View>
         <View style={styles.cardGroup}>

@@ -64,7 +64,7 @@ class PriceRecommendationScreen extends React.Component {
 
   render() {
     return (
-      <ScrollView contentContainerStyle={styles.container}>
+      <ScrollView style={{flex: 1}}>
         <View>
           <PricingCard
             color="#fe346e"

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, Alert } from 'react-native';
+import { ScrollView, StyleSheet, Alert } from 'react-native';
 import { Card, Text, Button, Icon } from 'react-native-elements';
 import LiftStore from '../../stores/LiftStore';
 import { observer } from 'mobx-react';
@@ -45,7 +45,7 @@ class OverviewAdScreen extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
         <Card
           title="Wollen Sie folgende Mitfahrgelegenheit inserieren?"
           containerStyle={styles.cardContainer}
@@ -86,15 +86,14 @@ class OverviewAdScreen extends React.Component {
             onPress={this._refuseButtonPressed.bind(this)}
           />
         </Card>
-      </View>
+      </ScrollView>
     );
   }
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: "white"
+    flex: 1
   },
   acceptButton: {
     backgroundColor: "#50d890",

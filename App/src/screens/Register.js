@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, Alert } from 'react-native';
+import { SafeAreaView, View, StyleSheet, Alert } from 'react-native';
 import { Text, Input, Button, Icon } from 'react-native-elements';
 import { observer } from 'mobx-react';
 import SessionStore from '../stores/SessionStore';
@@ -151,7 +151,7 @@ class RegisterScreen extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container}>
         <Text h3 style={styles.title}>Registrierung</Text>
         <Input
           inputStyle={styles.input}
@@ -208,7 +208,6 @@ class RegisterScreen extends React.Component {
         />
         <View style={styles.backButtonContainer}>
           <Button
-            //title="Outline button"
             type="clear"
             icon={
               <Icon
@@ -221,7 +220,7 @@ class RegisterScreen extends React.Component {
             onPress={() => this.props.navigation.navigate('Start')}
           />
         </View>
-      </View>
+      </SafeAreaView>
     )
   }
 }
@@ -263,7 +262,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     left: 0,
-    marginTop: 50,
+    marginTop: 20,
     marginLeft: 10
   }
 })

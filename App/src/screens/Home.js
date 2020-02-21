@@ -43,15 +43,6 @@ class HomeScreen extends React.Component {
   render() {
     return (
       <ImageBackground style={styles.container} source={image} blurRadius={10}>
-        <View style={styles.accountContainer}>
-          <Avatar
-            rounded
-            size='large'
-            icon={{ name: 'user', type: 'font-awesome' }}
-            onPress={() => this.props.navigation.navigate('Account')}
-            activeOpacity={0.7}
-          />
-        </View>
         <View style={styles.cardGroup}>
           <Card title="Suche" containerStyle={styles.cardContainer} titleStyle={styles.cardTitle}>
             <Text style={styles.cardText}>eine Mitfahrgelegenheit</Text>
@@ -133,18 +124,6 @@ const styles = StyleSheet.create({
     color: '#1089ff',
     paddingLeft: 10
   },
-  accountContainer: {
-    top: 0,
-    left: 0,
-    marginTop: 50,
-    marginLeft: 20,
-    position: 'absolute'
-  },
-  badgeStyle: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-  },
   logoutButton: {
     backgroundColor: "red",
     paddingLeft: 20,
@@ -153,13 +132,6 @@ const styles = StyleSheet.create({
   logoutTitle: {
     color: 'black',
     paddingLeft: 5
-  },
-  logoutContainer: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    marginTop: 70,
-    marginRight: 20
   },
   cardGroup: {
     marginTop: 50

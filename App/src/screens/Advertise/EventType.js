@@ -11,6 +11,7 @@ class EventTypeScreen extends React.Component {
   };
 
   _eventButtonPressed() {
+    if (LiftStore.lift.event === null) LiftStore.setEvent(new Event());
     this.props.navigation.navigate('Event');
   }
 

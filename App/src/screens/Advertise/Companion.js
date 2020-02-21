@@ -15,24 +15,23 @@ class CompanionScreen extends React.Component {
   constructor() {
     super();
     this.state = {
-      value: 1,
       progressIsVisible: false
     };
   }
 
   _buttonPressed() {
-    LiftStore.setPassengers(this.state.value);
+    //LiftStore.setPassengers(this.state.value);
     this.props.navigation.navigate('Date');
   }
 
   /* Opens Overlay with Progress Information */
   _showProgressOverlay() {
-    this.setState({ value: this.state.value, progressIsVisible: true });
+    this.setState({ progressIsVisible: true });
   }
 
   /* Closes Overlay with Progress Information */
   _closeProgressOverlay() {
-    this.setState({ value: this.state.value, progressIsVisible: false });
+    this.setState({ progressIsVisible: false });
   }
 
   render() {
@@ -45,13 +44,13 @@ class CompanionScreen extends React.Component {
         <Text h4 style={styles.title}>Wie viele möchtest du mitnehmen?</Text>
         <View style={styles.slider}>
           <Slider
-            value={this.state.value}
-            onValueChange={value => this.setState({ value })}
+            value={LiftStore.lift.passengers}
+            onValueChange={value => LiftStore.setPassengers(value)}
             minimumValue={1}
             maximumValue={6}
             step={1}
           />
-          <Text h2 style={styles.sliderText}>{this.state.value}</Text>
+          <Text h2 style={styles.sliderText}>{LiftStore.lift.passengers}</Text>
         </View>
         <Button
           buttonStyle={styles.checkButton}

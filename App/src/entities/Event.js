@@ -5,18 +5,17 @@ class Event {
     eventDescription;
     faculties;
 
-    constructor(eventTitle, eventDescription, faculties) {
-        this.eventTitle = eventTitle
-        this.eventDescription = eventDescription;
-        this.faculties = faculties;
+    constructor() {
+        this.eventTitle = '';
+        this.eventDescription = '';
+        this.faculties = null;
     }
 
 }
 
 decorate(Event, {
     eventTitle: observable,
-    eventDescription: observable,
-    faculties: observable
+    eventDescription: observable
 });
 
 export default Event;

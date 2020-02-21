@@ -74,9 +74,8 @@ class FacultyScreen extends React.Component {
       return;
     }
     let eventFaculties = this.faculties.filter(faculty => this.state.selectedFaculties.includes(faculty.name));
-    let event = new Event(this.eventTitle, this.eventDescription, eventFaculties);
-    // Set Event in MobX Store
-    LiftStore.setEvent(event);
+    // Set Faculties in MobX Store
+    LiftStore.lift.event.faculties = eventFaculties;
     // Change to Overview Screen
     this.props.navigation.navigate('OverviewAd');
   }
@@ -148,10 +147,6 @@ class FacultyScreen extends React.Component {
   }
 
   render() {
-    const { navigation } = this.props;
-    this.eventTitle = navigation.getParam('eventTitle', undefined);
-    this.eventDescription = navigation.getParam('eventDescription', undefined);
-
     return (
       <View style={styles.container}>
         <InfoButton

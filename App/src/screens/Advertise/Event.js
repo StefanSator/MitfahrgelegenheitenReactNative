@@ -16,64 +16,42 @@ class EventScreen extends React.Component {
     super(props);
     this.state = {
       titleChars: 0,
-      title: '',
       descriptionChars: 0,
-      description: '',
       progressIsVisible: false
     }
   }
 
-  /* Increments the State Variable titleChars, when text input changes */
-  _incrementTitleCharCount(title) {
-    this.setState({
-      titleChars: title.length,
-      title: title,
-      descriptionChars: this.state.descriptionChars,
-      description: this.state.description,
-      progressIsVisible: this.state.progressIsVisible
-    });
+  /* Increments the State Variable titleChars and updates title, when text input changes */
+  _updateEventTitle(title) {
+    LiftStore.lift.event.eventTitle = title;
   }
 
-  /* Increments the State Variable descriptionChars, when text input changes */
-  _incrementDescriptionCharCount(description) {
-    this.setState({
-      titleChars: this.state.titleChars,
-      title: this.state.title,
-      descriptionChars: description.length,
-      description: description,
-      progressIsVisible: this.state.progressIsVisible
-    });
+  /* Increments the State Variable descriptionChars and updates description, when text input changes */
+  _updateEventDescription(description) {
+    LiftStore.lift.event.eventDescription = description;
   }
 
   /* Navigate to next screen of App */
   _nextButtonPressed() {
-    if (this.state.title.length === 0) {
+    if (LiftStore.lift.event.eventTitle.length === 0) {
       Alert.alert('Bitte geben Sie den Namen des Events ein.');
       return;
-    } else if (this.state.description.length === 0) {
+    } else if (LiftStore.lift.event.eventDescription.length === 0) {
       Alert.alert('Bitte geben Sie eine kurze Beschreibung für das Event ein.');
       return;
     } else {
-      this.props.navigation.navigate('Faculty', {
-        eventTitle: this.state.title,
-        eventDescription: this.state.description
-      });
+      this.props.navigation.navigate('Faculty');
     }
   }
 
   /* Opens Overlay with Progress Information */
   _showProgressOverlay() {
-    let copy = JSON.parse(JSON.stringify(this.state));
-    copy.progressIsVisible = true;
-    console.log(copy);
-    this.setState(copy);
+    this.setState({ progressIsVisible: true });
   }
 
   /* Closes Overlay with Progress Information */
   _closeProgressOverlay() {
-    let copy = JSON.parse(JSON.stringify(this.state));
-    copy.progressIsVisible = false;
-    this.setState(copy);
+    this.setState({ progressIsVisible: false });
   }
 
   render() {
@@ -85,20 +63,22 @@ class EventScreen extends React.Component {
         />
         <Text h4 style={styles.title}>Wie heißt das Event?</Text>
         <Input
-          onChangeText={this._incrementTitleCharCount.bind(this)}
+          onChangeText={this._updateEventTitle.bind(this)}
           placeholder='Karrieremesse München, Hackathon Berlin etc.'
+          value={LiftStore.lift.event.eventTitle}
           multiline={true}
           maxLength={50}
           inputStyle={{ height: 50, textAlignVertical: 'top', borderWidth: 1, fontSize: 14, padding: 10 }} />
-        <Text style={styles.maxCharText}>{this.state.titleChars} / 50</Text>
+        <Text style={styles.maxCharText}>{LiftStore.lift.event.eventTitle.length} / 50</Text>
         <Text h4 style={styles.title}>Um was handelt es sich?</Text>
         <Input
-          onChangeText={this._incrementDescriptionCharCount.bind(this)}
+          onChangeText={this._updateEventDescription.bind(this)}
           placeholder='Suche Leute die bei mir mitfahren wollen, um zusammen die Karrieremesse in München zu besuchen.'
+          value={LiftStore.lift.event.eventDescription}
           multiline={true}
           maxLength={200}
           inputStyle={{ height: 150, textAlignVertical: 'top', borderWidth: 1, fontSize: 14, padding: 10 }} />
-        <Text style={styles.maxCharText}>{this.state.descriptionChars} / 200</Text>
+        <Text style={styles.maxCharText}>{LiftStore.lift.event.eventDescription.length} / 200</Text>
         <Button
           buttonStyle={styles.nextButton}
           containerStyle={styles.nextButton}

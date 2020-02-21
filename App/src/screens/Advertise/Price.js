@@ -16,29 +16,27 @@ class PriceScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: 0,
       progressIsVisible: false
     };
   }
 
   _checkButtonPressed() {
-    LiftStore.setPrice(this.state.value);
     this.props.navigation.navigate('EventType');
   }
 
   /* Updates the Value, to display on GUI */
   _updateValue(value) {
-    this.setState({ value: value, progressIsVisible: this.state.progressIsVisible })
+    LiftStore.lift.price = value;
   }
 
   /* Opens Overlay with Progress Information */
   _showProgressOverlay() {
-    this.setState({ listdata: this.state.value, progressIsVisible: true });
+    this.setState({ progressIsVisible: true });
   }
 
   /* Closes Overlay with Progress Information */
   _closeProgressOverlay() {
-    this.setState({ listdata: this.state.value, progressIsVisible: false });
+    this.setState({ progressIsVisible: false });
   }
 
   render() {
@@ -50,7 +48,7 @@ class PriceScreen extends React.Component {
         />
         <Text h4 style={styles.title}>Wie viel wollt ihr dafür?</Text>
         <NumericInput
-          value={this.state.value}
+          value={LiftStore.lift.price}
           onChange={value => this._updateValue(value)}
           minValue={0}
           totalWidth={300}

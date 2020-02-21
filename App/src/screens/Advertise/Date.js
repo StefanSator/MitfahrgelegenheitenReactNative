@@ -57,7 +57,7 @@ class DateScreen extends React.Component {
         />
         <Text h4 style={styles.title}>Wann wollt ihr fahren?</Text>
         <Button buttonStyle={styles.checkButton}
-          title="Termin wählen"
+          title= {LiftStore.lift.datetime === null ? "Termin wählen" : `${LiftStore.lift.datetime.day}.${LiftStore.lift.datetime.month}.${LiftStore.lift.datetime.year}`}
           onPress={this._showDateTimePicker.bind(this)} />
         <DateTimePicker
           mode={'datetime'}

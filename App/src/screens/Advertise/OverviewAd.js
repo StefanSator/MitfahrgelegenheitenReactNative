@@ -20,6 +20,7 @@ class OverviewAdScreen extends React.Component {
   _acceptButtonPressed() {
     this._saveLiftAdvertisement();
     this.props.navigation.navigate('Advertise');
+    Alert.alert("Mitfahrgelegenheit gespeichert.");
   }
 
   _refuseButtonPressed() {

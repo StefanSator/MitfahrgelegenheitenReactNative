@@ -9,6 +9,7 @@ class StepProgressBar extends React.Component {
   constructor(props) {
     super(props);
     this.steps = this.props.steps; // Array of Step Objects containing label and completed status
+    this.currentStep = this.props.currentStep;
     this.isVisible = this.props.isVisible;
     this.callback = this.props.closeCallback;
   }
@@ -23,14 +24,15 @@ class StepProgressBar extends React.Component {
       case 1: Alert.alert(LiftStore.lift.passengers ? 'Mitfahrer: ' + LiftStore.lift.passengers : 'Nichts angegeben!'); break;
       case 2: Alert.alert(LiftStore.lift.datetime ? `Datum: ${LiftStore.lift.datetime.day}.${LiftStore.lift.datetime.month}.${LiftStore.lift.datetime.year}\n`
         + `Uhrzeit: ${LiftStore.lift.datetime.hour}:${LiftStore.lift.datetime.minutes} Uhr` : 'Nichts angegeben!'); break;
-      case 3: Alert.alert(LiftStore.lift.price ? 'Preis: ' + LiftStore.lift.price + '€' : 'Nichts angegeben!'); break;
-      case 4: Alert.alert(LiftStore.lift.event ? LiftStore.lift.event.eventTitle : 'Nichts angegeben!'); break;
+      case 3: Alert.alert(LiftStore.lift.price ? 'Preis: ' + LiftStore.lift.price + '€' : '0€'); break;
+      case 4: Alert.alert(LiftStore.lift.event.eventTitle.length != 0 ? LiftStore.lift.event.eventTitle : 'Nichts angegeben!'); break;
     }
   }
 
   render() {
     this.steps = this.props.steps;
     this.isVisible = this.props.isVisible;
+    this.currentStep = this.props.currentStep;
     return (
       <Overlay
         isVisible={this.isVisible}
@@ -42,7 +44,7 @@ class StepProgressBar extends React.Component {
           <View style={styles.container}>
             {this.steps.map((value, index) => {
               let bgColor;
-              if (value.currentStep === true) {
+              if (index === this.currentStep) {
                 bgColor = '#fe346e'
               } else {
                 bgColor = '#4d80e4';
@@ -68,10 +70,10 @@ class StepProgressBar extends React.Component {
               return (
                 <View style={styles.step} key={index}>
                   <Button
-                    disabled={value.currentStep ? !value.notcompleted : value.notcompleted}
+                    disabled={index > this.currentStep ? true : false}
                     buttonStyle={{ ...styles.button, backgroundColor: bgColor }}
                     iconContainerStyle={styles.iconContainer}
-                    icon={(value.currentStep) ? currentIcon : (value.notcompleted ? inaccomplishedIcon : accomplishedIcon)}
+                    icon={(index === this.currentStep) ? currentIcon : (index > this.currentStep ? inaccomplishedIcon : accomplishedIcon)}
                     onPress={() => this._informationHandler(index)}
                   />
                   <Text style={{ color: 'black', marginTop: 5, alignSelf: 'center' }}>{value.label}</Text>

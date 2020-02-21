@@ -17,7 +17,7 @@ class Lift {
         this.start = new City(43, 'Regensburg', 'Bavaria', 49.034512, 12.119234);
         this.target = null;
         this.passengers = 1;
-        this.price = 5;
+        this.price = 0;
         this.event = new Event();
         this.datetime = null;
     }

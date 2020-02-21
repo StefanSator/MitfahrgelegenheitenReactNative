@@ -161,32 +161,23 @@ class FacultyScreen extends React.Component {
           steps={
             [
               {
-                label: 'Ziel',
-                notcompleted: (LiftStore.lift.target) ? false : true,
-                currentStep: false
+                label: 'Ziel'
               },
               {
-                label: 'Mitfahrer',
-                notcompleted: (LiftStore.lift.passengers) ? false : true,
-                currentStep: false
+                label: 'Mitfahrer'
               },
               {
-                label: 'Termin',
-                notcompleted: (LiftStore.lift.datetime) ? false : true,
-                currentStep: false
+                label: 'Termin'
               },
               {
-                label: 'Preis',
-                notcompleted: (LiftStore.lift.price) ? false : true,
-                currentStep: false
+                label: 'Preis'
               },
               {
-                label: 'Event',
-                notcompleted: (LiftStore.lift.event) ? false : true,
-                currentStep: true
+                label: 'Event'
               }
             ]
           }
+          currentStep={4}
           isVisible={this.state.progressIsVisible}
           closeCallback={this._closeProgressOverlay.bind(this)}
         />

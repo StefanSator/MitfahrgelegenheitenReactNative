@@ -6,22 +6,32 @@ import MultiSelect from 'react-native-multiple-select';
 import FacultyCheckboxGroup from '../views/FacultyCheckboxGroup';
 import SearchRequestStore from '../../stores/SearchRequestStore';
 
+/**
+ * Class implementing the FacultyFilterScreen Component.
+ * @extends React.Component
+ */
 class FacultyFilterScreen extends React.Component {
 
   static navigationOptions = {
     title: 'Filter'
   };
 
+  /**
+   * Create new FacultyFilterScreen Component.
+   */
   constructor() {
     super();
+    /** Local State Object of the Component. */
     this.state = {
       selectedFaculties: [],
       loading: true
     };
+    /** Array containing all available Faculties. */
     this.faculties = [];
     this._loadFacultyData();
   }
 
+  /* Gets called if user selects or deselects a item in the list. */
   onSelectedItemsChange = selectedFaculties => {
     this.setState({
       selectedFaculties: selectedFaculties,
@@ -29,6 +39,10 @@ class FacultyFilterScreen extends React.Component {
     });
   };
 
+  /**
+   * Deselect a selected Faculty.
+   * @param {String} name Name of the Faculty.
+   */
   _removeSelectedFaculty(name) {
     let index = this.state.selectedFaculties.indexOf(name);
     if (index !== -1) {
@@ -41,6 +55,9 @@ class FacultyFilterScreen extends React.Component {
     }
   }
 
+  /**
+   * Send GET-Request to the backend service to get all faculties of OTH Regensburg.
+   */
   async _loadFacultyData() {
     try {
       let response = await fetch(BackendURL + '/lifts/event/faculties');
@@ -59,6 +76,9 @@ class FacultyFilterScreen extends React.Component {
     }
   }
 
+  /**
+   * Set the selected Faculties in the global State Object and return to previous screen.
+   */
   _nextButtonPressed() {
     if (this.state.selectedFaculties.length === 0) {
       Alert.alert('Bitte wählen Sie mindestens eine Fakultät aus.');
@@ -71,6 +91,10 @@ class FacultyFilterScreen extends React.Component {
     this.props.navigation.goBack();
   }
 
+  /**
+   * Displays automatically the MultiSelect Component, if the Faculty data has been retrieved from the backend.
+   * @param {Boolean} loading True, if list elements are loading, else false.
+   */
   _displayMultiselect(loading) {
     if (loading === false) {
       return (
@@ -119,6 +143,11 @@ class FacultyFilterScreen extends React.Component {
     }
   }
 
+  /** 
+   * Renders the UI of the Component every time the state of the component has changed.
+   * Inherited by React.Component. Every React Component must implement this function.
+   * @returns {JSX} The User Interface to display on screen.
+   */
   render() {
     return (
       <View style={styles.container}>
@@ -131,6 +160,7 @@ class FacultyFilterScreen extends React.Component {
   }
 }
 
+/** Style Object of the FacultyFilterScreen Component. */
 const styles = StyleSheet.create({
   container: {
     flex: 1,

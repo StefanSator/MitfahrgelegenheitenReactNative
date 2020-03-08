@@ -5,17 +5,30 @@ import SearchRequestStore from '../../stores/SearchRequestStore';
 /* Photo by Atlas Green on Unsplash */
 const image = require('../../assets/images/hitchhiker.jpeg');
 
+/**
+ * Class implementing the SearchStartScreen Component.
+ * @extends React.Component
+ */
 class SearchStartScreen extends React.Component {
 
   static navigationOptions = {
     title: 'Suchen'
   };
 
+  /**
+   * Start a new Search for Lifts by reseting the global State Object
+   * and switching to the SearchFromScreen Component.
+   */
   _navigateToSearchForm() {
     SearchRequestStore.newSearch();
     this.props.navigation.navigate('SearchForm');
   }
 
+  /** 
+   * Renders the UI of the Component every time the state of the component has changed.
+   * Inherited by React.Component. Every React Component must implement this function.
+   * @returns {JSX} The User Interface to display on screen.
+   */
   render() {
     return (
       <ImageBackground source={image} style={{ width: '100%', height: '100%' }} blurRadius={10}>
@@ -40,6 +53,7 @@ class SearchStartScreen extends React.Component {
   }
 };
 
+/** Style Object for the SearchStartScreen Component. */
 const styles = StyleSheet.create({
   container: {
     flex: 1,

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: screens/Home.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: screens/Home.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React from 'react';
+import { View, ImageBackground, StyleSheet, Text } from 'react-native';
+import { Card, Button, Icon, Avatar, Badge } from 'react-native-elements';
+import { createBottomTabNavigator } from 'react-navigation-tabs';
+import { createAppContainer } from 'react-navigation';
+import SessionStore from '../stores/SessionStore';
+import { observer } from 'mobx-react';
+/* Photo by adrian on Unsplash */
+const image = require('../assets/images/street.jpeg');
+
+import AdvertiseStack from './Advertise/Advertise';
+import SearchStack from './Search/Search';
+import AccountStack from './Account/Account';
+
+/**
+ * Class implementing the Home Screen Component.
+ * @extends React.Component
+ */
+class HomeScreen extends React.Component {
+
+  /**
+   * Create the Home Screen Component.
+   * @param {Object} props properties which are passed to the component.
+   * Can be used for customizing the component.
+   */
+  constructor(props) {
+    super(props);
+  }
+
+  /** Ends the current user session and switches to the StartScreen of the app. */
+  _logoutUser() {
+    /* End Session of User */
+    SessionStore.endSession();
+    /* Return to Start Screen of App */
+    this.props.navigation.navigate('Start');
+  }
+
+  /** 
+   * Renders the UI of the Component every time the state of the component has changed.
+   * Inherited by React.Component. Every React Component must implement this function.
+   * @returns {JSX} The User Interface to display on screen.
+   */
+  render() {
+    return (
+      &lt;ImageBackground style={styles.container} source={image} blurRadius={10}>
+        &lt;View style={styles.cardGroup}>
+          &lt;Card title="Suche" containerStyle={styles.cardContainer} titleStyle={styles.cardTitle}>
+            &lt;Text style={styles.cardText}>eine Mitfahrgelegenheit&lt;/Text>
+            &lt;Button buttonStyle={styles.button}
+              title="Leg los!"
+              titleStyle={styles.buttonTitle}
+              icon={
+                &lt;Icon
+                  name='search'
+                  type='feather'
+                  color='#1089ff'
+                />
+              }
+              onPress={() => this.props.navigation.navigate('Search')}
+            />
+          &lt;/Card>
+          &lt;Card title="Inseriere" containerStyle={styles.cardContainer} titleStyle={styles.cardTitle}>
+            &lt;Text style={styles.cardText}>eine Mitfahrgelegenheit&lt;/Text>
+            &lt;Button buttonStyle={styles.button}
+              title="Leg los!"
+              titleStyle={styles.buttonTitle}
+              icon={
+                &lt;Icon
+                  name='pluscircleo'
+                  type='antdesign'
+                  color='#1089ff'
+                />
+              }
+              onPress={() => this.props.navigation.navigate('Advertise')}
+            />
+          &lt;/Card>
+        &lt;/View>
+        &lt;View style={styles.logoutContainer}>
+          &lt;Button
+            buttonStyle={styles.logoutButton}
+            titleStyle={styles.logoutTitle}
+            title="Logout"
+            icon={
+              &lt;Icon
+                name='log-out'
+                type='entypo'
+                color='black'
+              />
+            }
+            onPress={this._logoutUser.bind(this)}
+          />
+        &lt;/View>
+      &lt;/ImageBackground>
+    );
+  }
+}
+
+/**
+ * Style Object for the HomeScreen Component.
+ */
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  cardContainer: {
+    backgroundColor: '#1089ff',
+    borderWidth: 0,
+    marginBottom: 20
+  },
+  cardTitle: {
+    color: 'white'
+  },
+  cardText: {
+    alignSelf: "center",
+    color: 'white',
+    paddingBottom: 20
+  },
+  button: {
+    backgroundColor: 'white',
+    marginLeft: 75,
+    marginRight: 75
+  },
+  buttonTitle: {
+    color: '#1089ff',
+    paddingLeft: 10
+  },
+  logoutButton: {
+    backgroundColor: "red",
+    paddingLeft: 20,
+    paddingRight: 20
+  },
+  logoutTitle: {
+    color: 'black',
+    paddingLeft: 5
+  },
+  cardGroup: {
+    marginTop: 50
+  }
+});
+
+/**
+ * Tab Navigator for handling the Tab Navigation within the App.
+ */
+const TabNavigator = createBottomTabNavigator(
+  {
+    Home: observer(HomeScreen),
+    Advertise: AdvertiseStack,
+    Search: SearchStack,
+    Account: AccountStack
+  },
+  {
+    defaultNavigationOptions: ({ navigation }) => ({
+      tabBarIcon: ({ focused, horizontal, tintColor }) => {
+        const { routeName } = navigation.state;
+        let iconName;
+        let iconType;
+        if (routeName === 'Home') {
+          iconName = 'car';
+          iconType = 'antdesign'
+        } else if (routeName === 'Advertise') {
+          iconName = 'pluscircleo';
+          iconType = 'antdesign'
+        } else if (routeName === 'Search') {
+          iconName = 'search';
+          iconType = 'feather';
+        } else if (routeName === 'Account') {
+          iconName = 'user';
+          iconType ='feather';
+        }
+        return &lt;Icon name={iconName} type={iconType} color={tintColor} />;
+      },
+    }),
+    tabBarOptions: { // change this if ripple effect is lost in android
+      activeTintColor: 'white',
+      inactiveTintColor: 'black',
+      style: {
+        backgroundColor: '#1089ff'
+      }
+    }
+  }
+);
+
+export default createAppContainer(TabNavigator);</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AccountStartScreen.html">AccountStartScreen</a></li><li><a href="AdvertiseStartScreen.html">AdvertiseStartScreen</a></li><li><a href="City.html">City</a></li><li><a href="CompanionScreen.html">CompanionScreen</a></li><li><a href="DateScreen.html">DateScreen</a></li><li><a href="Datetime.html">Datetime</a></li><li><a href="DestinationCityScreen.html">DestinationCityScreen</a></li><li><a href="DestinationStateScreen.html">DestinationStateScreen</a></li><li><a href="Event.html">Event</a></li><li><a href="EventScreen.html">EventScreen</a></li><li><a href="EventTypeScreen.html">EventTypeScreen</a></li><li><a href="Faculty.html">Faculty</a></li><li><a href="FacultyCheckboxGroup.html">FacultyCheckboxGroup</a></li><li><a href="FacultyFilterScreen.html">FacultyFilterScreen</a></li><li><a href="FacultyScreen.html">FacultyScreen</a></li><li><a href="HomeScreen.html">HomeScreen</a></li><li><a href="InfoButton.html">InfoButton</a></li><li><a href="Lift.html">Lift</a></li><li><a href="LiftStore.html">LiftStore</a></li><li><a href="LoginScreen.html">LoginScreen</a></li><li><a href="OverviewAdScreen.html">OverviewAdScreen</a></li><li><a href="PriceRecommendationScreen.html">PriceRecommendationScreen</a></li><li><a href="PriceScreen.html">PriceScreen</a></li><li><a href="RegisterScreen.html">RegisterScreen</a></li><li><a href="SearchFormScreen.html">SearchFormScreen</a></li><li><a href="SearchRequest.html">SearchRequest</a></li><li><a href="SearchRequestStore.html">SearchRequestStore</a></li><li><a href="SearchResultScreen.html">SearchResultScreen</a></li><li><a href="SearchStartScreen.html">SearchStartScreen</a></li><li><a href="SessionStore.html">SessionStore</a></li><li><a href="StartScreen.html">StartScreen</a></li><li><a href="StepProgressBar.html">StepProgressBar</a></li></ul><h3>Global</h3><ul><li><a href="global.html#AdvertiseStack">AdvertiseStack</a></li><li><a href="global.html#AppNavigator">AppNavigator</a></li><li><a href="global.html#SearchStack">SearchStack</a></li><li><a href="global.html#styles">styles</a></li><li><a href="global.html#TabNavigator">TabNavigator</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Sun Mar 08 2020 15:29:57 GMT+0100 (GMT+01:00)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

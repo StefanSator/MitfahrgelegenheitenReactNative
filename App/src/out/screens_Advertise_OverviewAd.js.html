@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: screens/Advertise/OverviewAd.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: screens/Advertise/OverviewAd.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React from 'react';
+import { ScrollView, StyleSheet, Alert } from 'react-native';
+import { Card, Text, Button, Icon } from 'react-native-elements';
+import LiftStore from '../../stores/LiftStore';
+import { observer } from 'mobx-react';
+
+/**
+ * Class implementing the OverviewAdScreen Component.
+ * Shows a Overview of the Input Informations for the Lift to Advertise.
+ * @extends React.Component
+ */
+class OverviewAdScreen extends React.Component {
+
+  static navigationOptions = {
+    title: 'Überblick'
+  };
+
+  /**
+   * Create a new OverviewAdScreen Component.
+   * @param {Object} props properties which are passed to the component.
+   */
+  constructor(props) {
+    super(props);
+    /** Local State Object of the Component. */
+    this.state = {
+      isVisible: true
+    };
+  }
+
+  /**
+   * Gets triggered if the user clicks the Accept Button.
+   * Calls the saveLiftAdvertisement() function and ends the Advertise Process.
+   */
+  _acceptButtonPressed() {
+    this._saveLiftAdvertisement();
+    this.props.navigation.navigate('Advertise');
+    Alert.alert("Mitfahrgelegenheit gespeichert.");
+  }
+
+  /**
+   * Gets triggered if the user clicks the Cancel Button.
+   * Ends the Advertise Process, without saving the Lift.
+   */
+  _refuseButtonPressed() {
+    this.props.navigation.navigate('Advertise');
+  }
+
+  /**
+   * Saves the newly advertised Lift in the Database by sending a Request to the Backend Service.
+   */
+  async _saveLiftAdvertisement() {
+    try {
+      await fetch(BackendURL + '/lifts/new', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          lift: LiftStore.lift
+        }),
+      });
+    } catch (error) {
+      Alert.alert("Leider konnte Ihre Mitfahrgelegenheit nicht gespeichert werden.");
+    }
+  }
+
+  /** 
+   * Renders the UI of the Component every time the state of the component has changed.
+   * Inherited by React.Component. Every React Component must implement this function.
+   * @returns {JSX} The User Interface to display on screen.
+   */
+  render() {
+    return (
+      &lt;ScrollView style={styles.container}>
+        &lt;Card
+          title="Wollen Sie folgende Mitfahrgelegenheit inserieren?"
+          containerStyle={styles.cardContainer}
+          titleStyle={styles.cardTitle}
+        >
+          &lt;Text style={styles.cardText}>Start: {LiftStore.lift.start.cityName}&lt;/Text>
+          &lt;Text style={styles.cardText}>Ziel: {LiftStore.lift.target.cityName}&lt;/Text>
+          &lt;Text style={styles.cardText}>Mitfahrer: {LiftStore.lift.passengers}&lt;/Text>
+          &lt;Text style={styles.cardText}>Datum: {`${LiftStore.lift.datetime.day}.${LiftStore.lift.datetime.month}.${LiftStore.lift.datetime.year}`}&lt;/Text>
+          &lt;Text style={styles.cardText}>Uhrzeit: {`${LiftStore.lift.datetime.hour}:${LiftStore.lift.datetime.minutes} Uhr`}&lt;/Text>
+          &lt;Text style={styles.cardText}>Event: {(LiftStore.lift.event !== null) ? LiftStore.lift.event.eventTitle : 'Private Fahrt'}&lt;/Text>
+          {(LiftStore.lift.event !== null) ? &lt;Text style={styles.cardText}>Eventbeschreibung: {LiftStore.lift.event.eventDescription}&lt;/Text> : null}
+          &lt;Text style={styles.cardText}>Preis: {LiftStore.lift.price} €&lt;/Text>
+          &lt;Button
+            buttonStyle={styles.acceptButton}
+            titleStyle={styles.buttonTitle}
+            title="Einverstanden"
+            icon={
+              &lt;Icon
+                name='check'
+                type='feather'
+                color='white'
+              />
+            }
+            onPress={this._acceptButtonPressed.bind(this)}
+          />
+          &lt;Button
+            buttonStyle={styles.refuseButton}
+            titleStyle={styles.buttonTitle}
+            title="Abbrechen"
+            icon={
+              &lt;Icon
+                name='cross'
+                type='entypo'
+                color='white'
+              />
+            }
+            onPress={this._refuseButtonPressed.bind(this)}
+          />
+        &lt;/Card>
+      &lt;/ScrollView>
+    );
+  }
+};
+
+/** Style Object of the OverviewAdScreen Component. */
+const styles = StyleSheet.create({
+  container: {
+    flex: 1
+  },
+  acceptButton: {
+    backgroundColor: "#50d890",
+    marginTop: 20,
+    paddingLeft: 20,
+    paddingRight: 20,
+    borderRadius: 10
+  },
+  refuseButton: {
+    backgroundColor: "red",
+    marginTop: 20,
+    paddingLeft: 15,
+    paddingRight: 32,
+    borderRadius: 10
+  },
+  buttonTitle: {
+    color: 'white',
+    paddingLeft: 17
+  },
+  cardContainer: {
+    backgroundColor: "#1089ff",
+    borderRadius: 10
+  },
+  cardTitle: {
+    color: 'white'
+  },
+  cardText: {
+    color: 'white',
+    fontSize: 16,
+    margin: 5
+  }
+});
+
+export default observer(OverviewAdScreen);</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AccountStartScreen.html">AccountStartScreen</a></li><li><a href="AdvertiseStartScreen.html">AdvertiseStartScreen</a></li><li><a href="City.html">City</a></li><li><a href="CompanionScreen.html">CompanionScreen</a></li><li><a href="DateScreen.html">DateScreen</a></li><li><a href="Datetime.html">Datetime</a></li><li><a href="DestinationCityScreen.html">DestinationCityScreen</a></li><li><a href="DestinationStateScreen.html">DestinationStateScreen</a></li><li><a href="Event.html">Event</a></li><li><a href="EventScreen.html">EventScreen</a></li><li><a href="EventTypeScreen.html">EventTypeScreen</a></li><li><a href="Faculty.html">Faculty</a></li><li><a href="FacultyCheckboxGroup.html">FacultyCheckboxGroup</a></li><li><a href="FacultyFilterScreen.html">FacultyFilterScreen</a></li><li><a href="FacultyScreen.html">FacultyScreen</a></li><li><a href="HomeScreen.html">HomeScreen</a></li><li><a href="InfoButton.html">InfoButton</a></li><li><a href="Lift.html">Lift</a></li><li><a href="LiftStore.html">LiftStore</a></li><li><a href="LoginScreen.html">LoginScreen</a></li><li><a href="OverviewAdScreen.html">OverviewAdScreen</a></li><li><a href="PriceRecommendationScreen.html">PriceRecommendationScreen</a></li><li><a href="PriceScreen.html">PriceScreen</a></li><li><a href="RegisterScreen.html">RegisterScreen</a></li><li><a href="SearchFormScreen.html">SearchFormScreen</a></li><li><a href="SearchRequest.html">SearchRequest</a></li><li><a href="SearchRequestStore.html">SearchRequestStore</a></li><li><a href="SearchResultScreen.html">SearchResultScreen</a></li><li><a href="SearchStartScreen.html">SearchStartScreen</a></li><li><a href="SessionStore.html">SessionStore</a></li><li><a href="StartScreen.html">StartScreen</a></li><li><a href="StepProgressBar.html">StepProgressBar</a></li></ul><h3>Global</h3><ul><li><a href="global.html#AdvertiseStack">AdvertiseStack</a></li><li><a href="global.html#AppNavigator">AppNavigator</a></li><li><a href="global.html#SearchStack">SearchStack</a></li><li><a href="global.html#styles">styles</a></li><li><a href="global.html#TabNavigator">TabNavigator</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Sun Mar 08 2020 15:29:57 GMT+0100 (GMT+01:00)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

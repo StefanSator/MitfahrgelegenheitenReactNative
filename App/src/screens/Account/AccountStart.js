@@ -3,14 +3,23 @@ import { View, StyleSheet, FlatList, Alert } from 'react-native';
 import { ButtonGroup, Card, Text, Avatar, Button } from 'react-native-elements';
 import SessionStore from '../../stores/SessionStore';
 
+/**
+ * Class implementing the AccounScreen Component.
+ * @extends React.Component
+ */
 class AccountStartScreen extends React.Component {
 
   static navigationOptions = {
     title: 'Account'
   };
 
+  /**
+   * Create a new AccountSceen Component.
+   * @param {Object} props properties which are passed to the component.
+   */
   constructor(props) {
     super(props);
+    /** Local State Object of the Component. */
     this.state = {
       requestinput: [],
       requestoutput: [],
@@ -29,6 +38,10 @@ class AccountStartScreen extends React.Component {
     this._loadRequestOutput();
   }
 
+  /**
+   * Invite a User to own advertised Lift by sending a POST-Request to the Backend Service.
+   * @param {Object} liftRequest 
+   */
   async _inviteUserToLift(liftRequest) {
     try {
       let res = await fetch(BackendURL + '/lifts/book/accept', {
@@ -58,6 +71,10 @@ class AccountStartScreen extends React.Component {
     }
   }
 
+  /**
+   * Refuse a User to own advertised Lift by sending a POST-Request to the Backend Service.
+   * @param {Object} liftRequest 
+   */
   async _refuseUserForLift(liftRequest) {
     try {
       await fetch(BackendURL + '/lifts/book/refuse', {
@@ -78,11 +95,15 @@ class AccountStartScreen extends React.Component {
     }
   }
 
+  /**
+   * Get all Booking-Requests from other users by sending a GET-Request to the backend service.
+   */
   async _loadRequestInput() {
     try {
       const encodedUserId = encodeURIComponent(SessionStore.sessionToken);
       let response = await fetch(BackendURL + '/lifts/book/input?userId=' + encodedUserId);
       let liftRequestInput = await response.json();
+      console.log(liftRequestInput);
       let copyState = JSON.parse(JSON.stringify(this.state));
       copyState.requestinput = liftRequestInput;
       this.setState(copyState);
@@ -92,11 +113,15 @@ class AccountStartScreen extends React.Component {
     }
   }
 
+  /**
+   * Get my Booking-Requests sent to other users by sending a GET-Request to the backend service.
+   */
   async _loadRequestOutput() {
     try {
       const encodedUserId = encodeURIComponent(SessionStore.sessionToken);
       let response = await fetch(BackendURL + '/lifts/book/output?userId=' + encodedUserId);
       let liftRequestOutput = await response.json();
+      console.log(liftRequestOutput);
       let copyState = JSON.parse(JSON.stringify(this.state));
       copyState.requestoutput = liftRequestOutput;
       this.setState(copyState);
@@ -106,6 +131,10 @@ class AccountStartScreen extends React.Component {
     }
   }
 
+  /**
+   * Delete a selected Booking-Request by sending a DELETE-Request to the backend service.
+   * @param {Object} liftRequest 
+   */
   async _deleteRequestOutput(liftRequest) {
     try {
       await fetch(BackendURL + '/lifts/book', {
@@ -126,12 +155,18 @@ class AccountStartScreen extends React.Component {
     }
   }
 
+  /**
+   * Display an Alert showing the Email of a user.
+   * @param {String} email 
+   */
   _showUserInformationDialog(email) {
     Alert.alert('Email: ' + email);
   }
 
+  /* Used to extract a unique key for a given item at the specified index. */
   keyExtractor = (item, index) => index.toString()
 
+  /* Is called to render a selected item of the Booking-Request Input List. */
   renderItemInput = ({ item }) => (
     <Card
       title={(item.eventid) ? item.eventtitle : `${item.startcity} - ${item.targetcity}`}
@@ -164,6 +199,7 @@ class AccountStartScreen extends React.Component {
     </Card>
   )
 
+  /* Is called to render a selected item of the Booking-Request Output List. */
   renderItemOutput = ({ item }) => (
     <Card
       title={(item.eventid) ? item.eventtitle : `${item.startcity} - ${item.targetcity}`}
@@ -199,6 +235,10 @@ class AccountStartScreen extends React.Component {
     </Card>
   )
 
+  /**
+   * Updates the Sselected Index if the Button in the Top Bar of the screen is pressed.
+   * @param {Integer} selectedIndex 
+   */
   _updateSelectedIndex(selectedIndex) {
     let valueCopy = JSON.parse(JSON.stringify(this.state));
     valueCopy.selectedIndex = selectedIndex;
@@ -210,6 +250,11 @@ class AccountStartScreen extends React.Component {
     }
   }
 
+  /** 
+   * Renders the UI of the Component every time the state of the component has changed.
+   * Inherited by React.Component. Every React Component must implement this function.
+   * @returns {JSX} The User Interface to display on screen.
+   */
   render() {
     const buttons = ['Posteingang', 'Postausgang']
     const { selectedIndex } = this.state;

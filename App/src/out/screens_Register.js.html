@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: screens/Register.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: screens/Register.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React from 'react';
+import { SafeAreaView, View, StyleSheet, Alert } from 'react-native';
+import { Text, Input, Button, Icon } from 'react-native-elements';
+import { observer } from 'mobx-react';
+import SessionStore from '../stores/SessionStore';
+
+const validator = require('email-validator');
+
+const passwordStrengthMessages = {
+  bad: 'Bad Password',
+  average: 'Average Password',
+  good: 'Good Password'
+};
+
+const passwordStrengthStyles = {
+  bad: { color: 'red' },
+  average: { color: 'yellow' },
+  good: { color: 'green' }
+}
+
+/**
+ * Class implementing the Register Screen Component.
+ * @extends React.Component
+ */
+class RegisterScreen extends React.Component {
+
+  /**
+   * Creates a new RegisterScreen Component.
+   */
+  constructor() {
+    super();
+    /** Local State Object of the Component. */
+    this.state = {
+      email: '',
+      password1: '',
+      password2: '',
+      username: ''
+    };
+    this.errorStyle = passwordStrengthStyles.bad;
+    this.errorMessage = passwordStrengthMessages.bad;
+  }
+
+  /**
+   * Checks if Registration is correct.
+   */
+  _checkRegistration() {
+    if (!this._checkEmail()) return;
+    if (!this._checkUsername()) return;
+    if (!this._checkPasswords()) return;
+    this._registerUser();
+  }
+
+  /**
+   * Registers user by sending a Request to the backend service.
+   * After the Registration the user gets logged into the app.
+   */
+  async _registerUser() {
+    try {
+      if (! await this._checkIfUserAvailable()) {
+        Alert.alert('Nutzer bereits vorhanden!')
+        return;
+      }
+      let response = await fetch(BackendURL + '/customers', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: this.state.username,
+          password: this.state.password1,
+          email: this.state.email
+        }),
+      });
+      let sessionToken = await response.json();
+      // Set Session Token
+      SessionStore.setSessionToken(sessionToken.customerid);
+      Alert.alert('Registrierung erfolgreich!');
+      this.props.navigation.navigate('Home');
+    } catch (error) {
+      Alert.alert(JSON.stringify(error));
+    }
+  }
+
+  /**
+   * Checks if the User to register is already occupied in the system.
+   */
+  async _checkIfUserAvailable() {
+    try {
+      const encodedEmail = encodeURIComponent(this.state.email);
+      let response = await fetch(BackendURL + '/customers?email=' + encodedEmail);
+      let responseJSON = await response.json();
+      if (Array.isArray(responseJSON) &amp;&amp; responseJSON.length != 0) {
+        return false
+      }
+      return true;
+    } catch (error) {
+      Alert.alert(JSON.stringify(error));
+    }
+  }
+
+  /**
+   * Checks if the Email Input has a correct format.
+   */
+  _checkEmail() {
+    let correct = validator.validate(this.state.email);
+    if (!correct) {
+      Alert.alert('Not a valid Email.');
+      return false;
+    }
+    return true;
+    /* if (!this.state.email.endsWith('oth-regensburg.de')) {
+      Alert.alert('Only emails from OTH Regensburg allowed.');
+    } */
+  }
+
+  /**
+   * Checks if the Username has a correct format.
+   */
+  _checkUsername() {
+    var usernameRegex = /^[a-zA-Z0-9]+$/;
+    if (!this.state.username.match(usernameRegex)) {
+      Alert.alert('Not a valid Username.');
+      return false;
+    }
+    return true;
+  }
+
+  /**
+   * Checks if the Password Input is not empty and the Password Confirmation is correct.
+   */
+  _checkPasswords() {
+    if (this.state.password1 !== this.state.password2) {
+      Alert.alert('Passwords are different.');
+      return false;
+    }
+    if (this.state.password1 === null || this.state.password2 === null) {
+      Alert.alert('Error: No Passwords found.');
+      return false;
+    }
+    if (this.state.password1 === '' || this.state.password2 === '') {
+      Alert.alert('No Password Input.')
+      return false;
+    }
+    return true;
+  }
+
+  /**
+   * Checks the password strength of the user input.
+   * @param {String} text Password Input of the user. 
+   */
+  _checkPasswordStrength(text) {
+    if (text.length &lt; 6) {
+      this.errorStyle = passwordStrengthStyles.bad;
+      this.errorMessage = passwordStrengthMessages.bad;
+    } else if (text.length &lt; 10) {
+      this.errorStyle = passwordStrengthStyles.average;
+      this.errorMessage = passwordStrengthMessages.average;
+    } else {
+      this.errorStyle = passwordStrengthStyles.good;
+      this.errorMessage = passwordStrengthMessages.good;
+    }
+    this.setState(this._changeState(null, text, null, null));
+  }
+
+  /**
+   * Changes the local State Object of the RegisterScreen Component.
+   * @param {String} email Email Input of the user.
+   * @param {String} password1 Password Input of the user.
+   * @param {String} password2 Password Confirmation Input of the user.
+   * @param {String} username Username Input of the user.
+   */
+  _changeState(email = null, password1 = null, password2 = null, username = null) {
+    if (email !== null) {
+      this.state.email = email;
+    }
+    if (password1 !== null) {
+      this.state.password1 = password1;
+    }
+    if (password2 !== null) {
+      this.state.password2 = password2;
+    }
+    if (username !== null) {
+      this.state.username = username;
+    }
+    return this.state;
+  }
+
+  /** 
+   * Renders the UI of the Component every time the state of the component has changed.
+   * Inherited by React.Component. Every React Component must implement this function.
+   * @returns {JSX} The User Interface to display on screen.
+   */
+  render() {
+    return (
+      &lt;SafeAreaView style={styles.container}>
+        &lt;Text h3 style={styles.title}>Registrierung&lt;/Text>
+        &lt;Input
+          inputStyle={styles.input}
+          labelStyle={styles.label}
+          autoCapitalize='none'
+          label='Deine Email-Adresse'
+          placeholder='email@st.oth-regensburg.de'
+          leftIcon={{ type: 'feather', name: 'mail', color: 'white' }}
+          onChangeText={(text) => this.setState(this._changeState(text, null, null, null))}
+        />
+        &lt;Input
+          inputStyle={styles.input}
+          labelStyle={styles.label}
+          autoCapitalize='none'
+          label='Dein Nutzername'
+          placeholder='Nutzername'
+          leftIcon={{ type: 'feather', name: 'user', color: 'white' }}
+          onChangeText={(text) => this.setState(this._changeState(null, null, null, text))}
+        />
+        &lt;Input
+          inputStyle={styles.input}
+          labelStyle={styles.label}
+          autoCapitalize='none'
+          secureTextEntry={true}
+          label='Dein Passwort'
+          placeholder='Passwort'
+          leftIcon={{ type: 'font-awesome', name: 'lock', color: 'white' }}
+          onChangeText={this._checkPasswordStrength.bind(this)}
+          errorStyle={this.errorStyle}
+          errorMessage={this.errorMessage}
+        />
+        &lt;Input
+          inputStyle={styles.input}
+          labelStyle={styles.label}
+          autoCapitalize='none'
+          secureTextEntry={true}
+          label='Passwort bestätigen'
+          placeholder='Passwort'
+          leftIcon={{ type: 'font-awesome', name: 'lock', color: 'white' }}
+          onChangeText={(text) => this.setState(this._changeState(null, null, text, null))}
+        />
+        &lt;Button
+          buttonStyle={styles.registerButton}
+          titleStyle={styles.registerTitle}
+          title="Registrieren"
+          icon={
+            &lt;Icon
+              name='user-check'
+              type='feather'
+              color='black'
+            />
+          }
+          onPress={this._checkRegistration.bind(this)}
+        />
+        &lt;View style={styles.backButtonContainer}>
+          &lt;Button
+            type="clear"
+            icon={
+              &lt;Icon
+                name='arrow-back'
+                type='material-icons'
+                color='black'
+                size={35}
+              />
+            }
+            onPress={() => this.props.navigation.navigate('Start')}
+          />
+        &lt;/View>
+      &lt;/SafeAreaView>
+    )
+  }
+}
+
+/**
+ * Style Object for the RegisterScreen Component.
+ */
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "space-around",
+    backgroundColor: "#1089ff"
+  },
+  title: {
+    color: 'white',
+    marginTop: 20
+  },
+  text: {
+    color: 'white'
+  },
+  input: {
+    paddingLeft: 20,
+    color: 'white'
+  },
+  label: {
+    color: 'white',
+    marginBottom: 5,
+    paddingLeft: 5
+  },
+  registerButton: {
+    backgroundColor: "white",
+    marginTop: 20,
+    paddingLeft: 50,
+    paddingRight: 50
+  },
+  registerTitle: {
+    color: '#1089ff',
+    paddingLeft: 5
+  },
+  backButtonContainer: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    marginTop: 20,
+    marginLeft: 10
+  }
+})
+
+export default observer(RegisterScreen);</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AccountStartScreen.html">AccountStartScreen</a></li><li><a href="AdvertiseStartScreen.html">AdvertiseStartScreen</a></li><li><a href="City.html">City</a></li><li><a href="CompanionScreen.html">CompanionScreen</a></li><li><a href="DateScreen.html">DateScreen</a></li><li><a href="Datetime.html">Datetime</a></li><li><a href="DestinationCityScreen.html">DestinationCityScreen</a></li><li><a href="DestinationStateScreen.html">DestinationStateScreen</a></li><li><a href="Event.html">Event</a></li><li><a href="EventScreen.html">EventScreen</a></li><li><a href="EventTypeScreen.html">EventTypeScreen</a></li><li><a href="Faculty.html">Faculty</a></li><li><a href="FacultyCheckboxGroup.html">FacultyCheckboxGroup</a></li><li><a href="FacultyFilterScreen.html">FacultyFilterScreen</a></li><li><a href="FacultyScreen.html">FacultyScreen</a></li><li><a href="HomeScreen.html">HomeScreen</a></li><li><a href="InfoButton.html">InfoButton</a></li><li><a href="Lift.html">Lift</a></li><li><a href="LiftStore.html">LiftStore</a></li><li><a href="LoginScreen.html">LoginScreen</a></li><li><a href="OverviewAdScreen.html">OverviewAdScreen</a></li><li><a href="PriceRecommendationScreen.html">PriceRecommendationScreen</a></li><li><a href="PriceScreen.html">PriceScreen</a></li><li><a href="RegisterScreen.html">RegisterScreen</a></li><li><a href="SearchFormScreen.html">SearchFormScreen</a></li><li><a href="SearchRequest.html">SearchRequest</a></li><li><a href="SearchRequestStore.html">SearchRequestStore</a></li><li><a href="SearchResultScreen.html">SearchResultScreen</a></li><li><a href="SearchStartScreen.html">SearchStartScreen</a></li><li><a href="SessionStore.html">SessionStore</a></li><li><a href="StartScreen.html">StartScreen</a></li><li><a href="StepProgressBar.html">StepProgressBar</a></li></ul><h3>Global</h3><ul><li><a href="global.html#AdvertiseStack">AdvertiseStack</a></li><li><a href="global.html#AppNavigator">AppNavigator</a></li><li><a href="global.html#SearchStack">SearchStack</a></li><li><a href="global.html#styles">styles</a></li><li><a href="global.html#TabNavigator">TabNavigator</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Sun Mar 08 2020 15:29:57 GMT+0100 (GMT+01:00)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

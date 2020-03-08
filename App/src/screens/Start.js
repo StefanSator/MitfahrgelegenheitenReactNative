@@ -3,7 +3,16 @@ import { View, Image, StyleSheet } from 'react-native';
 import Logo from 'react-native-vector-icons/AntDesign';
 import { Button } from 'react-native-elements';
 
+/**
+ * Class implementing the Start Screen Component.
+ * @extends React.Component
+ */
 class StartScreen extends React.Component {
+  /** 
+   * Renders the UI of the Component every time the state of the component has changed.
+   * Inherited by React.Component. Every React Component must implement this function.
+   * @returns {JSX} The User Interface to display on screen.
+   */
   render() {
     return (
       <View style={styles.container}>
@@ -36,6 +45,9 @@ class StartScreen extends React.Component {
   }
 }
 
+/**
+ * Style Object for the StartScreen Component.
+ */
 const styles = StyleSheet.create({
   container: {
     flex: 1,

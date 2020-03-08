@@ -4,29 +4,50 @@ import { Card, Text, Button, Icon } from 'react-native-elements';
 import LiftStore from '../../stores/LiftStore';
 import { observer } from 'mobx-react';
 
+/**
+ * Class implementing the OverviewAdScreen Component.
+ * Shows a Overview of the Input Informations for the Lift to Advertise.
+ * @extends React.Component
+ */
 class OverviewAdScreen extends React.Component {
 
   static navigationOptions = {
     title: 'Überblick'
   };
 
+  /**
+   * Create a new OverviewAdScreen Component.
+   * @param {Object} props properties which are passed to the component.
+   */
   constructor(props) {
     super(props);
+    /** Local State Object of the Component. */
     this.state = {
       isVisible: true
     };
   }
 
+  /**
+   * Gets triggered if the user clicks the Accept Button.
+   * Calls the saveLiftAdvertisement() function and ends the Advertise Process.
+   */
   _acceptButtonPressed() {
     this._saveLiftAdvertisement();
     this.props.navigation.navigate('Advertise');
     Alert.alert("Mitfahrgelegenheit gespeichert.");
   }
 
+  /**
+   * Gets triggered if the user clicks the Cancel Button.
+   * Ends the Advertise Process, without saving the Lift.
+   */
   _refuseButtonPressed() {
     this.props.navigation.navigate('Advertise');
   }
 
+  /**
+   * Saves the newly advertised Lift in the Database by sending a Request to the Backend Service.
+   */
   async _saveLiftAdvertisement() {
     try {
       await fetch(BackendURL + '/lifts/new', {
@@ -44,6 +65,11 @@ class OverviewAdScreen extends React.Component {
     }
   }
 
+  /** 
+   * Renders the UI of the Component every time the state of the component has changed.
+   * Inherited by React.Component. Every React Component must implement this function.
+   * @returns {JSX} The User Interface to display on screen.
+   */
   render() {
     return (
       <ScrollView style={styles.container}>
@@ -92,6 +118,7 @@ class OverviewAdScreen extends React.Component {
   }
 };
 
+/** Style Object of the OverviewAdScreen Component. */
 const styles = StyleSheet.create({
   container: {
     flex: 1

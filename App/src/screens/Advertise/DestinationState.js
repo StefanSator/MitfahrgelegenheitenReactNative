@@ -8,15 +8,24 @@ import InfoButton from '../views/InfoButton';
 import LiftStore from '../../stores/LiftStore';
 import { observer } from 'mobx-react';
 
+/**
+ * Class implementing the DestinationStateScreen Component.
+ * @extends React.Component
+ */
 class DestinationStateScreen extends React.Component {
 
   static navigationOptions = {
     title: 'Zielbundesland',
   };
 
+  /**
+   * Create a new DestinationStateScreen Component.
+   * @param {Object} props properties which are passed to the component.
+   */
   constructor(props) {
     super(props);
     // Set State Object
+    /** Local State Object of the Component. */
     this.state = {
       listdata: [],
       progressIsVisible: false
@@ -25,7 +34,9 @@ class DestinationStateScreen extends React.Component {
     this._loadStates();
   }
 
-  /* Get all available States to display as data of a list from Backend */
+  /**
+   * Get all available States to display as data of a list from the Backend Service.
+   */
   async _loadStates() {
     try {
       let response = await fetch(BackendURL + '/lifts/destination/states');
@@ -36,25 +47,34 @@ class DestinationStateScreen extends React.Component {
     }
   };
 
-  /* Opens Overlay with Progress Information */
+  /**
+   *  Opens Overlay with Progress Information
+   */
   _showProgressOverlay() {
     this.setState({ listdata: this.state.listdata, progressIsVisible: true });
   }
 
-  /* Closes Overlay with Progress Information */
+  /**
+   *  Closes Overlay with Progress Information
+   */
   _closeProgressOverlay() {
     this.setState({ listdata: this.state.listdata, progressIsVisible: false });
   }
 
-  /* Item from User selected Action Method */
+  /**
+   * Is called when the user selects a item in the displayed list.
+   * @param {String} item Name of the State the user has selected. 
+   */
   _itemSelected(item) {
     this.props.navigation.navigate('DestinationCity', {
       destinationState: item.state
     });
   }
 
+  /* Used to extract a unique key for a given item at the specified index. */
   keyExtractor = (item, index) => index.toString()
 
+  /* Is called to render a selected item of the displayed List. */
   renderItem = ({ item }) => (
     <ListItem
       Component={TouchableScale}
@@ -69,6 +89,11 @@ class DestinationStateScreen extends React.Component {
     />
   )
 
+  /** 
+   * Renders the UI of the Component every time the state of the component has changed.
+   * Inherited by React.Component. Every React Component must implement this function.
+   * @returns {JSX} The User Interface to display on screen.
+   */
   render() {
     return (
       <View style={styles.container}>
@@ -111,11 +136,11 @@ class DestinationStateScreen extends React.Component {
   }
 };
 
+/** Style Object of the DestinationStateScreen Component. */
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "white"
-    //backgroundColor: "#20639B"
   },
   title: {
     color: 'black',

@@ -6,16 +6,27 @@ import { observer } from "mobx-react";
 
 const validator = require('email-validator');
 
+/**
+ * Class implementing the Home Screen Component.
+ * @extends React.Component
+ */
 class LoginScreen extends React.Component {
 
+  /**
+   * Create the LoginScreen Component.
+   */
   constructor() {
     super();
+    /** Local State Object of the Component. */
     this.state = {
       inputEmail: '',
       inputPassword: ''
     };
   }
 
+  /**
+   * Checks if Login is correct.
+   */
   async _checkLogin() {
     if (!this._checkEmail()) return;
     try {
@@ -34,6 +45,9 @@ class LoginScreen extends React.Component {
     }
   }
 
+  /**
+   * Sends Validation Request to the Backend Service to validate if Login Input of user is correct.
+   */
   async _validate() {
     try {
       let response = await fetch(BackendURL + '/customers/validate', {
@@ -56,6 +70,9 @@ class LoginScreen extends React.Component {
     }
   }
 
+  /**
+   * Checks if Email Input has a valid format.
+   */
   _checkEmail() {
     console.log("Email: " + this.state.inputEmail);
     let correct = validator.validate(this.state.inputEmail);
@@ -69,6 +86,11 @@ class LoginScreen extends React.Component {
     } */
   }
 
+  /** 
+   * Renders the UI of the Component every time the state of the component has changed.
+   * Inherited by React.Component. Every React Component must implement this function.
+   * @returns {JSX} The User Interface to display on screen.
+   */
   render() {
     return (
       <View style={styles.container}>
@@ -118,6 +140,9 @@ class LoginScreen extends React.Component {
   }
 }
 
+/**
+ * Style Object for the LoginScreen Component.
+ */
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -148,7 +173,4 @@ const styles = StyleSheet.create({
   }
 });
 
-//export default LoginScreen;
 export default observer(LoginScreen);
-
-//export default inject("store")(observer(ImageList));

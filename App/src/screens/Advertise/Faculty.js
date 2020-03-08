@@ -10,24 +10,34 @@ import LiftStore from '../../stores/LiftStore';
 import Event from '../../entities/Event';
 import { observer } from 'mobx-react';
 
+/**
+ * Class implementing the FacultyScreen Component.
+ * @extends React.Component
+ */
 class FacultyScreen extends React.Component {
 
   static navigationOptions = {
     title: 'Event'
   };
 
+  /**
+   * Create a new FacultyScreen Component.
+   */
   constructor() {
     super();
     console.log(LiftStore.lift);
+    /** Local State Object of the Component. */
     this.state = {
       selectedFaculties: [],
       loading: true,
       progressIsVisible: false
     };
+    /** Array containing the faculties of OTH Regensburg. */
     this.faculties = [];
     this._loadFacultyData();
   }
 
+  /* Gets called if user selects or deselects a item in the list. */
   onSelectedItemsChange = selectedFaculties => {
     this.setState({
       selectedFaculties: selectedFaculties,
@@ -36,6 +46,10 @@ class FacultyScreen extends React.Component {
     });
   };
 
+  /**
+   * Deselect a selected Faculty.
+   * @param {String} name Name of the Faculty.
+   */
   _removeSelectedFaculty(name) {
     let index = this.state.selectedFaculties.indexOf(name);
     if (index !== -1) {
@@ -49,6 +63,9 @@ class FacultyScreen extends React.Component {
     }
   }
 
+  /**
+   * Send GET-Request to the backend service to get all faculties of OTH Regensburg.
+   */
   async _loadFacultyData() {
     try {
       let response = await fetch(BackendURL + '/lifts/event/faculties');
@@ -68,6 +85,9 @@ class FacultyScreen extends React.Component {
     }
   }
 
+  /**
+   * Set the selected Faculties in the global State Object and switch to the next screen in the Advertise Process.
+   */
   _nextButtonPressed() {
     if (this.state.selectedFaculties.length === 0) {
       Alert.alert('Bitte wählen Sie mindestens eine Fakultät aus.');
@@ -80,7 +100,9 @@ class FacultyScreen extends React.Component {
     this.props.navigation.navigate('OverviewAd');
   }
 
-  /* Opens Overlay with Progress Information */
+  /**
+   *  Opens Overlay with Progress Information.
+   */
   _showProgressOverlay() {
     this.setState({
       selectedFaculties: this.state.selectedFaculties,
@@ -89,7 +111,9 @@ class FacultyScreen extends React.Component {
     });
   }
 
-  /* Closes Overlay with Progress Information */
+  /**
+   * Closes Overlay with Progress Information.
+   */
   _closeProgressOverlay() {
     this.setState({
       selectedFaculties: this.state.selectedFaculties,
@@ -98,6 +122,10 @@ class FacultyScreen extends React.Component {
     });
   }
 
+  /**
+   * Displays automatically the MultiSelect Component, if the Faculty data has been retrieved from the backend.
+   * @param {Boolean} loading True, if list elements are loading, else false.
+   */
   _displayMultiselect(loading) {
     if (loading === false) {
       return (
@@ -146,6 +174,11 @@ class FacultyScreen extends React.Component {
     }
   }
 
+  /** 
+   * Renders the UI of the Component every time the state of the component has changed.
+   * Inherited by React.Component. Every React Component must implement this function.
+   * @returns {JSX} The User Interface to display on screen.
+   */
   render() {
     return (
       <View style={styles.container}>
@@ -186,6 +219,7 @@ class FacultyScreen extends React.Component {
   }
 };
 
+/** Style Object of the FacultyScreen Component. */
 const styles = StyleSheet.create({
   container: {
     flex: 1,

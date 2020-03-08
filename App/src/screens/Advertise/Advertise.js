@@ -12,6 +12,10 @@ import EventScreen from './Event';
 import FacultyScreen from './Faculty';
 import AdvertiseStartScreen from './AdvertiseStart';
 
+/**
+ * Stack Navigator for the Advertising Process of new Lifts in the app.
+ * Containing all Components needed to advertise a new Lift by the user.
+ */
 const AdvertiseStack = createStackNavigator(
   {
     Advertise: AdvertiseStartScreen,

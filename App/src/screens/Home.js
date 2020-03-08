@@ -13,7 +13,7 @@ import SearchStack from './Search/Search';
 import AccountStack from './Account/Account';
 
 /**
- * Class representing the Home Screen.
+ * Class implementing the Home Screen Component.
  * @extends React.Component
  */
 class HomeScreen extends React.Component {
@@ -36,9 +36,9 @@ class HomeScreen extends React.Component {
   }
 
   /** 
-   * Renders the Component every time the state of the component has changed.
+   * Renders the UI of the Component every time the state of the component has changed.
    * Inherited by React.Component. Every React Component must implement this function.
-   * @returns JSX
+   * @returns {JSX} The User Interface to display on screen.
    */
   render() {
     return (
@@ -95,12 +95,14 @@ class HomeScreen extends React.Component {
   }
 }
 
+/**
+ * Style Object for the HomeScreen Component.
+ */
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center",
-    //backgroundColor: "#20639B"
+    justifyContent: "center"
   },
   cardContainer: {
     backgroundColor: '#1089ff',
@@ -138,6 +140,9 @@ const styles = StyleSheet.create({
   }
 });
 
+/**
+ * Tab Navigator for handling the Tab Navigation within the App.
+ */
 const TabNavigator = createBottomTabNavigator(
   {
     Home: observer(HomeScreen),
@@ -167,7 +172,7 @@ const TabNavigator = createBottomTabNavigator(
         return <Icon name={iconName} type={iconType} color={tintColor} />;
       },
     }),
-    tabBarOptions: { // TODO: change this if ripple effect is lost in android
+    tabBarOptions: { // change this if ripple effect is lost in android
       activeTintColor: 'white',
       inactiveTintColor: 'black',
       style: {

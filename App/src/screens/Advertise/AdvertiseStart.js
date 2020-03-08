@@ -5,12 +5,20 @@ import LiftStore from '../../stores/LiftStore';
 /* Photo by Simon Maage on Unsplash */
 const image = require('../../assets/images/friends.jpeg');
 
+/**
+ * Class implementing the AdvertiseStartScreen Component.
+ * @extends React.Component
+ */
 class AdvertiseStartScreen extends React.Component {
 
   static navigationOptions = {
     title: 'Inserieren'
   };
 
+  /**
+   * Start a new Advertising Process by resetting the global State Object
+   * and switching to the next Component in the Process.
+   */
   _advertiseButtonClicked() {
     // Create new Lift Object in MobX Store
     LiftStore.newLift();
@@ -18,6 +26,11 @@ class AdvertiseStartScreen extends React.Component {
     this.props.navigation.navigate('DestinationState');
   }
 
+  /** 
+   * Renders the UI of the Component every time the state of the component has changed.
+   * Inherited by React.Component. Every React Component must implement this function.
+   * @returns {JSX} The User Interface to display on screen.
+   */
   render() {
     return (
       <ImageBackground source={image} style={{ width: '100%', height: '100%' }} blurRadius={10}>
@@ -44,6 +57,7 @@ class AdvertiseStartScreen extends React.Component {
 
 };
 
+/** Style Object of the AdvertiseStartScreen Component. */
 const styles = StyleSheet.create({
   container: {
     flex: 1,

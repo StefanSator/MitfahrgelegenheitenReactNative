@@ -7,14 +7,24 @@ import SearchRequestStore from '../../stores/SearchRequestStore';
 import { observer } from 'mobx-react';
 import Datetime from '../../entities/Datetime';
 
+/**
+ * Class implementing the SearchFormScreen Component.
+ * @extends React.Component
+ */
 class SearchFormScreen extends React.Component {
 
   static navigationOptions = {
     title: 'Suche'
   };
 
+  /**
+   * Create a new SearchFormScreen Component.
+   */
   constructor() {
     super();
+    /**
+     * Local State Object of the Component.
+     */
     this.state = {
       selectedIndex: 0,
       sliderValue: 0,
@@ -46,6 +56,9 @@ class SearchFormScreen extends React.Component {
     this._loadStates();
   }
 
+  /**
+   * Action which gets triggered when the user clicks the Search Button of the App.
+   */
   _searchButtonPressed() {
     //console.log(SearchRequestStore.search);
     // Check before sending if required values are non null
@@ -55,7 +68,9 @@ class SearchFormScreen extends React.Component {
     }
   }
 
-  /* Send SearchRequest to Backend and get SearchResponse */
+  /**
+   * Send SearchRequest to Backend and get a List of Lifts fitting the Search Request send to the backend service.
+   */
   async _sendSearchRequest() {
     try {
       let response = await fetch(BackendURL + '/lifts/search', {
@@ -69,6 +84,7 @@ class SearchFormScreen extends React.Component {
         }),
       });
       let searchresponse = await response.json();
+      console.log(searchresponse);
       this.props.navigation.navigate('SearchResult', {
         searchresult: searchresponse
       });
@@ -77,7 +93,9 @@ class SearchFormScreen extends React.Component {
     }
   }
 
-  /* Checks the Search Formular Input if all required fields are not null */
+  /**
+   * Checks if all required fields in the Search Formular are not null and valid.
+   */
   _checkFormInput() {
     if (SearchRequestStore.search.place === null) {
       Alert.alert('Bitte gebe deinen gewünschten Ort ein.');
@@ -89,40 +107,62 @@ class SearchFormScreen extends React.Component {
     return true;
   }
 
-  /* Open Modal Screen for Faculty Filter of Events in Search Request */
+  /**
+   * Switch to FacultyFilterScreen Component, for Faculty Filter of Events in Search Request
+   */
   _selectFacultiesButtonPressed() {
     this.props.navigation.navigate('FacultyFilter');
   }
 
+  /**
+   * Show Destination Drop Down Menu, for Destination Place selection.
+   */
   _showDestinationDropDown() {
     let valueCopy = JSON.parse(JSON.stringify(this.state));
     valueCopy.isDestinationDropDownVisible = true;
     this.setState(valueCopy);
   }
 
+  /**
+   * Hide Destination Drop Down Menu.
+   */
   _hideDestinationDropDown() {
     let valueCopy = JSON.parse(JSON.stringify(this.state));
     valueCopy.isDestinationDropDownVisible = false;
     this.setState(valueCopy);
   }
 
+  /**
+   * Show Datetime Picker, for Date Selection.
+   */
   _showDateTimePicker() {
     let valueCopy = JSON.parse(JSON.stringify(this.state));
     valueCopy.isDatePickerVisible = true;
     this.setState(valueCopy);
   };
 
+  /**
+   * Hide Datetime Picker.
+   */
   _hideDateTimePicker() {
     let valueCopy = JSON.parse(JSON.stringify(this.state));
     valueCopy.isDatePickerVisible = false;
     this.setState(valueCopy);
   };
 
+  /**
+   * Sets the Date of the global State Object, after the user has selected a Date with the DatePicker.
+   * @param {Date} datetime Date on which the user wants to search for suitable Lifts.
+   */
   _handleDatePicked(datetime) {
     this._hideDateTimePicker();
     SearchRequestStore.setDatetime(new Datetime(datetime.getDate(), datetime.getMonth() + 1, datetime.getFullYear(), datetime.getHours(), datetime.getUTCMinutes()));
   };
 
+  /**
+   * Action which gets triggered if a user selects another button in the button group.
+   * @param {Integer} selectedIndex Index selected in the Button Group.
+   */
   _updateSelectedEventIndex(selectedIndex) {
     let valueCopy = JSON.parse(JSON.stringify(this.state));
     valueCopy.selectedIndex = selectedIndex;
@@ -133,20 +173,35 @@ class SearchFormScreen extends React.Component {
     }
   }
 
+  /**
+   * Calls the loadCityData() function, after the user has selected the Destination State.
+   * @param {String} destinationState Selected Destination State.
+   */
   _destinationStateSelected(destinationState) {
     this._loadCityData(destinationState);
   }
 
+  /**
+   * Sets the Destination Place of the global State Object, after the user has selected a Place in the Search Form.
+   * @param {Integer} index Selected Index in the DropDown List.
+   * @param {City[]} cities All Cities displayed in the DropDown List.
+   */
   _destinationCitySelected(index, cities) {
     SearchRequestStore.setPlace(cities[index]);
     this._hideDestinationDropDown();
   }
 
+  /**
+   * Sets the Search Radius of the global State Object, after the user has selected the Search Radius.
+   * @param {Integer} radius Selected Search Radius.
+   */
   _searchRadiusSelected(radius) {
     SearchRequestStore.setRadius(radius);
   }
 
-  /* Get all available States to display as data of a list from Backend */
+  /**
+   * Get all available States to display as data of the Drop Down List, by sending a GET-Request to the Backend.
+   */
   async _loadStates() {
     try {
       let response = await fetch(BackendURL + '/lifts/destination/states');
@@ -160,7 +215,10 @@ class SearchFormScreen extends React.Component {
     }
   };
 
-  /* Starts GET-Request to Backend to retrieve city data for the specified destination state */
+  /**
+   * Sends GET-Request to the Backend, to retrieve city data for the specified destination state.
+   * @param {String} destinationState Selected Destination State.
+   */
   async _loadCityData(destinationState) {
     try {
       const encodedDestinationState = encodeURIComponent(destinationState);
@@ -175,6 +233,11 @@ class SearchFormScreen extends React.Component {
     }
   }
 
+  /** 
+   * Renders the UI of the Component every time the state of the component has changed.
+   * Inherited by React.Component. Every React Component must implement this function.
+   * @returns {JSX} The User Interface to display on screen.
+   */
   render() {
     const buttons = ['Private Fahrt', 'Event']
     const { selectedIndex } = this.state;
@@ -382,6 +445,7 @@ class SearchFormScreen extends React.Component {
   }
 };
 
+/** Style Object for the SearchFormScreen Component. */
 const styles = StyleSheet.create({
   container: {
     flex: 1

@@ -6,34 +6,54 @@ import InfoButton from '../views/InfoButton';
 import LiftStore from '../../stores/LiftStore';
 import { observer } from 'mobx-react';
 
+/**
+ * Class implementing the CompanionScreen Component.
+ * @extends React.Component
+ */
 class CompanionScreen extends React.Component {
 
   static navigationOptions = {
     title: 'Mitfahrer'
   }
 
+  /**
+   * Create a new CompanionScreen Component.
+   */
   constructor() {
     super();
+    /** Local State Object of the Component. */
     this.state = {
       progressIsVisible: false
     };
   }
 
+  /**
+   * Action which is called when the next button is clicked. Switches to next Component
+   * in the Advertising Process.
+   */
   _buttonPressed() {
-    //LiftStore.setPassengers(this.state.value);
     this.props.navigation.navigate('Date');
   }
 
-  /* Opens Overlay with Progress Information */
+  /**
+   * Opens Overlay with Progress Information.
+   */
   _showProgressOverlay() {
     this.setState({ progressIsVisible: true });
   }
 
-  /* Closes Overlay with Progress Information */
+  /**
+   * Closes Overlay with Progress Information.
+   */
   _closeProgressOverlay() {
     this.setState({ progressIsVisible: false });
   }
 
+  /** 
+   * Renders the UI of the Component every time the state of the component has changed.
+   * Inherited by React.Component. Every React Component must implement this function.
+   * @returns {JSX} The User Interface to display on screen.
+   */
   render() {
     return (
       <View style={styles.container}>
@@ -93,6 +113,7 @@ class CompanionScreen extends React.Component {
   }
 };
 
+/** Style Object of the CompanionScreen Component. */
 const styles = StyleSheet.create({
   container: {
     flex: 1,

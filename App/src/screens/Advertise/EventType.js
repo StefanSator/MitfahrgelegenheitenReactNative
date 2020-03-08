@@ -4,22 +4,37 @@ import { Text, Button, Tooltip, Icon } from 'react-native-elements';
 import LiftStore from '../../stores/LiftStore';
 import Event from '../../entities/Event';
 
+/**
+ * Class implementing the EventTypeScreen Component.
+ * @extends React.Component
+ */
 class EventTypeScreen extends React.Component {
 
   static navigationOptions = {
     title: 'Event'
   };
 
+  /**
+   * Is called when the user chooses to advertise a Lift to a specific event. Switches to the EventScreen Component.
+   */
   _eventButtonPressed() {
     if (LiftStore.lift.event === null) LiftStore.setEvent(new Event());
     this.props.navigation.navigate('Event');
   }
 
+  /**
+   * Is called when the user chooses to advertise a Lift for a private reason. Switches to the OverviewAdScreen Component.
+   */
   _privateButtonPressed() {
     LiftStore.setEvent(null);
     this.props.navigation.navigate('OverviewAd');
   }
 
+  /** 
+   * Renders the UI of the Component every time the state of the component has changed.
+   * Inherited by React.Component. Every React Component must implement this function.
+   * @returns {JSX} The User Interface to display on screen.
+   */
   render() {
     return (
       <View style={styles.container}>
@@ -69,6 +84,7 @@ class EventTypeScreen extends React.Component {
   }
 };
 
+/** Style Object of the EventTypeScreen Component. */
 const styles = StyleSheet.create({
   container: {
     flex: 1,

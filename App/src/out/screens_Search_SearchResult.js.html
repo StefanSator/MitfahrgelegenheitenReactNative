@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: screens/Search/SearchResult.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: screens/Search/SearchResult.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React from 'react';
+import { View, StyleSheet, Text, FlatList, Alert } from 'react-native';
+import { Card, Avatar, Button, Icon, Divider } from 'react-native-elements';
+import SessionStore from '../../stores/SessionStore';
+import { observer } from 'mobx-react';
+
+/**
+ * Class implementing the SearchResultScreen Component.
+ * @extends React.Component
+ */
+class SearchResultScreen extends React.Component {
+
+  static navigationOptions = {
+    title: 'Suchergebnisse'
+  };
+
+  /**
+   * Create the SearchResultScreen Component.
+   * @param {Object} props properties which are passed to the component.
+   */
+  constructor(props) {
+    super(props);
+    const { navigation } = this.props;
+    /** Local State Object of the Component. */
+    this.state = {
+      searchresult: navigation.getParam('searchresult', null)
+    }
+    this._showDriverInformation = this._showDriverInformation.bind(this);
+    this._sendBookingRequest = this._sendBookingRequest.bind(this);
+  }
+
+  /**
+   * Send POST-Request to the backend service, to book a specified lift by the user.
+   * @param {Object} lift Object containing information about the Lift to book.
+   */
+  async _sendBookingRequest(lift) {
+    try {
+      await fetch(BackendURL + '/lifts/book', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userId: SessionStore.sessionToken,
+          liftId: lift.liftid
+        }),
+      });
+    } catch (error) {
+      Alert.alert("Leider trat beim Abarbeiten Ihrer Suchanfrage ein Fehler auf.");
+    }
+    Alert.alert('Buchung erstellt.');
+  }
+
+  /**
+   * Displays Alert with Account Information of Driver (Advertiser of the Lift).
+   * @param {Object} lift 
+   */
+  _showDriverInformation(lift) {
+    Alert.alert('Email: ' + lift.email);
+  }
+
+  /* Used to extract a unique key for a given item at the specified index. */
+  keyExtractor = (item, index) => index.toString()
+
+  /* Is called to render a selected item of the Search Result List. */
+  renderItem = ({ item }) => (
+    &lt;Card
+      containerStyle={styles.container}
+      title={(item.lift.eventid) ? item.lift.eventtitle : `${item.lift.startcity} - ${item.lift.targetcity}`}
+      titleStyle={{ color: 'white' }}
+    >
+      {
+        (item.lift.eventid)
+          ?
+          &lt;View>
+            &lt;Text style={styles.cardSubtitles}>Eventbeschreibung:&lt;/Text>
+            &lt;Text style={{ ...styles.text, marginBottom: 10 }}>{item.lift.eventdescription}&lt;/Text>
+          &lt;/View>
+          : null
+      }
+      &lt;Text style={styles.cardSubtitles}>Fahrer:&lt;/Text>
+      &lt;View style={{ flexDirection: 'row', marginBottom: 10 }}>
+        &lt;Text style={{ ...styles.text, fontSize: 20, alignSelf: 'center', marginRight: 20 }}>{item.lift.username}&lt;/Text>
+        &lt;Avatar
+          rounded
+          size='medium'
+          icon={{ name: 'user', type: 'font-awesome' }}
+          activeOpacity={0.7}
+          onPress={() => this._showDriverInformation(item.lift)}
+        />
+      &lt;/View>
+      &lt;View style={{ flexDirection: 'row', marginTop: 10 }}>
+        &lt;Text style={styles.cardSubtitles}>Start:&lt;/Text>
+        &lt;Text style={{ ...styles.text, marginBottom: 10, marginRight: 10 }}>{item.lift.startcity}&lt;/Text>
+        &lt;Text style={styles.cardSubtitles}>Ziel:&lt;/Text>
+        &lt;Text style={{ ...styles.text, marginBottom: 10 }}>{item.lift.targetcity}&lt;/Text>
+      &lt;/View>
+      &lt;View style={{ flexDirection: 'row', marginTop: 10 }}>
+        &lt;Text style={styles.cardSubtitles}>Anzahl Mitfahrer:&lt;/Text>
+        &lt;Text style={{ ...styles.text, marginBottom: 10, marginRight: 10 }}>{item.lift.passengers}&lt;/Text>
+      &lt;/View>
+      &lt;View style={{ flexDirection: 'row', marginTop: 10 }}>
+        &lt;Text style={styles.cardSubtitles}>Zeitpunkt:&lt;/Text>
+        &lt;Text style={{ ...styles.text, marginBottom: 15, marginRight: 10 }}>{`${item.lift.day}.${item.lift.month}.${item.lift.year} ${item.lift.hour}:${item.lift.minutes} Uhr`}&lt;/Text>
+      &lt;/View>
+      &lt;Divider style={{ backgroundColor: 'white' }} />
+      &lt;View style={{ flexDirection: 'row', margin: 10, alignSelf: 'center' }}>
+        &lt;Text style={{ ...styles.cardSubtitles, fontSize: 30 }}>Preis:&lt;/Text>
+        &lt;Text style={{ ...styles.text, fontSize: 30, marginRight: 10 }}>{item.lift.price} €&lt;/Text>
+      &lt;/View>
+      &lt;Button
+        icon={&lt;Icon name='book' color='#ffffff' />}
+        buttonStyle={{ backgroundColor: "#50d890", borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0 }}
+        title=' JETZT BUCHEN'
+        onPress={() => this._sendBookingRequest(item.lift)} />
+    &lt;/Card>
+  )
+
+  /** 
+   * Renders the UI of the Component every time the state of the component has changed.
+   * Inherited by React.Component. Every React Component must implement this function.
+   * @returns {JSX} The User Interface to display on screen.
+   */
+  render() {
+    return (
+      &lt;View>
+        {
+          (this.state.searchresult.length !== 0)
+            ?
+            &lt;FlatList style={styles.list}
+              keyExtractor={this.keyExtractor}
+              data={this.state.searchresult}
+              renderItem={this.renderItem}
+            />
+            :
+            &lt;Text style={{ alignSelf: 'center', fontSize: 30, margin: 30 }}>Wir haben aktuell leider keine passenden Mitfahrgelegenheiten, die mit Ihren aktuellen Suchkriterien übereinstimmen.&lt;/Text>
+        }
+      &lt;/View>
+    )
+  }
+}
+
+/** Style Object of the SearchResultScreen Component. */
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: '#1089ff'
+  },
+  cardSubtitles: {
+    fontWeight: "bold",
+    marginRight: 10,
+    color: 'white'
+  },
+  text: {
+    color: 'white'
+  }
+});
+
+export default observer(SearchResultScreen);</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AccountStartScreen.html">AccountStartScreen</a></li><li><a href="AdvertiseStartScreen.html">AdvertiseStartScreen</a></li><li><a href="City.html">City</a></li><li><a href="CompanionScreen.html">CompanionScreen</a></li><li><a href="DateScreen.html">DateScreen</a></li><li><a href="Datetime.html">Datetime</a></li><li><a href="DestinationCityScreen.html">DestinationCityScreen</a></li><li><a href="DestinationStateScreen.html">DestinationStateScreen</a></li><li><a href="Event.html">Event</a></li><li><a href="EventScreen.html">EventScreen</a></li><li><a href="EventTypeScreen.html">EventTypeScreen</a></li><li><a href="Faculty.html">Faculty</a></li><li><a href="FacultyCheckboxGroup.html">FacultyCheckboxGroup</a></li><li><a href="FacultyFilterScreen.html">FacultyFilterScreen</a></li><li><a href="FacultyScreen.html">FacultyScreen</a></li><li><a href="HomeScreen.html">HomeScreen</a></li><li><a href="InfoButton.html">InfoButton</a></li><li><a href="Lift.html">Lift</a></li><li><a href="LiftStore.html">LiftStore</a></li><li><a href="LoginScreen.html">LoginScreen</a></li><li><a href="OverviewAdScreen.html">OverviewAdScreen</a></li><li><a href="PriceRecommendationScreen.html">PriceRecommendationScreen</a></li><li><a href="PriceScreen.html">PriceScreen</a></li><li><a href="RegisterScreen.html">RegisterScreen</a></li><li><a href="SearchFormScreen.html">SearchFormScreen</a></li><li><a href="SearchRequest.html">SearchRequest</a></li><li><a href="SearchRequestStore.html">SearchRequestStore</a></li><li><a href="SearchResultScreen.html">SearchResultScreen</a></li><li><a href="SearchStartScreen.html">SearchStartScreen</a></li><li><a href="SessionStore.html">SessionStore</a></li><li><a href="StartScreen.html">StartScreen</a></li><li><a href="StepProgressBar.html">StepProgressBar</a></li></ul><h3>Global</h3><ul><li><a href="global.html#AdvertiseStack">AdvertiseStack</a></li><li><a href="global.html#AppNavigator">AppNavigator</a></li><li><a href="global.html#SearchStack">SearchStack</a></li><li><a href="global.html#styles">styles</a></li><li><a href="global.html#TabNavigator">TabNavigator</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Sun Mar 08 2020 15:29:57 GMT+0100 (GMT+01:00)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

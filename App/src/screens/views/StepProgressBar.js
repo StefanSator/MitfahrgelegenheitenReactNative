@@ -4,20 +4,37 @@ import { Button, Overlay, Icon } from 'react-native-elements';
 import LiftStore from '../../stores/LiftStore';
 import { observer } from 'mobx-react';
 
+/**
+ * Class implementing the StepProgressBar Component.
+ * @extends React.Component
+ */
 class StepProgressBar extends React.Component {
 
+  /**
+   * Create a new StepProgressBar Component.
+   * @param {Object} props properties which are passed to the component.
+   */
   constructor(props) {
     super(props);
-    this.steps = this.props.steps; // Array of Step Objects containing label and completed status
+    /** Array of Steps, containing the label of the steps. */
+    this.steps = this.props.steps;
+    /** Current Step in the Progress Bar. */
     this.currentStep = this.props.currentStep;
+    /** True, if Progress Bar is visible on screen, else false. */
     this.isVisible = this.props.isVisible;
+    /** Callback-Function which tells parent component if Close Button has been clicked. */
     this.callback = this.props.closeCallback;
   }
 
+  /** Calls Callback-Function of Parent Component, to tell Parent that the user wants to close the Progress Bar. */
   _closeOverlay() {
     this.callback();
   }
 
+  /**
+   * Displays an Dialog containing Information about a selected Step in the Progress Bar.
+   * @param {Integer} index 
+   */
   _informationHandler(index) {
     switch (index) {
       case 0: Alert.alert(LiftStore.lift.target ? 'Ziel: ' + LiftStore.lift.target.cityName : 'Nichts angegeben!'); break;
@@ -29,6 +46,11 @@ class StepProgressBar extends React.Component {
     }
   }
 
+  /** 
+   * Renders the UI of the Component every time the state of the component has changed.
+   * Inherited by React.Component. Every React Component must implement this function.
+   * @returns {JSX} The User Interface to display on screen.
+   */
   render() {
     this.steps = this.props.steps;
     this.isVisible = this.props.isVisible;
@@ -100,6 +122,7 @@ class StepProgressBar extends React.Component {
   }
 };
 
+/** Style Object for the StepProgressBar Component. */
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',

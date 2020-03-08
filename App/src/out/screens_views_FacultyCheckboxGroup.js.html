@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: screens/views/FacultyCheckboxGroup.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: screens/views/FacultyCheckboxGroup.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React from 'react';
+import { ScrollView, StyleSheet } from 'react-native';
+import { CheckBox } from 'react-native-elements';
+
+/**
+ * Class implementing the FacultyCheckboxGroup Component.
+ * @extends React.Component
+ */
+class FacultyCheckboxGroup extends React.Component {
+
+  /**
+   * Creates a new FacultyCheckboxGroup Component.
+   * @param {Object} props properties which are passed to the component, to instantiate the Component
+   * from outside of the Component.
+   */
+  constructor(props) {
+    super(props);
+    /** Faculties to display as selected in the CheckboxGroup. */
+    this.selectedFaculties = this.props.selectedFaculties;
+    /** Callback-Function, to trigger when a Checkbox in the Group is clicked. */
+    this.callback = this.props.callback;
+  }
+
+  /** Triggers the Callback-Function, which was passed as a prop, if user taps a Checkbox. */
+  _removeFaculty(name) {
+    this.callback(name);
+  }
+
+  /** 
+   * Renders the UI of the Component every time the state of the component has changed.
+   * Inherited by React.Component. Every React Component must implement this function.
+   * @returns {JSX} The User Interface to display on screen.
+   */
+  render() {
+    this.selectedFaculties = this.props.selectedFaculties;
+    return (
+      &lt;ScrollView style={styles.container}>
+        {this.selectedFaculties.map((value, index) => {
+          return (
+            &lt;CheckBox
+              key={index}
+              center
+              title={value}
+              iconRight
+              iconType='material'
+              checkedIcon='clear'
+              uncheckedIcon='add'
+              checkedColor='red'
+              checked={true}
+              onPress={() => this._removeFaculty(value)}
+            />
+          );
+        })}
+      &lt;/ScrollView>
+    )
+  }
+};
+
+/** Style Object for the FacultyCheckboxGroup. */
+const styles = StyleSheet.create({
+  container: {
+    marginRight: 10,
+    marginLeft: 10
+  }
+});
+
+export default FacultyCheckboxGroup;</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AccountStartScreen.html">AccountStartScreen</a></li><li><a href="AdvertiseStartScreen.html">AdvertiseStartScreen</a></li><li><a href="City.html">City</a></li><li><a href="CompanionScreen.html">CompanionScreen</a></li><li><a href="DateScreen.html">DateScreen</a></li><li><a href="Datetime.html">Datetime</a></li><li><a href="DestinationCityScreen.html">DestinationCityScreen</a></li><li><a href="DestinationStateScreen.html">DestinationStateScreen</a></li><li><a href="Event.html">Event</a></li><li><a href="EventScreen.html">EventScreen</a></li><li><a href="EventTypeScreen.html">EventTypeScreen</a></li><li><a href="Faculty.html">Faculty</a></li><li><a href="FacultyCheckboxGroup.html">FacultyCheckboxGroup</a></li><li><a href="FacultyFilterScreen.html">FacultyFilterScreen</a></li><li><a href="FacultyScreen.html">FacultyScreen</a></li><li><a href="HomeScreen.html">HomeScreen</a></li><li><a href="InfoButton.html">InfoButton</a></li><li><a href="Lift.html">Lift</a></li><li><a href="LiftStore.html">LiftStore</a></li><li><a href="LoginScreen.html">LoginScreen</a></li><li><a href="OverviewAdScreen.html">OverviewAdScreen</a></li><li><a href="PriceRecommendationScreen.html">PriceRecommendationScreen</a></li><li><a href="PriceScreen.html">PriceScreen</a></li><li><a href="RegisterScreen.html">RegisterScreen</a></li><li><a href="SearchFormScreen.html">SearchFormScreen</a></li><li><a href="SearchRequest.html">SearchRequest</a></li><li><a href="SearchRequestStore.html">SearchRequestStore</a></li><li><a href="SearchResultScreen.html">SearchResultScreen</a></li><li><a href="SearchStartScreen.html">SearchStartScreen</a></li><li><a href="SessionStore.html">SessionStore</a></li><li><a href="StartScreen.html">StartScreen</a></li><li><a href="StepProgressBar.html">StepProgressBar</a></li></ul><h3>Global</h3><ul><li><a href="global.html#AdvertiseStack">AdvertiseStack</a></li><li><a href="global.html#AppNavigator">AppNavigator</a></li><li><a href="global.html#SearchStack">SearchStack</a></li><li><a href="global.html#styles">styles</a></li><li><a href="global.html#TabNavigator">TabNavigator</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Sun Mar 08 2020 15:29:57 GMT+0100 (GMT+01:00)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

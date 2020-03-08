@@ -4,15 +4,24 @@ import { PricingCard, Button } from 'react-native-elements';
 import { ScrollView } from 'react-native-gesture-handler';
 import LiftStore from '../../stores/LiftStore';
 
+/**
+ * Class implementing the PriceRecommendationScreen Component.
+ * @extends React.Component
+ */
 class PriceRecommendationScreen extends React.Component {
 
   static navigationOptions = {
     title: 'Preisvorschlag'
   };
 
+  /**
+   * Create a new PriceRecommendationScreen Component.
+   * @param {Object} props properties which are passed to the component. 
+   */
   constructor(props) {
     super(props);
     // Set State Object
+    /** Local State Object of the Component. */
     this.state = {
       recommendedString: "Wird berechnet",
       recommendedPrice: 0
@@ -21,7 +30,9 @@ class PriceRecommendationScreen extends React.Component {
     this._getRecommendedPrice();
   }
 
-  /* Get the recommended price for the specified lift from Backend */
+  /**
+   * Get the recommended price for the specified lift from the Backend Service.
+   */
   async _getRecommendedPrice() {
     try {
       let response = await fetch(BackendURL + '/lifts/recommendedprice', {
@@ -45,23 +56,37 @@ class PriceRecommendationScreen extends React.Component {
     }
   }
 
-  /* Switch to PriceScreen. User can now choose own price for lift. */
+  /**
+   * Is called if user wants to choose own price.
+   * Switches to PriceScreen Component, so that user can now choose own price for the Lift.
+   */
   _chooseOwnPriceButtonPressed() {
     this.props.navigation.navigate('Price');
   }
 
-  /* Switch to OverviewAdScreen. User doesn't want money for lift. */
+  /**
+   * Is called if the user chooses to advertise his lift for free.
+   * Sets the Price in the global State Object and switches to the next Component in the process.
+   */
   _freeButtonPressed() {
     LiftStore.setPrice(0);
     this.props.navigation.navigate('EventType');
   }
 
-  /* Switch to OverviewAdScreen. User wants recommended Price for lift. */
+  /**
+   * Is called if the user chooses the recommended Price for the lift.
+   * Sets the Price in the global State Object and switches to the next Component in the process.
+   */
   _recommendedPriceButtonPressed() {
     LiftStore.setPrice(this.state.recommendedPrice);
     this.props.navigation.navigate('EventType');
   }
 
+  /** 
+   * Renders the UI of the Component every time the state of the component has changed.
+   * Inherited by React.Component. Every React Component must implement this function.
+   * @returns {JSX} The User Interface to display on screen.
+   */
   render() {
     return (
       <ScrollView style={{flex: 1}}>
@@ -104,6 +129,7 @@ class PriceRecommendationScreen extends React.Component {
 
 };
 
+/** Style Object of the PriceRecommendationScreen Component. */
 const styles = StyleSheet.create({
   container: {
     flex: 1,

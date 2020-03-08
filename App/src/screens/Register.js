@@ -6,33 +6,43 @@ import SessionStore from '../stores/SessionStore';
 
 const validator = require('email-validator');
 
-const passwordErrorMessages = {
+const passwordStrengthMessages = {
   bad: 'Bad Password',
   average: 'Average Password',
   good: 'Good Password'
 };
 
-const passwordErrorStyles = {
+const passwordStrengthStyles = {
   bad: { color: 'red' },
   average: { color: 'yellow' },
   good: { color: 'green' }
 }
 
-
+/**
+ * Class implementing the Register Screen Component.
+ * @extends React.Component
+ */
 class RegisterScreen extends React.Component {
 
+  /**
+   * Creates a new RegisterScreen Component.
+   */
   constructor() {
     super();
+    /** Local State Object of the Component. */
     this.state = {
       email: '',
       password1: '',
       password2: '',
       username: ''
     };
-    this.errorStyle = passwordErrorStyles.bad;
-    this.errorMessage = passwordErrorMessages.bad;
+    this.errorStyle = passwordStrengthStyles.bad;
+    this.errorMessage = passwordStrengthMessages.bad;
   }
 
+  /**
+   * Checks if Registration is correct.
+   */
   _checkRegistration() {
     if (!this._checkEmail()) return;
     if (!this._checkUsername()) return;
@@ -40,6 +50,10 @@ class RegisterScreen extends React.Component {
     this._registerUser();
   }
 
+  /**
+   * Registers user by sending a Request to the backend service.
+   * After the Registration the user gets logged into the app.
+   */
   async _registerUser() {
     try {
       if (! await this._checkIfUserAvailable()) {
@@ -68,6 +82,9 @@ class RegisterScreen extends React.Component {
     }
   }
 
+  /**
+   * Checks if the User to register is already occupied in the system.
+   */
   async _checkIfUserAvailable() {
     try {
       const encodedEmail = encodeURIComponent(this.state.email);
@@ -82,6 +99,9 @@ class RegisterScreen extends React.Component {
     }
   }
 
+  /**
+   * Checks if the Email Input has a correct format.
+   */
   _checkEmail() {
     let correct = validator.validate(this.state.email);
     if (!correct) {
@@ -94,6 +114,9 @@ class RegisterScreen extends React.Component {
     } */
   }
 
+  /**
+   * Checks if the Username has a correct format.
+   */
   _checkUsername() {
     var usernameRegex = /^[a-zA-Z0-9]+$/;
     if (!this.state.username.match(usernameRegex)) {
@@ -103,6 +126,9 @@ class RegisterScreen extends React.Component {
     return true;
   }
 
+  /**
+   * Checks if the Password Input is not empty and the Password Confirmation is correct.
+   */
   _checkPasswords() {
     if (this.state.password1 !== this.state.password2) {
       Alert.alert('Passwords are different.');
@@ -119,20 +145,31 @@ class RegisterScreen extends React.Component {
     return true;
   }
 
+  /**
+   * Checks the password strength of the user input.
+   * @param {String} text Password Input of the user. 
+   */
   _checkPasswordStrength(text) {
     if (text.length < 6) {
-      this.errorStyle = passwordErrorStyles.bad;
-      this.errorMessage = passwordErrorMessages.bad;
+      this.errorStyle = passwordStrengthStyles.bad;
+      this.errorMessage = passwordStrengthMessages.bad;
     } else if (text.length < 10) {
-      this.errorStyle = passwordErrorStyles.average;
-      this.errorMessage = passwordErrorMessages.average;
+      this.errorStyle = passwordStrengthStyles.average;
+      this.errorMessage = passwordStrengthMessages.average;
     } else {
-      this.errorStyle = passwordErrorStyles.good;
-      this.errorMessage = passwordErrorMessages.good;
+      this.errorStyle = passwordStrengthStyles.good;
+      this.errorMessage = passwordStrengthMessages.good;
     }
     this.setState(this._changeState(null, text, null, null));
   }
 
+  /**
+   * Changes the local State Object of the RegisterScreen Component.
+   * @param {String} email Email Input of the user.
+   * @param {String} password1 Password Input of the user.
+   * @param {String} password2 Password Confirmation Input of the user.
+   * @param {String} username Username Input of the user.
+   */
   _changeState(email = null, password1 = null, password2 = null, username = null) {
     if (email !== null) {
       this.state.email = email;
@@ -149,6 +186,11 @@ class RegisterScreen extends React.Component {
     return this.state;
   }
 
+  /** 
+   * Renders the UI of the Component every time the state of the component has changed.
+   * Inherited by React.Component. Every React Component must implement this function.
+   * @returns {JSX} The User Interface to display on screen.
+   */
   render() {
     return (
       <SafeAreaView style={styles.container}>
@@ -225,6 +267,9 @@ class RegisterScreen extends React.Component {
   }
 }
 
+/**
+ * Style Object for the RegisterScreen Component.
+ */
 const styles = StyleSheet.create({
   container: {
     flex: 1,

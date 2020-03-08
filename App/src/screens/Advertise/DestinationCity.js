@@ -10,26 +10,39 @@ import InfoButton from '../views/InfoButton';
 import LiftStore from '../../stores/LiftStore';
 import { observer } from 'mobx-react';
 
+/**
+ * Class implementing the DestinationCityScreen Component.
+ * @extends React.Component
+ */
 class DestinationCityScreen extends React.Component {
 
   static navigationOptions = {
     title: 'Zielstadt',
   };
 
+  /**
+   * Create a new DestinationCityScreen Component.
+   * @param {Object} props properties which are passed to the component.
+   */
   constructor(props) {
     super(props);
     // Set State Object
+    /** Local State Object of the Component. */
     this.state = {
       listdata: [],
       progressIsVisible: false
     };
     const { navigation } = props;
+    /** The Destination State which was passed from the previous Component in the Advertise Process. */
     this.destinationState = navigation.getParam('destinationState', '');
     // Load List Data
     this._loadCityData(this.destinationState);
   }
 
-  /* Starts GET-Request to Backend to retrieve city data for the specified destination state */
+  /**
+   * Starts GET-Request to Backend to retrieve all cities for the specified destination state.
+   * @param {String} destinationState The State for which the cities should be retrieved.
+   */
   async _loadCityData(destinationState) {
     try {
       const encodedDestinationState = encodeURIComponent(destinationState);
@@ -41,25 +54,34 @@ class DestinationCityScreen extends React.Component {
     }
   }
 
-  /* Item from User selected Action Method */
+  /**
+   * Is called when the user selects a item (City) in the list.
+   * @param {City} item The City the user has selected.
+   */
   _itemSelected(item) {
     let targetCity = new City(item.cityid, item.city, item.state, item.latitude, item.longitude);
     LiftStore.setDestination(targetCity);
     this.props.navigation.navigate('Companion');
   }
 
-  /* Opens Overlay with Progress Information */
+  /**
+   *  Opens Overlay with Progress Information 
+   */
   _showProgressOverlay() {
     this.setState({ listdata: this.state.listdata, progressIsVisible: true });
   }
 
-  /* Closes Overlay with Progress Information */
+  /**
+   *  Closes Overlay with Progress Information
+   */
   _closeProgressOverlay() {
     this.setState({ listdata: this.state.listdata, progressIsVisible: false });
   }
 
+  /* Used to extract a unique key for a given item at the specified index. */
   keyExtractor = (item, index) => index.toString()
 
+  /* Is called to render a selected item of the List containing the cities. */
   renderItem = ({ item }) => (
     <ListItem
       Component={TouchableScale}
@@ -74,6 +96,11 @@ class DestinationCityScreen extends React.Component {
     />
   )
 
+  /** 
+   * Renders the UI of the Component every time the state of the component has changed.
+   * Inherited by React.Component. Every React Component must implement this function.
+   * @returns {JSX} The User Interface to display on screen.
+   */
   render() {
     return (
       <View style={styles.container}>
@@ -116,6 +143,7 @@ class DestinationCityScreen extends React.Component {
   }
 };
 
+/** Style Object of the DestinationCityScreen Component. */
 const styles = StyleSheet.create({
   container: {
     flex: 1,

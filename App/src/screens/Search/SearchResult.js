@@ -4,15 +4,24 @@ import { Card, Avatar, Button, Icon, Divider } from 'react-native-elements';
 import SessionStore from '../../stores/SessionStore';
 import { observer } from 'mobx-react';
 
+/**
+ * Class implementing the SearchResultScreen Component.
+ * @extends React.Component
+ */
 class SearchResultScreen extends React.Component {
 
   static navigationOptions = {
     title: 'Suchergebnisse'
   };
 
+  /**
+   * Create the SearchResultScreen Component.
+   * @param {Object} props properties which are passed to the component.
+   */
   constructor(props) {
     super(props);
     const { navigation } = this.props;
+    /** Local State Object of the Component. */
     this.state = {
       searchresult: navigation.getParam('searchresult', null)
     }
@@ -20,6 +29,10 @@ class SearchResultScreen extends React.Component {
     this._sendBookingRequest = this._sendBookingRequest.bind(this);
   }
 
+  /**
+   * Send POST-Request to the backend service, to book a specified lift by the user.
+   * @param {Object} lift Object containing information about the Lift to book.
+   */
   async _sendBookingRequest(lift) {
     try {
       await fetch(BackendURL + '/lifts/book', {
@@ -39,13 +52,18 @@ class SearchResultScreen extends React.Component {
     Alert.alert('Buchung erstellt.');
   }
 
-  /* Displays Alert with Account Information of Driver */
+  /**
+   * Displays Alert with Account Information of Driver (Advertiser of the Lift).
+   * @param {Object} lift 
+   */
   _showDriverInformation(lift) {
     Alert.alert('Email: ' + lift.email);
   }
 
+  /* Used to extract a unique key for a given item at the specified index. */
   keyExtractor = (item, index) => index.toString()
 
+  /* Is called to render a selected item of the Search Result List. */
   renderItem = ({ item }) => (
     <Card
       containerStyle={styles.container}
@@ -99,6 +117,11 @@ class SearchResultScreen extends React.Component {
     </Card>
   )
 
+  /** 
+   * Renders the UI of the Component every time the state of the component has changed.
+   * Inherited by React.Component. Every React Component must implement this function.
+   * @returns {JSX} The User Interface to display on screen.
+   */
   render() {
     return (
       <View>
@@ -118,6 +141,7 @@ class SearchResultScreen extends React.Component {
   }
 }
 
+/** Style Object of the SearchResultScreen Component. */
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#1089ff'

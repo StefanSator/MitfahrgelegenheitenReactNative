@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: screens/Advertise/EventType.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: screens/Advertise/EventType.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React from 'react';
+import { View, StyleSheet } from 'react-native';
+import { Text, Button, Tooltip, Icon } from 'react-native-elements';
+import LiftStore from '../../stores/LiftStore';
+import Event from '../../entities/Event';
+
+/**
+ * Class implementing the EventTypeScreen Component.
+ * @extends React.Component
+ */
+class EventTypeScreen extends React.Component {
+
+  static navigationOptions = {
+    title: 'Event'
+  };
+
+  /**
+   * Is called when the user chooses to advertise a Lift to a specific event. Switches to the EventScreen Component.
+   */
+  _eventButtonPressed() {
+    if (LiftStore.lift.event === null) LiftStore.setEvent(new Event());
+    this.props.navigation.navigate('Event');
+  }
+
+  /**
+   * Is called when the user chooses to advertise a Lift for a private reason. Switches to the OverviewAdScreen Component.
+   */
+  _privateButtonPressed() {
+    LiftStore.setEvent(null);
+    this.props.navigation.navigate('OverviewAd');
+  }
+
+  /** 
+   * Renders the UI of the Component every time the state of the component has changed.
+   * Inherited by React.Component. Every React Component must implement this function.
+   * @returns {JSX} The User Interface to display on screen.
+   */
+  render() {
+    return (
+      &lt;View style={styles.container}>
+        &lt;Text h4 style={styles.title}>Handelt es sich um eine Mitfahrgelegenheit zu einem Event oder um eine private Fahrt?&lt;/Text>
+        &lt;View style={styles.buttonGroup}>
+          &lt;View style={styles.buttoninfoGroup}>
+            &lt;Button
+              containerStyle={styles.typeButtonContainer}
+              buttonStyle={{ backgroundColor: '#fe346e'}}
+              title="Event"
+              onPress={this._eventButtonPressed.bind(this)}
+            />
+            &lt;Tooltip
+              height={150}
+              width={200}
+              withPointer={true}
+              popover={&lt;Text>Ein Event kann jegliche Art von Veranstaltung sein, wie z.B. ein Hackathon oder eine Karrieremesse.&lt;/Text>}>
+              &lt;Icon
+                name='info'
+                type='feather'
+                color='black'
+              />
+            &lt;/Tooltip>
+          &lt;/View>
+          &lt;View style={styles.buttoninfoGroup}>
+            &lt;Button
+              containerStyle={styles.typeButtonContainer}
+              buttonStyle={{ backgroundColor: '#A640FF' }}
+              title="Privat"
+              onPress={this._privateButtonPressed.bind(this)}
+            />
+            &lt;Tooltip
+              height={150}
+              width={200}
+              withPointer={true}
+              popover={&lt;Text>Wähle diese Kategorie, wenn deine Mitfahrgelegenheit einen privaten Grund hat, du aber Leute auf deinem Weg mitnehmen könntest.&lt;/Text>}>
+              &lt;Icon
+                name='info'
+                type='feather'
+                color='black'
+              />
+            &lt;/Tooltip>
+          &lt;/View>
+        &lt;/View>
+      &lt;/View>
+    )
+  }
+};
+
+/** Style Object of the EventTypeScreen Component. */
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "white",
+    justifyContent: 'center'
+  },
+  title: {
+    color: 'black',
+    top: 0,
+    left: 0,
+    position: 'absolute',
+    marginTop: 20,
+    marginLeft: 20,
+    marginRight: 50,
+    marginBottom: 25
+  },
+  buttonGroup: {
+    alignSelf: 'center',
+    width: 200,
+    height: 100
+  },
+  typeButtonContainer: {
+    width: 200,
+    height: 100,
+    marginBottom: 20,
+    marginRight: 10
+  },
+  buttoninfoGroup: {
+    flexDirection: 'row',
+  }
+});
+
+export default EventTypeScreen;</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AccountStartScreen.html">AccountStartScreen</a></li><li><a href="AdvertiseStartScreen.html">AdvertiseStartScreen</a></li><li><a href="City.html">City</a></li><li><a href="CompanionScreen.html">CompanionScreen</a></li><li><a href="DateScreen.html">DateScreen</a></li><li><a href="Datetime.html">Datetime</a></li><li><a href="DestinationCityScreen.html">DestinationCityScreen</a></li><li><a href="DestinationStateScreen.html">DestinationStateScreen</a></li><li><a href="Event.html">Event</a></li><li><a href="EventScreen.html">EventScreen</a></li><li><a href="EventTypeScreen.html">EventTypeScreen</a></li><li><a href="Faculty.html">Faculty</a></li><li><a href="FacultyCheckboxGroup.html">FacultyCheckboxGroup</a></li><li><a href="FacultyFilterScreen.html">FacultyFilterScreen</a></li><li><a href="FacultyScreen.html">FacultyScreen</a></li><li><a href="HomeScreen.html">HomeScreen</a></li><li><a href="InfoButton.html">InfoButton</a></li><li><a href="Lift.html">Lift</a></li><li><a href="LiftStore.html">LiftStore</a></li><li><a href="LoginScreen.html">LoginScreen</a></li><li><a href="OverviewAdScreen.html">OverviewAdScreen</a></li><li><a href="PriceRecommendationScreen.html">PriceRecommendationScreen</a></li><li><a href="PriceScreen.html">PriceScreen</a></li><li><a href="RegisterScreen.html">RegisterScreen</a></li><li><a href="SearchFormScreen.html">SearchFormScreen</a></li><li><a href="SearchRequest.html">SearchRequest</a></li><li><a href="SearchRequestStore.html">SearchRequestStore</a></li><li><a href="SearchResultScreen.html">SearchResultScreen</a></li><li><a href="SearchStartScreen.html">SearchStartScreen</a></li><li><a href="SessionStore.html">SessionStore</a></li><li><a href="StartScreen.html">StartScreen</a></li><li><a href="StepProgressBar.html">StepProgressBar</a></li></ul><h3>Global</h3><ul><li><a href="global.html#AdvertiseStack">AdvertiseStack</a></li><li><a href="global.html#AppNavigator">AppNavigator</a></li><li><a href="global.html#SearchStack">SearchStack</a></li><li><a href="global.html#styles">styles</a></li><li><a href="global.html#TabNavigator">TabNavigator</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Sun Mar 08 2020 15:29:57 GMT+0100 (GMT+01:00)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

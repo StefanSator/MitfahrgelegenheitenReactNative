@@ -6,14 +6,23 @@ import StepProgressBar from '../views/StepProgressBar';
 import LiftStore from '../../stores/LiftStore';
 import { observer } from 'mobx-react';
 
+/**
+ * Class implementing the EventScreen Component.
+ * @extends React.Component
+ */
 class EventScreen extends React.Component {
 
   static navigationOptions = {
     title: 'Event'
   };
 
+  /**
+   * Create a new EventScreen Component.
+   * @param {Object} props properties which are passed to the component.
+   */
   constructor(props) {
     super(props);
+    /** Local State Object of the Component. */
     this.state = {
       titleChars: 0,
       descriptionChars: 0,
@@ -21,17 +30,25 @@ class EventScreen extends React.Component {
     }
   }
 
-  /* Increments the State Variable titleChars and updates title, when text input changes */
+  /**
+   * Updates Event Title, when text input changes.
+   * @param {String} title Title of the Event.
+   */
   _updateEventTitle(title) {
     LiftStore.lift.event.eventTitle = title;
   }
 
-  /* Increments the State Variable descriptionChars and updates description, when text input changes */
+  /**
+   * Updates Event Description, when text input changes.
+   * @param {String} description Description of the Event.
+   */
   _updateEventDescription(description) {
     LiftStore.lift.event.eventDescription = description;
   }
 
-  /* Navigate to next screen of App */
+  /**
+   * Is called when the Next Button is clicked, navigates to the next Component in the Advertise Process.
+   */
   _nextButtonPressed() {
     if (LiftStore.lift.event.eventTitle.length === 0) {
       Alert.alert('Bitte geben Sie den Namen des Events ein.');
@@ -44,16 +61,25 @@ class EventScreen extends React.Component {
     }
   }
 
-  /* Opens Overlay with Progress Information */
+  /**
+   *  Opens Overlay with Progress Information
+   */
   _showProgressOverlay() {
     this.setState({ progressIsVisible: true });
   }
 
-  /* Closes Overlay with Progress Information */
+  /**
+   *  Closes Overlay with Progress Information
+   */
   _closeProgressOverlay() {
     this.setState({ progressIsVisible: false });
   }
 
+  /** 
+   * Renders the UI of the Component every time the state of the component has changed.
+   * Inherited by React.Component. Every React Component must implement this function.
+   * @returns {JSX} The User Interface to display on screen.
+   */
   render() {
     return (
       <View>
@@ -120,6 +146,7 @@ class EventScreen extends React.Component {
   }
 };
 
+/** Style Object of the EventScreen Component. */
 const styles = StyleSheet.create({
   container: {
     flex: 1,
